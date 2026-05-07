@@ -49,7 +49,7 @@ Or, after the plugin is approved into the official Anthropic marketplace
 (`claude-plugins-official`):
 
 ```text
-/plugin install klarity-mcp
+/plugin install klarity
 ```
 
 ## Install - Codex
