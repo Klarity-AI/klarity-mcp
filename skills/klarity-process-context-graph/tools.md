@@ -7,11 +7,11 @@ workspace.
 
 The point of this catalog is not to enumerate APIs — it's to help an agent
 **pick the right tool for the goal at hand** when working inside a customer's
-Klarity Architect workspace.
+Klarity workspace.
 
 ## How agents should think about Klarity
 
-Klarity Architect is a process intelligence platform that captures **how work
+Klarity is a process intelligence platform that captures **how work
 actually happens** inside a customer's organization (Companion + Interviewer),
 organizes it into a living **Process Index / Context Graph** (Structure), and
 helps customers improve via Advisor + Signals (Improve). When an agent calls

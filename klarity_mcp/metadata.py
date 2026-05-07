@@ -8,7 +8,7 @@ from pathlib import Path
 
 _KLARITY_MCP_DEFAULT_DESCRIPTION = (
     "Bring your organization's processes and operational knowledge into your AI "
-    "assistant. The Klarity MCP connects to your Klarity Architect workspace so you "
+    "assistant. The Klarity MCP connects to your Klarity workspace so you "
     "can query your organization's processes, explore the process index knowledge "
     "graph linking processes to systems and teams, and ground answers in how your "
     "business actually runs — not generic guesses."
@@ -46,9 +46,9 @@ class KlarityMCPMetadata:
 
 
 KLARITY_MCP_METADATA = KlarityMCPMetadata(
-    product_name="Klarity Architect",
+    product_name="Klarity",
     app_display_name="Klarity",
-    plugin_name="klarity-mcp",
+    plugin_name="klarity",
     plugin_version="0.1.0",
     author_name="Klarity Intelligence, Inc.",
     author_email="hello@klarity.ai",

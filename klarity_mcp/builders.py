@@ -71,7 +71,7 @@ def build_gemini_extension_manifest(
                 "url": metadata.mcp_url,
             }
         },
-        "contextFileName": "skills/klarity-architect/SKILL.md",
+        "contextFileName": "skills/klarity-process-context-graph/SKILL.md",
     }
 
 

@@ -1,8 +1,8 @@
 # klarity-mcp
 
-> Public plugin/extension distribution for the Klarity Architect MCP server.
+> Public plugin/extension distribution for the Klarity MCP server.
 
-`klarity-mcp` packages [Klarity Architect](https://www.klarity.ai/) as an installable
+`klarity-mcp` packages [Klarity](https://www.klarity.ai/) as an installable
 plugin for AI assistant clients that speak the [Model Context Protocol](https://modelcontextprotocol.io/).
 Once installed, the plugin lets your assistant query your organization's processes,
 explore the Process Index knowledge graph, and ground answers in how your business
@@ -21,7 +21,7 @@ The plugin connects your AI assistant to the Klarity MCP server at
 `https://architect-v2-api.klarity.ai/mcp`. Tools the assistant gets access to
 include `search`, `fetch`, process-hierarchy navigation, evidence retrieval, and
 Context Graph traversal. The full skill prompt lives at
-[`skills/klarity-architect/SKILL.md`](./skills/klarity-architect/SKILL.md).
+[`skills/klarity-process-context-graph/SKILL.md`](./skills/klarity-process-context-graph/SKILL.md).
 
 ## Install - Claude.ai
 After the plugin is approved into the official Anthropic marketplace (`claude-plugins-official`)
@@ -42,7 +42,7 @@ Apps -> Search -> Klarity -> Connect
 From a Claude Code session, install directly from this repository:
 
 ```text
-/plugin install klarity-mcp@Klarity-AI/klarity-mcp
+/plugin install klarity@Klarity-AI/klarity-mcp
 ```
 
 Or, after the plugin is approved into the official Anthropic marketplace
@@ -94,7 +94,7 @@ to Klarity. the MCP will use whatever authentication is configured by your organ
 | `.claude-plugin/plugin.json` | Claude Code plugin manifest (generated) |
 | `.mcp.json` | Claude Code MCP server config (generated, HTTP transport) |
 | `gemini-extension.json` | Gemini CLI extension manifest (generated) |
-| `skills/klarity-architect/SKILL.md` | The Klarity Architect skill prompt |
+| `skills/klarity-process-context-graph/SKILL.md` | The Klarity skill prompt |
 | `tests/test_packaging.py` | Manifest invariants + drift checks |
 | `LICENSE` | Apache-2.0 (covers this shim only — see `NOTICE`) |
 | `NOTICE` | Trademark + commercial-service notice |
@@ -115,7 +115,7 @@ The metadata that drives every manifest lives in
 ## License
 
 This plugin shim is released under the [Apache License 2.0](./LICENSE). The
-Klarity Architect service it connects to is a commercial service governed by
+Klarity service it connects to is a commercial service governed by
 Klarity's Terms of Service. See [`NOTICE`](./NOTICE) for details.
 
 ## Links
