@@ -86,7 +86,7 @@ KLARITY_MCP_METADATA = KlarityMCPMetadata(
         "Show me the procure-to-pay process and its dependencies in my Klarity Workspace.",
     ),
     license_spdx="Apache-2.0",
-    repository_url="https://github.com/klarityinc/klarity-mcp",
+    repository_url="https://github.com/Klarity-AI/klarity-mcp",
 )
 
 

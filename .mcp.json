@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "klarity": {
+      "type": "http",
+      "url": "https://architect-v2-api.klarity.ai/mcp"
+    }
+  }
+}
