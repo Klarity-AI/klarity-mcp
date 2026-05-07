@@ -67,11 +67,13 @@ codex mcp login klarity
 ## Install — Gemini CLI
 
 ```bash
-gemini extensions install Klarity-AI/klarity-mcp
+gemini extensions install https://github.com/Klarity-AI/klarity-mcp
 ```
 
-The Gemini CLI fetches `gemini-extension.json` from the repo root and registers
-the `klarity` MCP server plus the `klarity-architect` skill as a context file.
+To login:
+```
+/mcp auth klarity
+```
 
 ## Authentication
 You will need to be a Klarity customer to access this app.
