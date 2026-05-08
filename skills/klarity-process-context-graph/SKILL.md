@@ -1,11 +1,11 @@
 ---
 name: klarity-process-context-graph
-description: Ground answers in how the user's organization actually runs by querying their Klarity workspace — a living map of how work happens, captured from real sessions and structured into a process index plus context graph linking processes to systems and teams. Use when the user asks about THEIR organization's processes, not generic best practices. Trigger phrases include "how does our [process] work today", "walk me through our [workflow] for X", "where is this policy or control documented", "show me our SOP for X", "what changed recently in our processes", "what observations show how Y runs", "what feeds X" / "what depends on X" / "what breaks if we change Y", "find duplication or improvement opportunities in our [P2P / O2C / close / value stream]", "where can we automate", "where is risk not covered by controls", "show me our process index", "what value streams do we have". Skip for generic best-practices, hypothetical, or public-knowledge questions that don't reference the user's specific organization.
+description: Use to understand or transform how work happens in the user's organization — references 'our' processes, SOPs, or workflows. Triggers span current state ('how does our [process] work', 'what feeds/depends on X') and change ('where can we automate', 'what should we redesign about [process]', 'find opportunities or risk gaps'). Skip generic, hypothetical, or public-knowledge questions with no organizational anchor.
 ---
 
 # Klarity
 
-Use this skill when a customer asks an AI assistant to understand how work actually happens in their Klarity workspace.
+Use this skill when a customer asks an AI assistant to understand how work actually happens in their organiation.
 
 Klarity follows the Discover -> Structure -> Improve loop. Companion and Interviewer capture how work happens, the Process Index / Context Graph organizes that knowledge into a living map, and Advisor-style analysis helps customers improve with evidence.
 
