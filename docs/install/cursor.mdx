@@ -1,0 +1,39 @@
+---
+title: "Cursor"
+description: "Register the Klarity MCP server in Cursor."
+icon: "cursor"
+---
+
+Add the Klarity server to your Cursor MCP config. You can edit `.cursor/mcp.json` in your project root or open **Settings → MCP Servers**.
+
+Generate an API key from `Settings → MCP` in your Klarity workspace first (see [Authentication](/authentication#api-key)).
+
+```json
+{
+  "mcpServers": {
+    "klarity_architect": {
+      "type": "http",
+      "url": "https://architect-v2-api.klarity.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer <YOUR_API_KEY>"
+      }
+    }
+  }
+}
+```
+
+Reload Cursor's MCP servers from the settings panel. The Klarity tools should appear in the MCP tool list.
+
+<Warning>
+  Treat the API key like a password. Don't commit `.cursor/mcp.json` with a live key — use an environment variable or a global config instead. Rotate keys from `Settings → MCP` in Klarity if exposed.
+</Warning>
+
+## Verify
+
+In a Cursor chat, ask:
+
+```text
+Search Klarity for processes related to vendor onboarding.
+```
+
+The assistant should call `search` and return process results from your workspace.

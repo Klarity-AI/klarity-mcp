@@ -1,0 +1,54 @@
+---
+title: "Discover → Structure → Improve"
+description: "How Klarity captures, organizes, and improves how your organization runs."
+icon: "rotate"
+---
+
+Klarity runs the **Discover → Structure → Improve** loop continuously, replacing one-time "transformation projects" that take months and have a low success rate. When your agent uses the MCP, it's plugging into that loop.
+
+```mermaid
+flowchart LR
+  D[Discover] --> S[Structure] --> I[Improve] --> D
+```
+
+## Discover
+
+The Companion (ambient capture from sessions) and the Interviewer (AI-guided structured capture) generate raw process knowledge from how work actually happens. Agents read this layer through process, observation, and artifact tools.
+
+What lives here:
+
+- Observations from real sessions (deviations, exceptions, manual workarounds)
+- Source artifacts (BRDs, SOPs, video recordings, screenshots, logs)
+- Activity timelines that show the exact sequence of user actions
+
+## Structure
+
+The [Process Index](/concepts/process-index) and the [Context Graph](/concepts/context-graph) are the living, queryable map of your organization. Agents navigate this layer through `search`, `fetch`, hierarchy, and graph tools.
+
+What lives here:
+
+- A versioned hierarchy of every process the organization runs
+- An entity graph linking processes, systems, teams, controls, and the relationships between them
+- Communities that cluster related work
+
+## Improve
+
+[Advisor](/concepts/objectives) analyzes thousands of processes at once to surface improvement opportunities. Signals provide individual-level feedback. Agents read in-flight transformation work through objective tools — picking up where prior runs left off rather than starting cold.
+
+What lives here:
+
+- Objectives (the transformation goals customers are driving)
+- Findings, actions, and notes accumulated against each objective
+- Persisted agent state for resumable Advisor runs
+
+## What this means for your assistant
+
+Any question your assistant asks usually maps to one stage of the loop:
+
+| Question shape | Loop stage | Where to look |
+|---|---|---|
+| "What's our evidence for X?" | Discover | Observations, activity timelines, artifacts |
+| "How does X work today?" | Structure | Process Index, Context Graph |
+| "Where should we focus next?" | Improve | Objectives, findings |
+
+The [Tool reference](/tools/overview) is organized along the same axis.

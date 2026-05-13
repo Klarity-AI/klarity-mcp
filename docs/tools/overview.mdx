@@ -1,0 +1,33 @@
+---
+title: "Tool reference"
+description: "Every tool the Klarity MCP exposes in production, organized by what you're trying to do."
+icon: "screwdriver-wrench"
+---
+
+The Klarity MCP exposes a read-only set of tools that an AI assistant can chain to answer real questions grounded in a customer's workspace. The point of this reference is not to enumerate APIs — it's to help you **pick the right tool for the goal at hand**.
+
+## How the toolset is organized
+
+Every workflow reduces to: **find the right process(es) → fetch detail → gather evidence → traverse relationships → synthesize**.
+
+| Group | What it covers | When to start here |
+|---|---|---|
+| [Standard entry points](/tools/entry-points) | `search`, `fetch` | The default starting path for any process question |
+| [Process Index](/tools/process-index) | Hierarchy navigation, process details, workspace lookup | `search` results feel sparse, or you need richer metadata than `fetch` returns |
+| [Observations & changes](/tools/observations-and-changes) | Recent changes, observations, activity timelines | "What changed?", "what happened?", "why does this run this way?" |
+| [Visualization](/tools/visualization) | Diagram generation | The user wants to see the flow |
+| [Artifacts](/tools/artifacts) | Document search, content retrieval, video frames | The user names a document or recording |
+| [Context Graph](/tools/context-graph) | Entities, communities, relationships, lineage | The question is relational |
+| [Objectives](/tools/objectives) | Advisor objective findings, actions, agent state | The user is continuing in-flight transformation work |
+| [Workspace](/tools/workspace) | List workspaces, switch active workspace, attribute configs | Orienting before drilling in, or switching context |
+| [Schema & web](/tools/schema-and-web) | Database schema, raw SQL, web research | Last-resort fallback for analytics or external context |
+
+## Before you call
+
+Read [Operating principles](/tools/operating-principles) — the conventions for staying grounded, iterating on search, separating observed from inferred, and avoiding common mis-uses (treating `search_*` snippets as final answers, exposing internal IDs in user-facing prose, calling `switch_mcp_workspace` without permission).
+
+## What the assistant should do with results
+
+A human using the Advisor might use two or three tools per question. An assistant in an agentic loop can chain ten or more — searching, drilling in, cross-referencing, synthesizing. The whole point of the MCP is that composition is the value.
+
+See [How-to guides](/guides/process-performer) for end-to-end recipes.

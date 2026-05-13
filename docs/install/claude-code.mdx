@@ -1,0 +1,47 @@
+---
+title: "Claude Code"
+description: "Install the Klarity plugin or register the MCP server in Claude Code."
+icon: "terminal"
+---
+
+Two install paths are supported. The plugin path is preferred — it ships the bundled skill prompt and uses OAuth.
+
+## Plugin install (preferred, OAuth)
+
+From a Claude Code session:
+
+```text
+/plugin install klarity@Klarity-AI/klarity-mcp
+```
+
+After the plugin is approved into the official Anthropic marketplace (`claude-plugins-official`):
+
+```text
+/plugin install klarity
+```
+
+The first request that hits a Klarity tool will prompt you to sign in.
+
+## Manual MCP add (API key)
+
+If you'd rather wire up the MCP server directly with a Bearer token, generate an API key from `Settings → MCP` in your Klarity workspace (see [Authentication](/authentication#api-key)), then run:
+
+```bash
+claude mcp add --transport http klarity_architect \
+  https://architect-v2-api.klarity.ai/mcp \
+  --header "Authorization: Bearer <YOUR_API_KEY>"
+```
+
+<Warning>
+  Treat the API key like a password. Anyone with the key can query your Klarity workspace. Rotate it from `Settings → MCP` if it's exposed.
+</Warning>
+
+## Verify
+
+In a Claude Code session, ask:
+
+```text
+Search Klarity for processes related to vendor onboarding.
+```
+
+The assistant should call `search` and return process results from your workspace.

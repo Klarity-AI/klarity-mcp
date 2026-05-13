@@ -1,0 +1,31 @@
+---
+title: "Observations & changes"
+description: "Pull the evidence trail behind a process — what changed, what happened, why it ran this way."
+icon: "clock-rotate-left"
+---
+
+Use these tools when the user asks "what changed?", "what happened?", or "why does this run this way?"
+
+| Tool | When to use |
+|---|---|
+| `get_recent_process_changes` | Workspace-wide version-change feed. "What has been edited recently?" |
+| `get_recent_process_observations` | Workspace-wide observations feed. Observations are the **deviations / exceptions** captured by Companion. |
+| `get_process_observations` | All observations for one process across versions. Optional version filter. |
+| `list_process_observations` | Lighter variant — recent observations for one process. |
+| `get_observation_activity_timeline` | The actual session timeline behind an observation: what the user did, when. The most "primary source" evidence Klarity has. |
+
+## What an observation is
+
+An observation is a captured deviation or exception from a real session. It is attached to a specific process and version. The **activity timeline** is the underlying sequence of user actions that produced the observation — clicks, navigations, field entries, with timestamps.
+
+If you only call one tool from this group, call `get_observation_activity_timeline` on a top observation. It is the closest thing the workspace has to a video replay.
+
+## Common chains
+
+- **State-of-team brief**: `get_recent_process_changes` + `get_recent_process_observations` → drill into specific processes via [`fetch`](/tools/entry-points)
+- **Deep-dive on a process**: `get_process_observations` → pick the top 3 by frequency → `get_observation_activity_timeline` on each
+- **Confirm a transformation candidate**: `list_process_observations` for exception volume → `get_observation_activity_timeline` to confirm the manual pattern with concrete evidence
+
+## Cite what you find
+
+Observations have timestamps and version pointers. When the user asks "what's the evidence?", surface the observation timestamp and the version it was logged against — that's a citation the user can audit in Klarity.

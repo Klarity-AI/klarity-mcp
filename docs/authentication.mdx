@@ -1,0 +1,72 @@
+---
+title: "Authentication"
+description: "OAuth where the client supports it, API key everywhere else."
+icon: "key"
+---
+
+The Klarity MCP supports two authentication methods. Most clients will use one or the other based on what they support.
+
+| Method | When to use |
+|---|---|
+| **OAuth** | Preferred. Use in any client that supports MCP OAuth (Claude, ChatGPT, Claude Code via the plugin, Codex via `codex mcp login`, Gemini CLI via `/mcp auth`). |
+| **API key** | Use when the client doesn't yet support MCP OAuth, or when you need a long-lived headless connection. |
+
+Both methods scope the assistant to your active Klarity workspace and obey the same permissions as your Klarity user account.
+
+## OAuth
+
+When the client supports MCP OAuth, you don't handle any credentials yourself. The first time the assistant calls a Klarity tool, the client redirects you to sign in to Klarity. After that, the client manages the token.
+
+Per-client setup is covered in the [Install pages](/install/claude).
+
+<Note>
+  Your organization may need to approve the Klarity connector or app before users can sign in. Contact your Klarity workspace admin if the OAuth redirect fails.
+</Note>
+
+## API key
+
+API key auth uses a long-lived secret that you generate in Klarity and pass to the MCP server as a `Bearer` token. This is the only auth method available today for Cursor, and for any custom or headless setup.
+
+### Generate a key
+
+<Steps>
+  <Step title="Open MCP settings in Klarity">
+    Go to **Settings → MCP** in your Klarity workspace.
+  </Step>
+  <Step title="Pick your workspace">
+    The key is scoped to the workspace you select. You can switch workspaces from inside the AI client later using `switch_mcp_workspace`.
+  </Step>
+  <Step title="Create the key">
+    Name it after the client you're connecting (e.g., `Claude Code – laptop`, `Cursor – work`). Set an expiration and click **Create**.
+  </Step>
+  <Step title="Copy the key immediately">
+    The full key is shown once. If you lose it, you'll need to generate a new one.
+  </Step>
+</Steps>
+
+You can view, disable, or rotate existing keys from the same screen.
+
+### Pass the key to your client
+
+Each client expects the key in a different place. The full request always carries:
+
+```text
+Authorization: Bearer <YOUR_API_KEY>
+```
+
+Per-client snippets:
+
+- [Claude Code](/install/claude-code#manual-mcp-add-api-key)
+- [Codex](/install/codex#config-file-install-api-key)
+- [Cursor](/install/cursor)
+- [Gemini CLI](/install/gemini-cli#api-key-fallback)
+
+### Keep keys safe
+
+<Warning>
+  Anyone with your API key can read everything your Klarity user can read. Don't commit keys to git, share them in chat, or check them into shared configs. Prefer environment variables over inline values in JSON/TOML files, and rotate immediately if a key is exposed.
+</Warning>
+
+## Switching workspaces
+
+If you're a user in more than one Klarity workspace, the assistant can switch between them at runtime using `switch_mcp_workspace`. This is the only write tool exposed in production, and it only affects which workspace the current session reads from. See [Workspace tools](/tools/workspace) for the details.

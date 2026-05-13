@@ -1,0 +1,27 @@
+---
+title: "Workspace"
+description: "List workspaces, switch the active workspace, and read workspace-level attribute configurations."
+icon: "building"
+---
+
+| Tool | When to use |
+|---|---|
+| `list_accessible_workspaces` | List the customer's workspaces and which one is currently active. |
+| `switch_mcp_workspace` | **Only write tool exposed in production.** Switch the active workspace. Only call when the customer explicitly asks. |
+| `get_attribute_configurations` | Workspace-level attribute configs (custom fields, compliance attributes). Use when the customer asks about controls, compliance attributes, or process metadata schema. |
+| `search_workspace_activity_or_sessions` | Recent workspace sessions as supporting evidence. |
+| `search_users` | Find users in the workspace by name or other criteria. |
+
+## Workspace switching
+
+`switch_mcp_workspace` is the **only** tool in production that mutates state — it changes which workspace the rest of the session reads from. Call it only when the user explicitly asks to change workspace. If you're unsure which workspace the user is in, call `list_accessible_workspaces` first to confirm.
+
+## Attribute configurations
+
+Customers configure custom attributes on processes (automation status, system of record, control level, regulatory tag, etc.). When the user asks a question that touches these — "what's the automation status of our top 10 close-cycle processes?", "which processes are SOX-controlled?" — call `get_attribute_configurations` to see the schema before interpreting field values on individual processes.
+
+## Common chains
+
+- **Confirm workspace at start**: `list_accessible_workspaces` → only call `switch_mcp_workspace` if the user explicitly asks
+- **Compliance audit**: `get_attribute_configurations` (read the schema) → walk the relevant hierarchy and filter by the attribute the user cares about
+- **Find a process owner**: `search` for the process → `search_users` for the owner named on it → hand off to a [Calendar or Slack connector](/guides/chain-with-connectors) for action

@@ -1,0 +1,36 @@
+---
+title: "Context Graph"
+description: "The relational layer above the Process Index — entities, relationships, and communities."
+icon: "diagram-project"
+---
+
+The Context Graph is the relational layer above the [Process Index](/concepts/process-index). Where the index is a tree of processes, the graph is a network of **entities** (systems, teams, people, controls), **communities** (clusters of related work), and **relationships** (handoffs, dependencies, ownership) extracted across the workspace.
+
+Use the graph when the question is relational — "what feeds X", "what depends on Y", "where is Z covered", "what breaks if we deprecate System A".
+
+## What lives in the graph
+
+| Object | What it represents |
+|---|---|
+| **Entity** | A specific thing in the organization: a system, team, person, control, policy, or named concept |
+| **Relationship** | A typed edge between two entities — handoff, dependency, ownership, supports, etc. |
+| **Community** | A cluster of entities that frequently appear together; represents a sub-area of how the org works |
+| **Claim** | A specific statement extracted from an artifact, attached to one or more entities |
+| **Text chunk** | The source passage of text behind a claim |
+
+## What you ask of it
+
+| User question | Tool to start with |
+|---|---|
+| "Find the entity for X" | [`search_knowledge_graph`](/tools/context-graph) |
+| "What does System X cover?" | [`get_entity_details`](/tools/context-graph) |
+| "What feeds this?" | [`get_upstream_sources`](/tools/context-graph) |
+| "What breaks if this changes?" | [`get_downstream_dependencies`](/tools/context-graph) |
+| "Map the area around this entity" | [`explore_graph_neighbors`](/tools/context-graph) |
+| "Summarize this community" | [`summarize_community_subgraph`](/tools/context-graph) |
+
+## Always follow up search with detail
+
+`search_knowledge_graph` returns starting points — entities, communities, claims, chunks — with short snippets. **Never answer from those snippets alone.** Always chain into one of the `get_*` or `explore_*` tools to read the full entity, walk the neighborhood, or pull the supporting text chunk. The snippets are the lookup, not the answer.
+
+See [Tools by purpose → Context Graph](/tools/context-graph) for the full toolset.

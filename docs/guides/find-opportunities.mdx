@@ -1,0 +1,60 @@
+---
+title: "Find transformation opportunities"
+description: "Rank the highest-leverage automation and transformation candidates across the index."
+icon: "magnifying-glass-chart"
+---
+
+A platform lead, AI architect, or transformation owner asks where to focus next. This is the "spin up multiple agents to scan the entire process tree" use case — agents should fan out in parallel across the hierarchy.
+
+## Example prompts
+
+- "Find the highest-leverage automation opportunities in our P2P value stream."
+- "Where in our close cycle should we focus next?"
+- "Scan our org for duplicate invoice processing across geographies."
+
+## End-to-end recipe
+
+<Steps>
+  <Step title="Confirm the workspace">
+    Call [`list_accessible_workspaces`](/tools/workspace) and switch if needed.
+  </Step>
+  <Step title="Build the work queue">
+    Call [`get_process_hierarchy_tree`](/tools/process-index) — the whole tree, or filtered to the value stream of interest. The leaves become your work queue.
+  </Step>
+  <Step title="Fan out in parallel across leaves">
+    For each leaf:
+    - [`get_process_details`](/tools/process-index) — current version, steps, dependencies. Note step count, manual vs system steps, exception count.
+    - [`list_process_observations`](/tools/observations-and-changes) — exception volume per process.
+
+    <Tip>
+      The MCP is stateless per call. There's no penalty for parallel reads — fan out aggressively.
+    </Tip>
+  </Step>
+  <Step title="Hunt high-leverage patterns in the graph">
+    Call [`search_knowledge_graph`](/tools/context-graph) for patterns: "manual approval", "duplicate entry", "data re-keying", "exception handling", "swivel-chair workflow". Then [`explore_graph_neighbors`](/tools/context-graph) on each pattern entity to see which processes and systems touch it.
+  </Step>
+  <Step title="Check workspace metadata">
+    Call [`get_attribute_configurations`](/tools/workspace) to look for "automation status", "system of record", "control level", or similar attributes that help rank candidates.
+  </Step>
+  <Step title="Avoid duplicating prior Advisor work">
+    Call [`list_objective_findings`](/tools/objectives). If Advisor has already analyzed this area, call [`get_objective_context_bundle`](/tools/objectives) to load prior thinking and build on it. If not, surface a fresh candidate set.
+  </Step>
+  <Step title="Confirm each top candidate">
+    For each top candidate:
+    - [`get_process_observations`](/tools/observations-and-changes) — confirm the deviation or manual pattern with concrete evidence.
+    - [`get_downstream_dependencies`](/tools/context-graph) — first cut at blast radius.
+  </Step>
+  <Step title="Synthesize a ranked candidate set">
+    Process IDs, observation counts, dependency depth, similarity to known patterns, evidence trail.
+  </Step>
+  <Step title="Cross-check vendor tooling (optional)">
+    Call [`research_web`](/tools/schema-and-web) on the highest-ranked candidates to see if there's published vendor or framework guidance worth pulling in.
+  </Step>
+</Steps>
+
+## What to surface in the brief
+
+- A ranked list of candidate processes
+- For each: observation count, dependency depth, pattern signal
+- Citable process IDs and observation timestamps
+- Gaps where the workspace doesn't have enough evidence yet

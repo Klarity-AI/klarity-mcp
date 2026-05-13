@@ -1,0 +1,36 @@
+---
+title: "Process Index"
+description: "A living, hierarchical map of every process your organization runs."
+icon: "sitemap"
+---
+
+The Process Index is Klarity's structured view of how work happens. It is a versioned, hierarchical map of every process the organization runs — from value streams at the top (P2P, O2C, close cycle) down to individual leaf processes that a person or system performs.
+
+Each process carries:
+
+- **Current version**: steps, policies, inputs, outputs, owner, team
+- **Version history**: how the process has evolved over time
+- **Dependencies**: which processes feed into this one, which depend on it
+- **Hierarchy node**: where it sits in the value stream
+- **Observations**: real-world deviations and exceptions captured against it
+- **Linked artifacts**: BRDs, SOPs, recordings, screenshots backing the process
+
+## What you ask of it
+
+| User question | Tool to start with |
+|---|---|
+| "Tell me about process X" | [`search`](/tools/entry-points) → [`fetch`](/tools/entry-points) |
+| "Browse the whole index" | [`get_process_hierarchy_tree`](/tools/process-index) |
+| "Look up by exact team or name" | [`search_workspace_processes`](/tools/process-index) |
+| "Pull the rich nested payload" | [`get_process_details`](/tools/process-index) |
+| "What does this hierarchy node cover?" | [`get_process_hierarchy_node_details`](/tools/process-index) |
+
+## Search → fetch → drill
+
+The default loop for any process question:
+
+1. **Search** with the user's words. Iterate two to four times if results feel sparse — processes use organization-specific names, and single queries rarely cover broad topics.
+2. **Fetch** the matched process to read steps, policies, dependencies, and history.
+3. **Drill** into specific dependencies, hierarchy siblings, or version history when the summary isn't enough.
+
+See [Tools by purpose → Process Index](/tools/process-index) for the full toolset and [Find opportunities](/guides/find-opportunities) for an end-to-end walkthrough.

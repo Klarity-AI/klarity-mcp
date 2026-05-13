@@ -1,0 +1,61 @@
+---
+title: "Form a transformation thesis"
+description: "Current state, blast radius, and intervention points — with evidence, on a specific process or value stream."
+icon: "lightbulb"
+---
+
+The user has zeroed in on a target process or value stream and wants the assistant to build a deep, evidence-grounded transformation thesis before recommending changes.
+
+## Example prompts
+
+- "Build a transformation thesis for our order-to-cash process."
+- "We want to redesign vendor onboarding — give me current state, blast radius, and intervention points."
+- "If we deprecate System X, what breaks?"
+
+## End-to-end recipe
+
+<Steps>
+  <Step title="Confirm the workspace">
+    Call [`list_accessible_workspaces`](/tools/workspace) and switch if needed.
+  </Step>
+  <Step title="Pull the target process">
+    Call [`search`](/tools/entry-points) → [`fetch`](/tools/entry-points), or [`fetch`](/tools/entry-points) directly if the ID is known. Then [`get_process_details`](/tools/process-index) for the full nested payload: current version, dependencies, hierarchy node, version history.
+  </Step>
+  <Step title="Place it in context">
+    Call [`get_process_hierarchy_node_details`](/tools/process-index) — parent value stream, sibling processes that may share patterns.
+  </Step>
+  <Step title="Read recent changes">
+    Call [`get_recent_process_changes`](/tools/observations-and-changes) — version evolution. What has the team been changing? In which direction?
+  </Step>
+  <Step title="Read all observations">
+    Call [`get_process_observations`](/tools/observations-and-changes) across versions. Look for repeated deviation patterns, exception types, manual workarounds.
+  </Step>
+  <Step title="Drill into representative timelines">
+    For three to five representative observations, call [`get_observation_activity_timeline`](/tools/observations-and-changes) — primary-source detail of how the process runs in practice (not how it's documented).
+  </Step>
+  <Step title="Map upstream and downstream">
+    - [`get_upstream_sources`](/tools/context-graph) — what feeds this. Root cause / input quality matters for transformation viability.
+    - [`get_downstream_dependencies`](/tools/context-graph) — blast radius if we change it. Surfacing this early prevents under-scoped proposals.
+  </Step>
+  <Step title="Walk the surrounding network">
+    - [`search_knowledge_graph`](/tools/context-graph) — find entities (systems, teams, controls) that touch this process.
+    - [`get_entity_details`](/tools/context-graph) — read the most-connected entities as transformation surfaces.
+    - [`explore_graph_neighbors`](/tools/context-graph) — map the network.
+    - [`summarize_community_subgraph`](/tools/context-graph) — orient if the process sits in a meaningful community.
+  </Step>
+  <Step title="Build on prior Advisor work">
+    Call [`list_objective_findings`](/tools/objectives). If there's prior thinking on this process or value stream, call [`get_objective_context_bundle`](/tools/objectives) to load it and build on it. Don't restart cold.
+  </Step>
+  <Step title="Produce the visual (optional)">
+    Call [`generate_process_diagram`](/tools/visualization) to produce a current-state diagram for the thesis document.
+  </Step>
+  <Step title="Synthesize the thesis">
+    Structure the answer as:
+
+    - **Current state**: how the process actually runs (cite observations).
+    - **Blast radius**: upstream feeders and downstream dependents.
+    - **Pain pattern**: the deviation, manual, or duplication signal — with evidence.
+    - **Intervention points**: where to change, ranked by leverage and risk.
+    - **Open questions**: what evidence is missing that would strengthen or invalidate the thesis.
+  </Step>
+</Steps>

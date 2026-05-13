@@ -1,0 +1,29 @@
+---
+title: "Process Index"
+description: "Discover and navigate the hierarchy of processes the organization runs."
+icon: "sitemap"
+---
+
+Use these tools when [`search`](/tools/entry-points) results feel sparse, or when you need richer process metadata than [`fetch`](/tools/entry-points) returns.
+
+| Tool | When to use |
+|---|---|
+| `search_processes` | Like `search` but returns mixed hierarchy-node + process results. Use when a top-level value stream or department might be a better starting point than a leaf process. |
+| `search_workspace_processes` | Lookup by **name / objective / team**, not semantic. Use when you have an exact phrase or team filter. |
+| `get_process_hierarchy_tree` | Browse the whole index structure. Use when `search` misses, or to orient before drilling in. |
+| `get_process_hierarchy_node_details` | Inspect a single hierarchy node — parent, children, linked process. |
+| `get_process_detail` | Flat lookup by resource key or exact name. Light payload (name, objective, team, `updated_at`, `source_url`). |
+| `get_process_details` | The rich nested payload: `current_version`, `dependencies`, `hierarchy_node`, optional version history. This is what [`fetch`](/tools/entry-points) reshapes. Use directly when you need the structured shape. |
+
+## Choosing among the lookup tools
+
+- **Semantic, broad** → `search` (entry point) or `search_processes` (mixed results)
+- **Exact phrase / team filter** → `search_workspace_processes`
+- **You have a resource key / exact name** → `get_process_detail` (light) or `get_process_details` (full)
+- **Browse / orient** → `get_process_hierarchy_tree`, then `get_process_hierarchy_node_details`
+
+## Common chains
+
+- "What's in this value stream?" → `get_process_hierarchy_tree` → `get_process_hierarchy_node_details` on the relevant node → `get_process_details` on each leaf
+- "Pull every dependency of process X" → `get_process_details` → walk the `dependencies` list with further `get_process_details` calls
+- "I have an exact name, give me the full payload" → `get_process_detail` (confirm match) → `get_process_details` (full structure)

@@ -1,0 +1,45 @@
+---
+title: "Help a process performer"
+description: "Do the task the way your team actually does it, not the way ChatGPT thinks it's done."
+icon: "user-gear"
+---
+
+A process performer — an AP lead, ops manager, recruiter, analyst — asks their assistant to do real work: vendor reconciliation, invoice approval, candidate screening, ERP migration prep, audit walkthrough. The assistant should pull the customer's existing process before improvising.
+
+## Example prompts
+
+- "Walk me through how to reconcile this batch of vendor invoices."
+- "Help me prep for tomorrow's SOX walkthrough."
+- "I'm onboarding a new vendor — what's our checklist?"
+
+## End-to-end recipe
+
+<Steps>
+  <Step title="Confirm the workspace">
+    Call [`list_accessible_workspaces`](/tools/workspace) and switch with [`switch_mcp_workspace`](/tools/workspace) if the user names a workspace other than the active one.
+  </Step>
+  <Step title="Search for the process">
+    Call [`search`](/tools/entry-points) with the task in the user's words ("vendor invoice reconciliation"). Iterate two to four times with refined queries — single queries rarely cover broad topics.
+
+    If results are still sparse, call [`get_process_hierarchy_tree`](/tools/process-index) to orient on the right value stream, then drill in.
+  </Step>
+  <Step title="Fetch the matched process">
+    Use [`fetch`](/tools/entry-points) to read steps, policies, inputs, outputs, and dependencies. If you need the richer nested payload (full version metadata or every dependency ID), call [`get_process_details`](/tools/process-index) directly.
+  </Step>
+  <Step title="Pull recent observations">
+    Call [`get_recent_process_observations`](/tools/observations-and-changes) and [`get_process_observations`](/tools/observations-and-changes) to find emerging edge cases and exception patterns.
+  </Step>
+  <Step title="Drill into the most relevant session">
+    Call [`get_observation_activity_timeline`](/tools/observations-and-changes) to read the exact user actions behind a deviation. This is the most "primary source" evidence the workspace has.
+  </Step>
+  <Step title="Check boundaries (optional)">
+    If the task touches another team or system, call [`get_upstream_sources`](/tools/context-graph) or [`get_downstream_dependencies`](/tools/context-graph) to map handoffs.
+  </Step>
+  <Step title="Synthesize">
+    "Here's how your team does this. Here's the deviation pattern from last quarter. Here's what to watch for."
+  </Step>
+</Steps>
+
+## Catch duplication
+
+If the user suspects a different team already does this work, search across teams or business units for similar processes and traverse the graph for related entities. Surface the duplicate set with process IDs.
