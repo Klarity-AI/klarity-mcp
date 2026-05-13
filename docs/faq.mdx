@@ -1,0 +1,74 @@
+---
+title: "FAQ"
+description: "Common questions and gotchas from people setting up and using the Klarity MCP."
+icon: "circle-question"
+---
+
+If your question isn't here, reach out to [hello@klarity.ai](mailto:hello@klarity.ai).
+
+<AccordionGroup>
+  <Accordion title="I keep getting a sign-in or auth error. What's wrong?" icon="key">
+    The most common cause is that the MCP hasn't been enabled in your Klarity workspace yet. Both OAuth and API-key auth require this one-time setup:
+
+    1. Log in to Klarity in a browser.
+    2. Go to **Settings → MCP**.
+    3. Pick the workspace you want to expose and complete the in-app setup.
+
+    Then retry the sign-in or Bearer-token request from your AI client. See [Authentication → Enable the MCP in your workspace](/authentication#enable-the-mcp-in-your-workspace) for the canonical reference.
+  </Accordion>
+
+  <Accordion title="My organization doesn't have Klarity yet. Can I use this?" icon="building">
+    Not directly. Klarity is a commercial service — you need an active workspace and a provisioned user account to use the MCP. Contact [hello@klarity.ai](mailto:hello@klarity.ai) to talk about access.
+  </Accordion>
+
+  <Accordion title="The connector says my org hasn't approved it." icon="lock">
+    Your organization's Klarity workspace admin needs to approve the Klarity connector (Claude) or app (ChatGPT) before users can sign in. Ask your admin, or have them reach out to [hello@klarity.ai](mailto:hello@klarity.ai).
+  </Accordion>
+
+  <Accordion title="How do I switch between Klarity workspaces from inside my assistant?" icon="arrows-rotate">
+    Ask your assistant to switch — for example, "switch my Klarity workspace to EMEA-ops." It will call `switch_mcp_workspace` (the only write tool exposed in production). This only affects the active session; it does not change your default workspace in Klarity.
+
+    See [Workspace tools](/tools/workspace) for the details.
+  </Accordion>
+
+  <Accordion title="How do I rotate or revoke an API key?" icon="rotate">
+    Go to **Settings → MCP** in your Klarity workspace. You can view, disable, or rotate existing keys from the same screen where you generated them.
+
+    If you suspect a key has been exposed, revoke it immediately, generate a new one, and update your client configuration. See [Authentication → Keep keys safe](/authentication#keep-keys-safe).
+  </Accordion>
+
+  <Accordion title="How do I confirm the MCP is connected?" icon="circle-check">
+    In your AI client, ask something like:
+
+    ```text
+    Search Klarity for processes related to vendor onboarding.
+    ```
+
+    If the assistant calls the `search` tool and returns processes from your workspace, you're connected. If it falls back to generic answers or says it has no access to Klarity, the install hasn't completed — re-check the [install steps](/quickstart) for your client.
+  </Accordion>
+
+  <Accordion title="Can I create or edit processes through the MCP?" icon="pen-slash">
+    No. Every tool in production is read-only with one exception: `switch_mcp_workspace`. All process, artifact, and graph edits happen in the Klarity Architect UI. See [Limitations](/limitations).
+  </Accordion>
+
+  <Accordion title="Why can't I access Companion meeting recordings?" icon="video-slash">
+    Ambient capture data from Klarity Companion (meeting recordings, real-time signals) is not exposed through the MCP today. The Companion-derived **observations** that are attached to processes are accessible — use [`get_process_observations`](/tools/observations-and-changes) and [`get_observation_activity_timeline`](/tools/observations-and-changes) instead.
+  </Accordion>
+
+  <Accordion title="The assistant says 'no evidence found in the workspace.' Is something broken?" icon="magnifying-glass">
+    Usually not. That response means the workspace doesn't yet have captured data covering the question — typically a Companion or Interviewer capture gap, not an MCP bug. The gap itself is useful: it tells you what to capture next.
+
+    If the question *should* have evidence and the assistant can't find it, try refining the query — single searches miss, and processes use organization-specific names. See [Operating principles](/tools/operating-principles).
+  </Accordion>
+
+  <Accordion title="Which client should I use?" icon="grid-2">
+    Any MCP-compatible client works. Use the install page that matches what you have today:
+
+    - [Claude](/install/claude)
+    - [Claude Code](/install/claude-code)
+    - [ChatGPT](/install/chatgpt)
+    - [Codex](/install/codex)
+    - [Cursor](/install/cursor)
+    - [Gemini CLI](/install/gemini-cli)
+  </Accordion>
+</AccordionGroup>

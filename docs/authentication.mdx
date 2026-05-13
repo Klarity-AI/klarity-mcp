@@ -13,6 +13,31 @@ The Klarity MCP supports two authentication methods. Most clients will use one o
 
 Both methods scope the assistant to your active Klarity workspace and obey the same permissions as your Klarity user account.
 
+## Enable the MCP in your workspace
+
+Whichever auth method your client uses, the very first step is to turn the MCP on for the workspace you want to expose. Sign-in and Bearer-token connections will both fail until this is done.
+
+<Steps>
+  <Step title="Log in to Klarity">
+    Sign in to your Klarity workspace in a browser.
+  </Step>
+  <Step title="Open MCP settings">
+    Go to **Settings → MCP**.
+  </Step>
+  <Step title="Pick the workspace to expose">
+    Select the workspace you want your assistant to read from. This is the workspace the MCP will be enabled for.
+  </Step>
+  <Step title="Complete the workspace setup">
+    Follow the in-app prompts to finish enabling the MCP. Once that's done, return to your AI client and continue with the install steps for it.
+  </Step>
+</Steps>
+
+<Warning>
+  If you try to sign in (OAuth) or send a Bearer token before completing the workspace setup, the request will fail. This is the most common cause of "auth failed" errors.
+</Warning>
+
+See [FAQ](/faq) for other common install issues.
+
 ## OAuth
 
 When the client supports MCP OAuth, you don't handle any credentials yourself. The first time the assistant calls a Klarity tool, the client redirects you to sign in to Klarity. After that, the client manages the token.
@@ -29,12 +54,11 @@ API key auth uses a long-lived secret that you generate in Klarity and pass to t
 
 ### Generate a key
 
+Make sure you've completed [Enable the MCP in your workspace](#enable-the-mcp-in-your-workspace) first — keys are scoped to the workspace you selected there.
+
 <Steps>
   <Step title="Open MCP settings in Klarity">
-    Go to **Settings → MCP** in your Klarity workspace.
-  </Step>
-  <Step title="Pick your workspace">
-    The key is scoped to the workspace you select. You can switch workspaces from inside the AI client later using `switch_mcp_workspace`.
+    Go to **Settings → MCP** in the workspace you enabled.
   </Step>
   <Step title="Create the key">
     Name it after the client you're connecting (e.g., `Claude Code – laptop`, `Cursor – work`). Set an expiration and click **Create**.
@@ -44,7 +68,7 @@ API key auth uses a long-lived secret that you generate in Klarity and pass to t
   </Step>
 </Steps>
 
-You can view, disable, or rotate existing keys from the same screen.
+You can view, disable, or rotate existing keys from the same screen. You can switch workspaces from inside the AI client later using `switch_mcp_workspace`.
 
 ### Pass the key to your client
 
