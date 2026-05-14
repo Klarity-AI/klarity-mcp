@@ -32,6 +32,13 @@ Once the Klarity connector is live in Anthropic's official directory:
   Your organization may need to approve the connector first, and you must be provisioned as a user in Klarity for the connection to succeed.
 </Note>
 
-## API key fallback
+## If you don't have access
 
-If your organization has not approved the connector yet, or you need a Bearer token for a custom setup, see [Authentication → API key](/authentication#api-key).
+If your organization hasn't approved the Klarity connector yet, or you can't see it in Claude's connector directory, you can still connect from any of the other install paths. Each supports OAuth, an API key, or both — pick whichever client you already have:
+
+- [Claude Code](/install/claude-code) — OAuth via the plugin, or Bearer-token MCP add
+- [Codex](/install/codex) — OAuth via `codex mcp login`, or `config.toml` with a Bearer token
+- [Cursor](/install/cursor) — OAuth via the **Connect** button, or `.cursor/mcp.json` with a Bearer header
+- [Gemini CLI](/install/gemini-cli) — OAuth via `/mcp auth`, or env-based Bearer token
+
+The data and permissions are identical regardless of how you connect.
