@@ -40,7 +40,7 @@ Apps -> Search -> Klarity -> Connect
 From a Claude Code session, add this repository as a marketplace, then install:
 
 ```text
-/plugin marketplace add Klarity-AI/klarity-mcp
+/plugin marketplace add klarity-ai/klarity-mcp
 /plugin install klarity@klarity
 ```
 
@@ -64,7 +64,7 @@ codex mcp login klarity
 ## Install — Gemini CLI
 
 ```bash
-gemini extensions install https://github.com/Klarity-AI/klarity-mcp
+gemini extensions install https://github.com/klarity-ai/klarity-mcp
 ```
 
 To login:
