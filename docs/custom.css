@@ -2,8 +2,13 @@
    remain visible. Mintlify auto-follows OS dark mode and also exposes
    a manual toggle; both add the .dark class to the document root, so
    this rule covers both cases. Full-color icons (claude, codex, gemini)
-   are untouched. */
-.dark img[src$="/cursor.svg"],
-.dark img[src$="/openai.svg"] {
+   are untouched.
+
+   Card icons are served through Mintlify's CDN with a query string
+   (?fit=max&auto=format&...), so the URL doesn't end in `.svg`. The
+   sidebar serves direct S3 URLs that do end in `.svg`. Using `*=`
+   (contains) instead of `$=` (ends-with) catches both. */
+.dark img[src*="/cursor.svg"],
+.dark img[src*="/openai.svg"] {
   filter: invert(1);
 }
