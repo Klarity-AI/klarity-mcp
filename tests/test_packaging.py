@@ -74,35 +74,53 @@ def test_claude_plugin_manifest_required_metadata_for_official_submission() -> N
     )
 
 
-def test_claude_marketplace_has_plugin_with_resolvable_source() -> None:
-    """The marketplace must list at least one plugin, and each plugin's `source`
-    must resolve to a directory that contains `.claude-plugin/plugin.json`.
+def test_claude_marketplace_has_plugin_with_supported_source_shape() -> None:
+    """Each plugin entry's `source` must use one of the shapes Claude Code's
+    source parser accepts when the marketplace is consumed directly via
+    `/plugin marketplace add owner/repo` (i.e. without Anthropic's curation
+    pipeline rewriting the field).
 
-    Without this, `/plugin install <name>@<owner>/<repo>` returns
-    "Marketplace not found" or installs a plugin with no manifest.
+    Supported shapes:
+    - String "./<subdir>" pointing at a directory in this repo that holds a
+      `.claude-plugin/plugin.json` (only valid when the plugin lives in a
+      real subdirectory of the marketplace).
+    - Object `{"source": "url", "url": "<git url>"}` for the "whole repo is
+      the plugin" pattern. The URL must match this repo's canonical
+      repository URL so the install clone is self-referential.
+
+    Bare "." and bare "./" both fail at install time with "source type your
+    Claude Code version does not support" — verified empirically.
     """
     payload = build_claude_marketplace_manifest(KLARITY_MCP_METADATA)
-    assert payload["name"] == KLARITY_MCP_METADATA.plugin_name, (
-        "marketplace name should match the canonical plugin name so the install "
-        "command reads as `<plugin>@<plugin>` when the marketplace is added by name"
-    )
-    assert isinstance(payload["plugins"], list) and payload["plugins"], (
-        "marketplace must list at least one plugin"
-    )
+    assert payload["name"] == KLARITY_MCP_METADATA.plugin_name
+    assert isinstance(payload["plugins"], list) and payload["plugins"]
     for plugin in payload["plugins"]:
         assert plugin.get("name"), "each marketplace plugin must have a name"
         source = plugin.get("source")
-        assert isinstance(source, str) and source, (
-            "each marketplace plugin must have a string `source` path"
-        )
-        # Claude resolves `source` relative to the repo root (where marketplace.json's
-        # parent `.claude-plugin/` lives). A '.' source means the repo itself is the plugin.
-        plugin_root = (REPO_ROOT / source).resolve()
-        manifest = plugin_root / ".claude-plugin" / "plugin.json"
-        assert manifest.exists(), (
-            f"marketplace plugin {plugin['name']!r} declares source={source!r}, "
-            f"but no plugin manifest exists at {manifest}"
-        )
+        if isinstance(source, str):
+            assert source not in (".", "./"), (
+                f"plugin {plugin['name']!r} uses bare {source!r} as source — "
+                "this is silently rejected by Claude Code's installer. Use the "
+                "object form `{'source': 'url', 'url': '<repo>.git'}` instead."
+            )
+            plugin_root = (REPO_ROOT / source).resolve()
+            manifest = plugin_root / ".claude-plugin" / "plugin.json"
+            assert manifest.exists(), (
+                f"plugin {plugin['name']!r} declares source={source!r}, but "
+                f"no plugin manifest exists at {manifest}"
+            )
+        else:
+            assert isinstance(source, dict), (
+                "marketplace plugin source must be a string or object"
+            )
+            assert source.get("source") == "url", (
+                "object-form source must use the `url` discriminator"
+            )
+            expected = f"{KLARITY_MCP_METADATA.repository_url}.git"
+            assert source.get("url") == expected, (
+                f"object-form url should be {expected!r} (got {source.get('url')!r}) "
+                "so the install clone resolves back to this same repo"
+            )
 
 
 def test_codex_plugin_manifest_required_metadata() -> None:

@@ -63,12 +63,19 @@ def build_claude_marketplace_manifest(
         "plugins": [
             {
                 "name": metadata.plugin_name,
-                # Trailing slash is load-bearing: Claude Code's source parser
-                # rejects bare "." with "source type your Claude Code version
-                # does not support". The "./" form (canonical "repo root is the
-                # plugin" pattern, used by e.g. sentry-for-claude) is what
-                # actually parses. Verified against working vendor marketplaces.
-                "source": "./",
+                # Use the explicit `url` object form, not a relative-path string.
+                # Direct `/plugin marketplace add owner/repo` flows don't accept
+                # bare "." or "./" — Claude Code reports "source type your
+                # Claude Code version does not support". The relative-path
+                # string form works only after Anthropic's curation pipeline
+                # transforms it into this same `url` form. Confirmed by
+                # diffing vendor-authored marketplaces (e.g. sentry-for-claude
+                # uses "./") against their ingested entry in
+                # anthropics/claude-plugins-official (rewritten to `url`).
+                "source": {
+                    "source": "url",
+                    "url": f"{metadata.repository_url}.git",
+                },
                 "description": metadata.plugin_description,
                 "version": metadata.plugin_version,
                 "homepage": metadata.homepage_url,
