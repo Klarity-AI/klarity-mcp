@@ -1,0 +1,31 @@
+---
+title: "Limitations"
+description: "What the MCP does not do today — and what's coming."
+icon: "triangle-exclamation"
+---
+
+The Klarity MCP is read-mostly and scoped intentionally. Knowing where it stops keeps assistant behavior honest.
+
+## Read-only access
+
+Tools available through the MCP are query-only with one exception: `switch_mcp_workspace`. You can search, read, explore, and analyze. You cannot create or modify processes, artifacts, or graph entities through the MCP — those writes happen in the Klarity Architect UI.
+
+## Authentication coverage
+
+OAuth is supported in Claude, ChatGPT, Claude Code (via the plugin), Codex (via `codex mcp login`), Cursor (via the **Connect** button on remote MCP servers), and Gemini CLI (via `/mcp auth`). For any client that doesn't yet support MCP OAuth, use the API key fallback. See [Authentication](/authentication) for the full breakdown.
+
+## Workspace scope
+
+Each session is scoped to one Klarity workspace. If the user belongs to multiple workspaces, the assistant can switch between them at runtime with `switch_mcp_workspace`, but a single call cannot read across workspaces.
+
+## Tool surface evolves
+
+The production tool catalog grows over time as new Klarity capabilities ship (additional graph traversals, write tools for specific safe operations). The [Tool reference](/tools/overview) is the live source of truth — check there before assuming a tool exists.
+
+## When to fall back to the UI
+
+- Bulk edits to processes or artifacts.
+- Configuring workspace-level attributes or policies.
+- Inviting users or managing roles.
+
+For everything else, the MCP should be enough — and if it isn't, [reach out](mailto:hello@klarity.ai).

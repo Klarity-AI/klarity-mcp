@@ -16,6 +16,7 @@ from klarity_mcp import (
     SKILLS_DIR,
 )
 from klarity_mcp.builders import (
+    build_claude_marketplace_manifest,
     build_claude_mcp_config,
     build_claude_plugin_manifest,
     build_gemini_extension_manifest,
@@ -68,6 +69,37 @@ def test_claude_plugin_manifest_required_metadata_for_official_submission() -> N
     assert isinstance(payload["keywords"], list) and payload["keywords"], (
         "keywords must be a non-empty list"
     )
+
+
+def test_claude_marketplace_has_plugin_with_resolvable_source() -> None:
+    """The marketplace must list at least one plugin, and each plugin's `source`
+    must resolve to a directory that contains `.claude-plugin/plugin.json`.
+
+    Without this, `/plugin install <name>@<owner>/<repo>` returns
+    "Marketplace not found" or installs a plugin with no manifest.
+    """
+    payload = build_claude_marketplace_manifest(KLARITY_MCP_METADATA)
+    assert payload["name"] == KLARITY_MCP_METADATA.plugin_name, (
+        "marketplace name should match the canonical plugin name so the install "
+        "command reads as `<plugin>@<plugin>` when the marketplace is added by name"
+    )
+    assert isinstance(payload["plugins"], list) and payload["plugins"], (
+        "marketplace must list at least one plugin"
+    )
+    for plugin in payload["plugins"]:
+        assert plugin.get("name"), "each marketplace plugin must have a name"
+        source = plugin.get("source")
+        assert isinstance(source, str) and source, (
+            "each marketplace plugin must have a string `source` path"
+        )
+        # Claude resolves `source` relative to the repo root (where marketplace.json's
+        # parent `.claude-plugin/` lives). A '.' source means the repo itself is the plugin.
+        plugin_root = (REPO_ROOT / source).resolve()
+        manifest = plugin_root / ".claude-plugin" / "plugin.json"
+        assert manifest.exists(), (
+            f"marketplace plugin {plugin['name']!r} declares source={source!r}, "
+            f"but no plugin manifest exists at {manifest}"
+        )
 
 
 def test_gemini_extension_name_matches_canonical_plugin_name() -> None:

@@ -1,0 +1,65 @@
+---
+title: "Codex"
+description: "Register the Klarity MCP server with the OpenAI Codex CLI."
+icon: "/images/icons/codex.svg"
+---
+
+<Info>
+  **Before you install: enable the MCP in your Klarity workspace.**
+
+  1. Log in to Klarity in a browser.
+  2. Go to **Settings → MCP**.
+  3. Pick the workspace you want to expose to your assistant and complete the in-app setup.
+
+  Sign-in will fail if you skip this. See [Authentication → Enable the MCP in your workspace](/authentication#enable-the-mcp-in-your-workspace) for the canonical reference, and [FAQ](/faq) for other common install issues.
+</Info>
+
+Two install paths are supported. The first uses Codex's built-in OAuth login; the second uses an API key in your config file.
+
+## CLI install (OAuth)
+
+From a terminal:
+
+```bash
+codex mcp add klarity --url https://architect-v2-api.klarity.ai/mcp
+```
+
+Then log in:
+
+```bash
+codex mcp login klarity
+```
+
+You'll be redirected to Klarity in your browser to authenticate.
+
+## Config file install (API key)
+
+Generate an API key from `Settings → MCP` in your Klarity workspace (see [Authentication](/authentication#api-key)). Add the server to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.klarity_architect]
+url = "https://architect-v2-api.klarity.ai/mcp"
+bearer_token_env_var = "KLARITY_ARCHITECT_MCP_TOKEN"
+```
+
+Set the environment variable in your shell profile (`~/.zshrc`, `~/.bashrc`):
+
+```bash
+export KLARITY_ARCHITECT_MCP_TOKEN=<YOUR_API_KEY>
+```
+
+Restart your terminal (or source the profile) so Codex picks up the new variable.
+
+<Warning>
+  Treat the API key like a password. Rotate it from `Settings → MCP` in Klarity if it's exposed.
+</Warning>
+
+## Verify
+
+In a Codex session, ask:
+
+```text
+Search Klarity for AI transformation opportunities across our processes — where could we build skills or deploy agents?
+```
+
+The assistant should call `search` and return process results from your workspace.

@@ -1,0 +1,47 @@
+---
+title: "ChatGPT"
+description: "Install the Klarity app in ChatGPT."
+icon: "/images/icons/openai.svg"
+---
+
+<Info>
+  **Before you install: enable the MCP in your Klarity workspace.**
+
+  1. Log in to Klarity in a browser.
+  2. Go to **Settings → MCP**.
+  3. Pick the workspace you want to expose to your assistant and complete the in-app setup.
+
+  Sign-in will fail if you skip this. See [Authentication → Enable the MCP in your workspace](/authentication#enable-the-mcp-in-your-workspace) for the canonical reference, and [FAQ](/faq) for other common install issues.
+</Info>
+
+Once the Klarity app is live in the OpenAI App Store:
+
+<Steps>
+  <Step title="Open the app picker">
+    In ChatGPT, click **Apps**.
+  </Step>
+  <Step title="Find Klarity">
+    Search for **Klarity** and click **Connect**.
+  </Step>
+  <Step title="Sign in">
+    You'll be redirected to Klarity to authenticate. The assistant can then query your active workspace.
+  </Step>
+</Steps>
+
+<Note>
+  Your organization may need to approve the app first, and you must be provisioned as a user in Klarity for the connection to succeed.
+</Note>
+
+## Verify
+
+In ChatGPT, ask:
+
+```text
+Search Klarity for AI transformation opportunities across our processes — where could we build skills or deploy agents?
+```
+
+The assistant should call `search` and return process results from your workspace.
+
+## If you don't have access
+
+If your organization hasn't approved the Klarity app yet, or you can't see it in ChatGPT's app picker, install from one of the [other clients](/quickstart) instead. The data and permissions are identical regardless of how you connect.

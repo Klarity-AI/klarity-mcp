@@ -1,0 +1,75 @@
+---
+title: "Security & architecture"
+description: "How Klarity MCP connects to your AI tools, how it authenticates, and how authorization mirrors the Klarity web application."
+icon: "shield-halved"
+---
+
+The Klarity MCP is a read-only view into your organization's process intelligence. This page is the canonical reference for security, architecture, and access-control questions — written so InfoSec, IT, and platform reviewers can use it directly.
+
+## Integration scope
+
+The MCP does not integrate with external LLMs directly. Your AI client (Claude, ChatGPT, Cursor, and so on) connects to the MCP and uses whatever LLM that client runs. The MCP supplies process intelligence; the client supplies the model.
+
+Supported clients today:
+
+| Surface | Clients |
+|---|---|
+| IDEs / CLIs | [Claude Code](/install/claude-code), [Codex](/install/codex), [Cursor](/install/cursor), [Gemini CLI](/install/gemini-cli) |
+| Conversational assistants | [ChatGPT](/install/chatgpt) (via the OpenAI app store); [Claude](/install/claude) (Anthropic connector directory, coming soon) |
+
+If the AI client doesn't run inside an IDE, the MCP plugs into the assistant's app/connector layer instead. The connection model is the same in either case: the client talks to a single MCP endpoint over HTTPS using the [Model Context Protocol](https://modelcontextprotocol.io/).
+
+## Architecture
+
+The MCP runs on the same infrastructure that powers the Klarity Architect web application you already use. There is no separate data plane.
+
+| Property | Value |
+|---|---|
+| **Transport** | HTTPS-based Model Context Protocol over TLS |
+| **Endpoint** | `https://architect-v2-api.klarity.ai/mcp` |
+| **Backend** | Same API and data store that serves the Klarity Architect web application |
+
+Every MCP request flows into the same backend as a request from the web app. There is no shortcut path that bypasses normal validation or access control.
+
+## Authentication
+
+Two methods are supported. Pick based on whether the session is interactive or automated.
+
+| Method | When to use |
+|---|---|
+| **OAuth** | Recommended for human, interactive sessions. Same sign-in flow as the Klarity web app — the AI client manages the token after sign-in. |
+| **Long-lived API key** | Recommended for background or automated agents. Generated from `Settings → MCP` in Klarity. Sent as a `Bearer` token on every request. |
+
+API keys are revocable at any time from the same `Settings → MCP` screen. See [Authentication](/authentication) for per-client setup details.
+
+## Authorization
+
+Authorization is enforced by the same layer as the Klarity Advisor web application. The MCP can only access what the authenticated user — or, for API keys, the user the key was issued for — can access in the web app:
+
+- **Workspace boundaries** are enforced identically. MCP requests cannot read across workspaces the user is not a member of.
+- **Per-resource permissions** are enforced identically. If a user cannot see a process, observation, artifact, or graph entity in the web app, the MCP returns the same answer.
+- There is **no MCP-only access path** that bypasses the normal authorization layer.
+
+In short, the MCP inherits the user's existing posture. Granting MCP access does not broaden what a user can already see.
+
+## Read-only data scope
+
+All tools exposed by the MCP in production are **read-only**, with one exception: `switch_mcp_workspace`, which changes which workspace the current MCP session reads from. It cannot read across workspaces and does not modify user-facing data.
+
+The MCP cannot:
+
+- Create or modify processes, artifacts, observations, or graph entities
+- Edit policies, attributes, or workspace configuration
+- Invite users, manage roles, or change permissions
+
+All write operations happen in the Klarity Architect UI. See [Limitations](/limitations) for the full out-of-scope list.
+
+## Summary for reviewers
+
+- **Connection**: AI client ↔ Klarity MCP over HTTPS + TLS. No direct external LLM integration; LLMs live inside the AI client.
+- **Hosting**: Same infrastructure as the Klarity Architect web application.
+- **AuthN**: OAuth (interactive) or long-lived API key (automated). Both revocable from `Settings → MCP`.
+- **AuthZ**: Identical to the Klarity web app — same workspace and per-resource permissions.
+- **Data scope**: Read-only, except `switch_mcp_workspace`. Cannot bypass user permissions.
+
+If your review needs detail not covered here, reach out at [hello@klarity.ai](mailto:hello@klarity.ai).

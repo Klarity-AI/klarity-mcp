@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from klarity_mcp.metadata import (
+    CLAUDE_MARKETPLACE_PATH,
     CLAUDE_MCP_CONFIG_PATH,
     CLAUDE_PLUGIN_DIR,
     GEMINI_EXTENSION_PATH,
@@ -34,6 +35,45 @@ def build_claude_plugin_manifest(
         "license": metadata.license_spdx,
         "keywords": list(metadata.keywords),
         "mcpServers": "./.mcp.json",
+    }
+
+
+def build_claude_marketplace_manifest(
+    metadata: KlarityMCPMetadata = KLARITY_MCP_METADATA,
+) -> dict[str, Any]:
+    """Output: .claude-plugin/marketplace.json (Claude Code marketplace catalog).
+
+    Required so `/plugin install <plugin>@<owner>/<repo>` resolves this repo as a
+    marketplace. Without this file, Claude Code returns
+    "Marketplace '<owner>/<repo>' not found".
+    """
+    return {
+        "name": metadata.plugin_name,
+        "owner": {
+            "name": metadata.author_name,
+            "email": metadata.author_email,
+            "url": metadata.author_url,
+        },
+        "metadata": {
+            "description": metadata.plugin_description,
+            "version": metadata.plugin_version,
+        },
+        "plugins": [
+            {
+                "name": metadata.plugin_name,
+                "source": ".",
+                "description": metadata.plugin_description,
+                "version": metadata.plugin_version,
+                "homepage": metadata.homepage_url,
+                "license": metadata.license_spdx,
+                "keywords": list(metadata.keywords),
+                "author": {
+                    "name": metadata.author_name,
+                    "email": metadata.author_email,
+                    "url": metadata.author_url,
+                },
+            }
+        ],
     }
 
 
@@ -80,6 +120,7 @@ def build_manifest_payloads(
 ) -> dict[Path, dict[str, Any]]:
     return {
         CLAUDE_PLUGIN_DIR / "plugin.json": build_claude_plugin_manifest(metadata),
+        CLAUDE_MARKETPLACE_PATH: build_claude_marketplace_manifest(metadata),
         CLAUDE_MCP_CONFIG_PATH: build_claude_mcp_config(metadata),
         GEMINI_EXTENSION_PATH: build_gemini_extension_manifest(metadata),
     }

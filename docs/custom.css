@@ -1,0 +1,9 @@
+/* Invert the monochrome brand icons in Mintlify dark mode so they
+   remain visible. Mintlify auto-follows OS dark mode and also exposes
+   a manual toggle; both add the .dark class to the document root, so
+   this rule covers both cases. Full-color icons (claude, codex, gemini)
+   are untouched. */
+.dark img[src$="/cursor.svg"],
+.dark img[src$="/openai.svg"] {
+  filter: invert(1);
+}

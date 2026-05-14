@@ -1,0 +1,26 @@
+---
+title: "Artifacts"
+description: "The source documents and recordings behind processes — the underlying evidence the workspace captured."
+icon: "file"
+---
+
+**Artifacts** are the source documents and recordings behind processes: BRDs, SOPs, video recordings, screenshots, audio, diagrams, logs. Anything the workspace captured.
+
+| Artifact type | Origin types |
+|---|---|
+| `document`, `video`, `audio`, `diagram`, `image`, `log`, `folder`, `rav_session_data`, `session_analysis` | `user_input`, `system_input`, `ai_generated`, `system_processed`, `gold_document` |
+
+Use artifacts when the user wants to cite a specific document, replay a session, or read the underlying source.
+
+| User question | Tool to start with |
+|---|---|
+| "Find the latest SOX checklist" | [`search_artifacts`](/tools/artifacts) |
+| "Show me the full text" | [`get_artifact_content`](/tools/artifacts) |
+| "Cite specific lines" | [`get_artifact_lines`](/tools/artifacts) |
+| "Pull a frame from this recording" | [`get_artifact_screenshots`](/tools/artifacts) or [`sample_video_frames`](/tools/artifacts) |
+
+## Always follow up search with content
+
+`search_artifacts` returns short snippets to help you locate the right artifact. Always chain into `get_artifact_content` or `get_artifact_lines` to read the full passage before answering. Snippets are not citations.
+
+See [Tools by purpose → Artifacts](/tools/artifacts) for the full toolset.

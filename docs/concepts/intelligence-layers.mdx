@@ -1,0 +1,30 @@
+---
+title: "Intelligence layers"
+description: "Klarity organizes operational intelligence into three layers. The MCP gives you query access to all of them."
+icon: "layer-group"
+---
+
+Klarity organizes operational intelligence into three layers. Each maps to a distinct set of MCP tools and is best for a different kind of question.
+
+| Layer | What it contains | Example questions |
+|---|---|---|
+| [Process Index](/concepts/process-index) | Hierarchy, versions, steps, policies, dependencies, observations | "How does our vendor onboarding work?" |
+| [Context Graph](/concepts/context-graph) | Entities, relationships, communities, claims | "What systems does the finance team depend on?" |
+| [Artifacts](/concepts/artifacts) | Documents, videos, screenshots, session timelines | "Find the latest SOX compliance checklist." |
+
+## How they fit together
+
+The Process Index and Process observations are higher-order abstractions built on top of the Context Graph — the graph supplies the raw entities and relationships, and the Process Index reshapes them into a hierarchy of processes the agent can reason about. For most agent work, prefer the Process Index; reach for the Context Graph directly only when a question is purely relational and the index can't answer it.
+
+The most useful answers still chain across all three layers in a single session:
+
+> "Give me the full picture on month-end close — process hierarchy, key entities, recent observations, and the most relevant docs."
+
+That single prompt fans out into a process search, hierarchy traversal, knowledge graph entity lookup, and artifact search. Ten-plus tool calls, orchestrated automatically, answered with grounded evidence.
+
+## When to start at each layer
+
+- **Start at the Process Index** when the user names a workflow, team, or business outcome — this is the default for almost every question.
+- **Start at Artifacts** when the user names a document, screenshot, or recording.
+
+The [Tool reference overview](/tools/overview) maps each entry path to the specific tools that begin the chain.

@@ -1,0 +1,49 @@
+---
+title: "Gemini CLI"
+description: "Install the Klarity extension in the Gemini CLI."
+icon: "/images/icons/gemini.svg"
+---
+
+<Info>
+  **Before you install: enable the MCP in your Klarity workspace.**
+
+  1. Log in to Klarity in a browser.
+  2. Go to **Settings → MCP**.
+  3. Pick the workspace you want to expose to your assistant and complete the in-app setup.
+
+  Sign-in will fail if you skip this. See [Authentication → Enable the MCP in your workspace](/authentication#enable-the-mcp-in-your-workspace) for the canonical reference, and [FAQ](/faq) for other common install issues.
+</Info>
+
+## Extension install (OAuth)
+
+Install the extension directly from the repository:
+
+```bash
+gemini extensions install https://github.com/klarity-ai/klarity-mcp
+```
+
+Then log in:
+
+```text
+/mcp auth klarity
+```
+
+You'll be redirected to Klarity in your browser to authenticate.
+
+## API key fallback
+
+If you'd rather use a Bearer token, generate an API key from `Settings → MCP` in your Klarity workspace (see [Authentication](/authentication#api-key)) and configure your Gemini CLI's MCP block to send the `Authorization: Bearer <YOUR_API_KEY>` header for `klarity`.
+
+<Warning>
+  Treat the API key like a password. Rotate it from `Settings → MCP` in Klarity if it's exposed.
+</Warning>
+
+## Verify
+
+In a Gemini CLI session, ask:
+
+```text
+Search Klarity for AI transformation opportunities across our processes — where could we build skills or deploy agents?
+```
+
+The assistant should call `search` and return process results from your workspace.

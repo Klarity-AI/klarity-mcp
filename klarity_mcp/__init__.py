@@ -1,6 +1,7 @@
 """Klarity MCP plugin distribution factory (public)."""
 
 from klarity_mcp.metadata import (
+    CLAUDE_MARKETPLACE_PATH,
     CLAUDE_MCP_CONFIG_PATH,
     CLAUDE_PLUGIN_DIR,
     GEMINI_EXTENSION_PATH,
@@ -11,6 +12,7 @@ from klarity_mcp.metadata import (
 )
 
 __all__ = [
+    "CLAUDE_MARKETPLACE_PATH",
     "CLAUDE_MCP_CONFIG_PATH",
     "CLAUDE_PLUGIN_DIR",
     "GEMINI_EXTENSION_PATH",

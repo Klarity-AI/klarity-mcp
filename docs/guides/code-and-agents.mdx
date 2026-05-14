@@ -1,0 +1,43 @@
+---
+title: "Build agents, skills, and code"
+description: "Ground Skills, Custom GPTs, and code-gen sessions in live process data."
+icon: "robot"
+---
+
+In Claude Code, Cursor, or Codex, the assistant can chain process intelligence with action — writing, testing, and iterating on code grounded in your real process definitions. In Claude or ChatGPT, persistent capabilities (Claude Skills, ChatGPT Custom GPTs) can be built directly on the Klarity MCP.
+
+## Code generation grounded in your processes
+
+| Prompt | What gets built |
+|---|---|
+| "Build a Python script that monitors procurement for observations mentioning 'exception' or 'escalation' and generates a weekly digest." | A monitoring script grounded in your actual process structure and observation schema |
+| "Write an agent that checks for process changes daily and flags any that affect SOX-controlled workflows." | Compliance automation built on your real control mappings |
+| "Generate a test suite that validates the business rules in our loan approval process." | Tests derived from documented process logic, not guesswork |
+| "Build a dashboard data model that tracks cycle time across our top 10 processes." | Schema design informed by your actual process hierarchy and observation data |
+| "Look at our order-to-cash process, identify the manual steps, and draft an automation proposal." | Process analysis → bottleneck identification → structured deliverable |
+
+## Persistent capabilities
+
+| Capability | What it does |
+|---|---|
+| **Claude Skill: weekly process health report** | One-time investigation becomes a repeatable organizational capability that runs on demand |
+| **Custom GPT: ops onboarding assistant** | Answers questions for new hires, grounded in your real process library |
+| **Claude Skill: audit package generator** | Given a process name, produces a full audit package — diagram, dependencies, changes, artifacts |
+| **Skill: conformance monitor** | Compares new observations against the documented standard and flags deviations |
+
+## Recipe for grounded code-gen
+
+<Steps>
+  <Step title="Read the process before writing code">
+    Call [`search`](/tools/entry-points) → [`fetch`](/tools/entry-points) → [`get_process_details`](/tools/process-index). The assistant should write code against the actual schema and process structure, not its training-data assumptions.
+  </Step>
+  <Step title="Confirm observation shape">
+    Call [`list_process_observations`](/tools/observations-and-changes) and [`get_observation_activity_timeline`](/tools/observations-and-changes) on a sample observation. The assistant now knows the real fields and timing semantics.
+  </Step>
+  <Step title="Pull schema if the code touches the DB">
+    Call [`get_schema`](/tools/schema-and-web) for the full PostgreSQL schema. Treat it as last-resort context — prefer typed tools where they exist.
+  </Step>
+  <Step title="Generate, test, iterate">
+    Standard code-gen loop, but every assumption is checkable against a live MCP call.
+  </Step>
+</Steps>

@@ -1,13 +1,21 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mintlify Starter Kit",
+  "name": "Klarity MCP",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#FF6C14",
+    "light": "#FF8540",
+    "dark": "#CC5610"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.png",
+  "fonts": {
+    "heading": {
+      "family": "Funnel Display"
+    },
+    "body": {
+      "family": "Funnel Sans"
+    }
+  },
   "navigation": {
     "tabs": [
       {
@@ -18,109 +26,129 @@
             "pages": [
               "index",
               "quickstart",
-              "development"
+              "authentication",
+              "security"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Install",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "install/claude",
+              "install/claude-code",
+              "install/chatgpt",
+              "install/codex",
+              "install/cursor",
+              "install/gemini-cli"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Concepts",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/components",
-              "essentials/reusable-snippets"
+              "concepts/discover-structure-improve",
+              "concepts/intelligence-layers",
+              "concepts/process-index",
+              "concepts/context-graph",
+              "concepts/artifacts",
+              "concepts/objectives"
             ]
           },
           {
-            "group": "Agent ready",
+            "group": "How-to guides",
             "pages": [
-              "agent-ready/prompt",
-              "agent-ready/visibility",
-              "agent-ready/contextual",
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "guides/process-performer",
+              "guides/state-of-team",
+              "guides/find-opportunities",
+              "guides/transformation-thesis",
+              "guides/chain-with-connectors",
+              "guides/deep-research",
+              "guides/code-and-agents"
+            ]
+          },
+          {
+            "group": "Help",
+            "pages": [
+              "faq",
+              "limitations"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "Tool reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Overview",
             "pages": [
-              "api-reference/introduction"
+              "tools/overview",
+              "tools/operating-principles"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Tools by purpose",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "tools/entry-points",
+              "tools/process-index",
+              "tools/observations-and-changes",
+              "tools/visualization",
+              "tools/artifacts",
+              "tools/context-graph",
+              "tools/objectives",
+              "tools/workspace",
+              "tools/schema-and-web"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/klarity-logo-light.png",
+    "dark": "/logo/klarity-logo-dark.png"
   },
   "navbar": {
     "links": [
       {
+        "label": "GitHub",
+        "href": "https://github.com/Klarity-AI/klarity-mcp"
+      },
+      {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:hello@klarity.ai"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Klarity.ai",
+      "href": "https://www.klarity.ai/"
     }
   },
   "contextual": {
     "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+      "x": "https://x.com/klarityai",
+      "github": "https://github.com/Klarity-AI",
+      "linkedin": "https://www.linkedin.com/company/klarityai/"
+    },
+    "links": [
+      {
+        "header": "Klarity",
+        "items": [
+          { "label": "Website", "href": "https://www.klarity.ai/" },
+          { "label": "Privacy policy", "href": "https://www.klarity.ai/product-privacy-policy" },
+          { "label": "Terms of service", "href": "https://www.klarity.ai/terms-of-service-2025" }
+        ]
+      }
+    ]
   }
 }

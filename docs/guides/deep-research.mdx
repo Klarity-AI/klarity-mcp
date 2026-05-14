@@ -1,0 +1,41 @@
+---
+title: "Combine with deep research"
+description: "Internal reality vs. external benchmarks — gap analysis the assistant writes itself."
+icon: "magnifying-glass-plus"
+---
+
+Claude and ChatGPT both have web search built in. Combine that with the Klarity MCP and you get gap analysis that would take a human days to assemble.
+
+The pattern: **Klarity tells the assistant what you actually do. Web research tells it what you should be doing. The gap writes itself.**
+
+## Example prompts
+
+| Prompt | What you get |
+|---|---|
+| "Look at our accounts payable process and research industry best practices — where are we behind?" | Your actual process graph measured against published frameworks |
+| "Compare our vendor onboarding to what Gartner recommends for companies our size." | Analyst-grade benchmarking grounded in your specific process definitions |
+| "Research how leading companies automate the manual steps in our order-to-cash flow." | Targeted research pinpointed to your specific bottlenecks and manual handoffs |
+| "What compliance frameworks apply to our data handling processes, and are we meeting them?" | Cross-reference your documented controls with current regulatory guidance |
+| "What are the emerging risks in our industry for processes that involve PII handling?" | Threat landscape analysis mapped to your actual process surface area |
+
+## Recipe
+
+<Steps>
+  <Step title="Ground in the workspace first">
+    Call [`search`](/tools/entry-points) → [`fetch`](/tools/entry-points) → [`get_process_details`](/tools/process-index) to read the current state of the target process.
+  </Step>
+  <Step title="Surface the actual pain pattern">
+    Call [`get_process_observations`](/tools/observations-and-changes) and [`get_observation_activity_timeline`](/tools/observations-and-changes) — your real deviations, not assumed ones.
+  </Step>
+  <Step title="Pull external context">
+    Use the client's web search (or [`research_web`](/tools/schema-and-web) if you need it inside the MCP loop) to gather published frameworks, vendor positioning, or regulatory guidance.
+  </Step>
+  <Step title="Synthesize the gap">
+    "Your process does X today, with these deviations. The framework recommends Y. The gap is Z — here's the evidence for both sides."
+  </Step>
+</Steps>
+
+## Watch for
+
+- **Don't anchor on web findings alone.** The workspace is the ground truth. If a benchmark contradicts what observations show, the benchmark is the hypothesis.
+- **Cite both sources.** Process IDs, observation timestamps, and source URLs side by side. That's what makes the gap analysis defensible.

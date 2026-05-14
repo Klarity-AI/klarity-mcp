@@ -1,0 +1,54 @@
+---
+title: "Claude Code"
+description: "Install the Klarity plugin or register the MCP server in Claude Code."
+icon: "/images/icons/claude.svg"
+---
+
+<Info>
+  **Before you install: enable the MCP in your Klarity workspace.**
+
+  1. Log in to Klarity in a browser.
+  2. Go to **Settings → MCP**.
+  3. Pick the workspace you want to expose to your assistant and complete the in-app setup.
+
+  Sign-in will fail if you skip this. See [Authentication → Enable the MCP in your workspace](/authentication#enable-the-mcp-in-your-workspace) for the canonical reference, and [FAQ](/faq) for other common install issues.
+</Info>
+
+Two install paths are supported. The plugin path is preferred — it ships the bundled skill prompt and uses OAuth.
+
+## Plugin install (preferred, OAuth)
+
+From a Claude Code session, add this repository as a marketplace, then install the plugin:
+
+```text
+/plugin marketplace add klarity-ai/klarity-mcp
+/plugin install klarity@klarity
+```
+
+The first command points Claude Code at this repo's `.claude-plugin/marketplace.json` catalog. The second installs plugin `klarity` from marketplace `klarity` (same name — the marketplace exposes a single plugin).
+
+The first request that hits a Klarity tool will prompt you to sign in.
+
+## Manual MCP add (API key)
+
+If you'd rather wire up the MCP server directly with a Bearer token, generate an API key from `Settings → MCP` in your Klarity workspace (see [Authentication](/authentication#api-key)), then run:
+
+```bash
+claude mcp add --transport http klarity_architect \
+  https://architect-v2-api.klarity.ai/mcp \
+  --header "Authorization: Bearer <YOUR_API_KEY>"
+```
+
+<Warning>
+  Treat the API key like a password. Anyone with the key can query your Klarity workspace. Rotate it from `Settings → MCP` if it's exposed.
+</Warning>
+
+## Verify
+
+In a Claude Code session, ask:
+
+```text
+Search Klarity for AI transformation opportunities across our processes — where could we build skills or deploy agents?
+```
+
+The assistant should call `search` and return process results from your workspace.

@@ -1,0 +1,36 @@
+---
+title: "Chain with other connectors"
+description: "Klarity for context, Gmail / Slack / Linear / Notion / Calendar / Drive for action."
+icon: "link"
+---
+
+Claude and ChatGPT both support multiple MCP connectors in the same session. Use Klarity for organizational context, then chain into another connector to act on what you found — without breaking out of the conversation.
+
+The pattern: **Klarity provides the knowledge. Other connectors provide the action surface.**
+
+## Example prompts
+
+| Prompt | Connectors chained |
+|---|---|
+| "Look at our customer onboarding process and draft an email to the implementation team summarizing the current state and open issues." | Klarity → Gmail |
+| "Find all processes that changed this week and post a summary to `#ops-updates` in Slack." | Klarity → Slack |
+| "Check our QBR preparation process and create Linear tickets for each step that's currently manual." | Klarity → Linear |
+| "Look at our SOX-controlled processes and create a Notion page documenting the current control matrix." | Klarity → Notion |
+| "Find the process owner for invoice reconciliation and schedule a 30-minute review with them." | Klarity → Google Calendar |
+| "Pull our vendor management process docs and save a summary to Google Drive." | Klarity → Google Drive |
+
+## Why this works
+
+A single MCP call answers a narrow question. A chain across connectors produces a deliverable. The MCP layer is stateless per call, so the assistant can fan out and combine results freely in one turn.
+
+For each example above, the assistant typically:
+
+1. Searches and fetches the relevant process from Klarity.
+2. Pulls observations and recent changes for current-state grounding.
+3. Hands the synthesized context to the second connector to take action.
+
+## Practical tips
+
+- **Name the deliverable**, not the tool. "Draft an email" is better than "use Gmail" — let the assistant pick.
+- **Constrain by scope**. "In our P2P value stream" or "owned by the finance team" gives the assistant a tractable subtree to walk.
+- **Ask for citations**. Klarity tools return process IDs, observation timestamps, and artifact IDs. A good deliverable threads those back in so the recipient can verify.

@@ -1,0 +1,58 @@
+---
+title: "Process Index"
+description: "A living, hierarchical map of every process your organization runs."
+icon: "sitemap"
+---
+
+The Process Index is Klarity's structured view of how work happens. It is a versioned, hierarchical map of every process the organization runs — from value streams at the top (P2P, O2C, close cycle) down to individual leaf processes that a person or system performs.
+
+Each process carries:
+
+- **Current version**: steps, policies, inputs, outputs, owner, team
+- **Version history**: how the process has evolved over time
+- **Dependencies**: which processes feed into this one, which depend on it
+- **Hierarchy node**: where it sits in the value stream
+- **[Observations](#observations)**: real-world deviations and exceptions captured against it
+- **[Linked artifacts](/concepts/artifacts)**: BRDs, SOPs, recordings, screenshots backing the process
+
+## What you ask of it
+
+| User question | Tool to start with |
+|---|---|
+| "Tell me about process X" | [`search`](/tools/entry-points) → [`fetch`](/tools/entry-points) |
+| "Browse the whole index" | [`get_process_hierarchy_tree`](/tools/process-index) |
+| "Look up by exact team or name" | [`search_workspace_processes`](/tools/process-index) |
+| "Pull the rich nested payload" | [`get_process_details`](/tools/process-index) |
+| "What does this hierarchy node cover?" | [`get_process_hierarchy_node_details`](/tools/process-index) |
+
+## Search → fetch → drill → drill further
+
+The default loop for any process question:
+
+1. **Search** with the user's words. Iterate two to four times if results feel sparse — processes use organization-specific names, and single queries rarely cover broad topics.
+2. **Fetch** the matched process to read steps, policies, dependencies, and history.
+3. **Drill** into specific dependencies, hierarchy siblings, or version history when the summary isn't enough.
+4. **Drill further** into the process's [observations](#observations) to see what actually happened in practice versus what's documented — the deviation patterns, exceptions, and activity timelines from real sessions.
+
+See [Tools by purpose → Process Index](/tools/process-index) and [Process observations](/tools/observations-and-changes) for the full toolset, and [Find opportunities](/guides/find-opportunities) for an end-to-end walkthrough.
+
+## Observations
+
+The Process Index tells you what a process *should* be. **Observations** tell you what actually happened.
+
+An observation is a deviation or exception captured by the Klarity Companion during a real session. Observations are the most "primary source" evidence Klarity has — they record where the documented process and the executed process diverged.
+
+Each observation has:
+
+- A pointer to the process and version it was logged against
+- A short description of the deviation
+- A linked **activity timeline**: the exact sequence of user actions, with timestamps
+
+When a user asks "what changed?", "why does this run this way?", or "are there edge cases I should know about?", observations are the answer.
+
+| User question | Tool to start with |
+|---|---|
+| "What has been edited recently?" | [`get_recent_process_changes`](/tools/observations-and-changes) |
+| "What deviation patterns are emerging?" | [`get_recent_process_observations`](/tools/observations-and-changes) |
+| "What exceptions has this process seen?" | [`get_process_observations`](/tools/observations-and-changes) |
+| "What did the user actually do in this session?" | [`get_observation_activity_timeline`](/tools/observations-and-changes) |
