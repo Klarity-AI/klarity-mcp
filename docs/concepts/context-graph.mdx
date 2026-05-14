@@ -1,12 +1,14 @@
 ---
 title: "Context Graph"
-description: "The relational layer above the Process Index — entities, relationships, and communities."
+description: "The underlying relational layer that powers the Process Index — entities, relationships, and communities."
 icon: "diagram-project"
 ---
 
-The Context Graph is the relational layer above the [Process Index](/concepts/process-index). Where the index is a tree of processes, the graph is a network of **entities** (systems, teams, people, controls), **communities** (clusters of related work), and **relationships** (handoffs, dependencies, ownership) extracted across the workspace.
+The Context Graph is the layer that sits beneath the [Process Index](/concepts/process-index) and [Process observations](/tools/observations-and-changes). It holds the **entities**, **communities**, **relationships**, **claims**, and **text chunks** derived from the underlying artifacts — the raw material from which the Process Index is constructed. Querying the graph is querying that raw layer directly.
 
-Use the graph when the question is relational — "what feeds X", "what depends on Y", "where is Z covered", "what breaks if we deprecate System A".
+<Warning>
+  For most agent use cases, prefer the Process Index and Process observations — they're the higher-order abstractions on top of this raw layer and handle entity resolution and disambiguation for you. Reach for the Context Graph directly when you need to query the underlying entities, claims, or chunks the Process Index aggregated from.
+</Warning>
 
 ## What lives in the graph
 

@@ -1,10 +1,14 @@
 ---
 title: "Context Graph"
-description: "Traverse the relational map above the Process Index — entities, communities, relationships."
+description: "Traverse the underlying relational layer that powers the Process Index — entities, communities, relationships."
 icon: "diagram-project"
 ---
 
-Use these tools when the question is **relational**: "what feeds X", "what depends on Y", "where is Z covered", "what breaks if we deprecate System A".
+<Warning>
+  The Context Graph sits **below** the [Process Index](/tools/process-index) and [Process observations](/tools/observations-and-changes) — it's the underlying data layer they're built on. For most agent work, prefer the Process Index tools: they handle entity resolution, identifier spaces, and community boundaries that this raw layer exposes directly. Use these graph tools only when the Process Index can't surface what you need.
+</Warning>
+
+Use these tools when the question is **relational** and the Process Index doesn't cover it: "what feeds X", "what depends on Y", "where is Z covered", "what breaks if we deprecate System A".
 
 | Tool | When to use |
 |---|---|

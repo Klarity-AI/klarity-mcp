@@ -14,7 +14,9 @@ Klarity organizes operational intelligence into three layers. Each maps to a dis
 
 ## How they fit together
 
-Every process in the Process Index is supported by artifacts and observations. Entities in the Context Graph reference both processes and the artifacts behind them. The most useful answers chain across all three layers in a single session:
+The Process Index and Process observations are higher-order abstractions built on top of the Context Graph — the graph supplies the raw entities and relationships, and the Process Index reshapes them into a hierarchy of processes the agent can reason about. For most agent work, prefer the Process Index; reach for the Context Graph directly only when a question is purely relational and the index can't answer it.
+
+The most useful answers still chain across all three layers in a single session:
 
 > "Give me the full picture on month-end close — process hierarchy, key entities, recent observations, and the most relevant docs."
 
@@ -22,8 +24,7 @@ That single prompt fans out into a process search, hierarchy traversal, knowledg
 
 ## When to start at each layer
 
-- **Start at the Process Index** when the user names a workflow, team, or business outcome.
-- **Start at the Context Graph** when the question is relational — "what depends on", "what feeds", "where is X covered".
+- **Start at the Process Index** when the user names a workflow, team, or business outcome — this is the default for almost every question.
 - **Start at Artifacts** when the user names a document, screenshot, or recording.
 
 The [Tool reference overview](/tools/overview) maps each entry path to the specific tools that begin the chain.
