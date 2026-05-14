@@ -37,28 +37,20 @@ Apps -> Search -> Klarity -> Connect
 
 ## Install — Claude Code
 
-From a Claude Code session, add this repository as a marketplace, then install:
+From a Claude Code session:
 
 ```text
 /plugin marketplace add klarity-ai/klarity-mcp
 /plugin install klarity@klarity
 ```
 
-The `marketplace add` step points Claude Code at this repo's
-[`.claude-plugin/marketplace.json`](./.claude-plugin/marketplace.json). The
-install step then resolves `klarity@klarity` as plugin `klarity` from
-marketplace `klarity`.
+## Install — Codex
 
-## Install - Codex
-From your terminal, run the following:
+From a Codex session:
 
 ```text
-codex mcp add klarity --url https://architect-v2-api.klarity.ai/mcp
-```
-
-To login:
-```text
-codex mcp login klarity
+/plugin marketplace add klarity-ai/klarity-mcp
+/plugin install klarity@klarity
 ```
 
 ## Install — Gemini CLI
@@ -90,7 +82,9 @@ to Klarity. the MCP will use whatever authentication is configured by your organ
 | `klarity_mcp/` | Python package: metadata + builders + CLI for regenerating manifests |
 | `.claude-plugin/plugin.json` | Claude Code plugin manifest (generated) |
 | `.claude-plugin/marketplace.json` | Claude Code marketplace catalog (generated) |
-| `.mcp.json` | Claude Code MCP server config (generated, HTTP transport) |
+| `.codex-plugin/plugin.json` | Codex plugin manifest (generated) |
+| `.agents/plugins/marketplace.json` | Codex marketplace catalog (generated) |
+| `.mcp.json` | Shared MCP server config (HTTP transport; used by Claude Code and Codex) |
 | `gemini-extension.json` | Gemini CLI extension manifest (generated) |
 | `skills/klarity-process-context-graph/SKILL.md` | The Klarity skill prompt |
 | `tests/test_packaging.py` | Manifest invariants + drift checks |

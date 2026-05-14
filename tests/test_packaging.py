@@ -10,6 +10,7 @@ import pytest
 
 from klarity_mcp import (
     CLAUDE_PLUGIN_DIR,
+    CODEX_PLUGIN_DIR,
     GEMINI_EXTENSION_PATH,
     KLARITY_MCP_METADATA,
     REPO_ROOT,
@@ -19,6 +20,8 @@ from klarity_mcp.builders import (
     build_claude_marketplace_manifest,
     build_claude_mcp_config,
     build_claude_plugin_manifest,
+    build_codex_marketplace_manifest,
+    build_codex_plugin_manifest,
     build_gemini_extension_manifest,
     build_manifest_texts,
     render_manifest,
@@ -100,6 +103,84 @@ def test_claude_marketplace_has_plugin_with_resolvable_source() -> None:
             f"marketplace plugin {plugin['name']!r} declares source={source!r}, "
             f"but no plugin manifest exists at {manifest}"
         )
+
+
+def test_codex_plugin_manifest_required_metadata() -> None:
+    payload = build_codex_plugin_manifest(KLARITY_MCP_METADATA)
+    for key in ("name", "version", "description", "homepage", "repository", "license", "keywords"):
+        assert payload.get(key), f"Codex plugin.json is missing required field: {key}"
+    assert payload["name"] == KLARITY_MCP_METADATA.plugin_name
+    interface = payload["interface"]
+    for key in ("displayName", "shortDescription", "longDescription", "category", "brandColor", "defaultPrompt"):
+        assert interface.get(key), f"Codex plugin.json interface missing: {key}"
+    # Codex caps defaultPrompt to 3 entries (extras are dropped silently).
+    assert len(interface["defaultPrompt"]) <= 3, (
+        "Codex truncates `defaultPrompt` past 3 entries; keep the canonical list <= 3 "
+        "so the rendered prompts match what's declared."
+    )
+
+
+def test_codex_plugin_mcp_servers_path_resolves_to_real_file() -> None:
+    """Codex resolves `mcpServers` from the plugin root, same as Claude. Mirror
+    the runtime-fidelity test we already have for Claude.
+    """
+    plugin_manifest_path = CODEX_PLUGIN_DIR / "plugin.json"
+    plugin_root = plugin_manifest_path.parent.parent
+    manifest = json.loads(plugin_manifest_path.read_text())
+    mcp_ref = manifest["mcpServers"]
+    assert isinstance(mcp_ref, str)
+    mcp_path = (plugin_root / mcp_ref.removeprefix("./")).resolve()
+    assert mcp_path.exists(), (
+        f"Codex manifest.mcpServers points to {mcp_ref!r}, which resolves to "
+        f"{mcp_path}, but no file is committed there."
+    )
+
+
+def test_codex_plugin_skills_path_resolves_to_real_dir() -> None:
+    """Codex resolves `skills` from the plugin root. The bundled skill must
+    actually exist there or `/plugin install` ships a plugin with no skills.
+    """
+    plugin_manifest_path = CODEX_PLUGIN_DIR / "plugin.json"
+    plugin_root = plugin_manifest_path.parent.parent
+    manifest = json.loads(plugin_manifest_path.read_text())
+    skills_ref = manifest["skills"]
+    assert isinstance(skills_ref, str)
+    skills_path = (plugin_root / skills_ref.removeprefix("./")).resolve()
+    assert skills_path.exists() and skills_path.is_dir(), (
+        f"Codex manifest.skills points to {skills_ref!r}, which resolves to "
+        f"{skills_path}, but no directory is committed there."
+    )
+
+
+def test_codex_marketplace_has_plugin_with_supported_source_shape() -> None:
+    """Codex's marketplace loader accepts string-local, object-local, `url`,
+    and `git-subdir` source shapes (per openai/codex PR #18017). We use the
+    `url` shape so the entire repo can act as the plugin without duplicating
+    the manifest under `.agents/plugins/`. Guard the shape so the file stays
+    parseable.
+    """
+    payload = build_codex_marketplace_manifest(KLARITY_MCP_METADATA)
+    assert payload["name"] == KLARITY_MCP_METADATA.plugin_name
+    assert isinstance(payload["plugins"], list) and payload["plugins"]
+    for plugin in payload["plugins"]:
+        assert plugin.get("name"), "marketplace plugin must have a name"
+        source = plugin.get("source")
+        assert isinstance(source, dict), (
+            "Codex marketplace source must be an object (string-local form is allowed "
+            "but we use the explicit object form for the repo-as-plugin pattern)"
+        )
+        kind = source.get("source")
+        assert kind in {"local", "url", "git-subdir"}, (
+            f"unsupported source kind {kind!r}; must be local/url/git-subdir"
+        )
+        if kind == "url":
+            assert source.get("url", "").startswith("https://"), (
+                "url-shaped sources must point at an https git URL"
+            )
+        policy = plugin.get("policy")
+        assert isinstance(policy, dict)
+        assert policy.get("installation") in {"AVAILABLE", "NOT_AVAILABLE", "INSTALLED_BY_DEFAULT"}
+        assert policy.get("authentication") in {"ON_INSTALL", "ON_USE"}
 
 
 def test_gemini_extension_name_matches_canonical_plugin_name() -> None:

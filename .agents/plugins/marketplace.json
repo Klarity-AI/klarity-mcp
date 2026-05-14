@@ -1,0 +1,20 @@
+{
+  "name": "klarity",
+  "interface": {
+    "displayName": "Klarity"
+  },
+  "plugins": [
+    {
+      "name": "klarity",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Klarity-AI/klarity-mcp.git"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Business"
+    }
+  ]
+}

@@ -58,7 +58,7 @@ KLARITY_MCP_METADATA = KlarityMCPMetadata(
     terms_of_service_url="https://www.klarity.ai/terms-of-service-2025",
     support_email="hello@klarity.ai",
     category="Business",
-    brand_color="#2F6BFF",
+    brand_color="#FF6C14",
     mcp_server_key="klarity",
     mcp_url="https://architect-v2-api.klarity.ai/mcp",
     oauth_resource="https://architect-v2-api.klarity.ai",
@@ -101,4 +101,13 @@ CLAUDE_MCP_CONFIG_PATH = REPO_ROOT / ".mcp.json"
 # `/plugin install <plugin>@<owner>/<repo>` to resolve this repo as a marketplace.
 CLAUDE_MARKETPLACE_PATH = CLAUDE_PLUGIN_DIR / "marketplace.json"
 GEMINI_EXTENSION_PATH = REPO_ROOT / "gemini-extension.json"
+# Codex plugin manifest lives at `.codex-plugin/plugin.json` per OpenAI's Codex
+# plugin spec (mirrors Claude's `.claude-plugin/plugin.json`). The Codex loader
+# also resolves `mcpServers: "./.mcp.json"` from the plugin root, so the shared
+# `.mcp.json` at the repo root works for both Claude and Codex.
+CODEX_PLUGIN_DIR = REPO_ROOT / ".codex-plugin"
+# Codex's marketplace lookup (codex-rs/core-plugins/src/marketplace.rs) probes
+# `.agents/plugins/marketplace.json` first, then `.claude-plugin/marketplace.json`
+# as a fallback. The Codex-native location avoids ambiguity with Claude's schema.
+CODEX_MARKETPLACE_PATH = REPO_ROOT / ".agents" / "plugins" / "marketplace.json"
 SKILLS_DIR = REPO_ROOT / "skills"

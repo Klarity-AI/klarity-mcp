@@ -1,0 +1,43 @@
+{
+  "name": "klarity",
+  "version": "1.0.0",
+  "description": "Bring your organization's processes and operational knowledge into your AI assistant. The Klarity MCP connects to your Klarity workspace so you can query your organization's processes, explore the process index knowledge graph linking processes to systems and teams, and ground answers in how your business actually runs \u2014 not generic guesses.",
+  "author": {
+    "name": "Klarity Intelligence, Inc.",
+    "email": "hello@klarity.ai",
+    "url": "https://www.klarity.ai/"
+  },
+  "homepage": "https://www.klarity.ai/",
+  "repository": "https://github.com/Klarity-AI/klarity-mcp",
+  "license": "Apache-2.0",
+  "keywords": [
+    "klarity",
+    "mcp",
+    "process-intelligence",
+    "process-index",
+    "context-graph",
+    "knowledge-graph"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Klarity",
+    "shortDescription": "Explore your org's processes",
+    "longDescription": "Bring your organization's processes and operational knowledge into your AI assistant. The Klarity MCP connects to your Klarity workspace so you can query your organization's processes, explore the process index knowledge graph linking processes to systems and teams, and ground answers in how your business actually runs \u2014 not generic guesses.",
+    "developerName": "Klarity Intelligence, Inc.",
+    "category": "Business",
+    "capabilities": [
+      "Read",
+      "Analyze"
+    ],
+    "websiteURL": "https://www.klarity.ai/",
+    "privacyPolicyURL": "https://www.klarity.ai/product-privacy-policy",
+    "termsOfServiceURL": "https://www.klarity.ai/terms-of-service-2025",
+    "defaultPrompt": [
+      "Find me the invoice intake process in my Klarity Workspace.",
+      "How does my invoice intake process work?",
+      "Show me the procure-to-pay process and its dependencies in my Klarity Workspace."
+    ],
+    "brandColor": "#FF6C14"
+  }
+}

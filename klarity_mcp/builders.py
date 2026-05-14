@@ -10,6 +10,8 @@ from klarity_mcp.metadata import (
     CLAUDE_MARKETPLACE_PATH,
     CLAUDE_MCP_CONFIG_PATH,
     CLAUDE_PLUGIN_DIR,
+    CODEX_MARKETPLACE_PATH,
+    CODEX_PLUGIN_DIR,
     GEMINI_EXTENSION_PATH,
     KLARITY_MCP_METADATA,
     KlarityMCPMetadata,
@@ -95,6 +97,81 @@ def build_claude_mcp_config(
     }
 
 
+def build_codex_plugin_manifest(
+    metadata: KlarityMCPMetadata = KLARITY_MCP_METADATA,
+) -> dict[str, Any]:
+    """Output: .codex-plugin/plugin.json (Codex plugin manifest).
+
+    Mirrors Claude's `mcpServers: "./.mcp.json"` pointer so a single shared
+    `.mcp.json` at the repo root serves both clients. The `interface` block
+    drives the in-CLI presentation Codex renders during install.
+    """
+    return {
+        "name": metadata.plugin_name,
+        "version": metadata.plugin_version,
+        "description": metadata.plugin_description,
+        "author": {
+            "name": metadata.author_name,
+            "email": metadata.author_email,
+            "url": metadata.author_url,
+        },
+        "homepage": metadata.homepage_url,
+        "repository": metadata.repository_url,
+        "license": metadata.license_spdx,
+        "keywords": list(metadata.keywords),
+        "skills": "./skills/",
+        "mcpServers": "./.mcp.json",
+        "interface": {
+            "displayName": metadata.app_display_name,
+            "shortDescription": metadata.interface_short_description,
+            "longDescription": metadata.interface_long_description,
+            "developerName": metadata.author_name,
+            "category": metadata.category,
+            "capabilities": list(metadata.capabilities),
+            "websiteURL": metadata.homepage_url,
+            "privacyPolicyURL": metadata.privacy_policy_url,
+            "termsOfServiceURL": metadata.terms_of_service_url,
+            "defaultPrompt": list(metadata.default_prompts),
+            "brandColor": metadata.brand_color,
+        },
+    }
+
+
+def build_codex_marketplace_manifest(
+    metadata: KlarityMCPMetadata = KLARITY_MCP_METADATA,
+) -> dict[str, Any]:
+    """Output: .agents/plugins/marketplace.json (Codex marketplace catalog).
+
+    Codex's marketplace loader probes `.agents/plugins/marketplace.json` first
+    (`codex-rs/core-plugins/src/marketplace.rs`). Source paths in this manifest
+    must stay inside the marketplace root, so we can't `..` up to the
+    `.codex-plugin/plugin.json` at the repo root with a local source. The
+    cleanest "repo IS the plugin" mapping is a remote `url` source pointing
+    back at the same repository — Codex clones it and finds the plugin
+    manifest at the root.
+    """
+    return {
+        "name": metadata.plugin_name,
+        "interface": {
+            "displayName": metadata.app_display_name,
+        },
+        "plugins": [
+            {
+                "name": metadata.plugin_name,
+                "source": {
+                    "source": "url",
+                    "url": f"{metadata.repository_url}.git",
+                },
+                "policy": {
+                    "installation": "AVAILABLE",
+                    "authentication": "ON_INSTALL",
+                },
+                "category": metadata.category,
+            }
+        ],
+    }
+
+
 def build_gemini_extension_manifest(
     metadata: KlarityMCPMetadata = KLARITY_MCP_METADATA,
 ) -> dict[str, Any]:
@@ -122,6 +199,8 @@ def build_manifest_payloads(
         CLAUDE_PLUGIN_DIR / "plugin.json": build_claude_plugin_manifest(metadata),
         CLAUDE_MARKETPLACE_PATH: build_claude_marketplace_manifest(metadata),
         CLAUDE_MCP_CONFIG_PATH: build_claude_mcp_config(metadata),
+        CODEX_PLUGIN_DIR / "plugin.json": build_codex_plugin_manifest(metadata),
+        CODEX_MARKETPLACE_PATH: build_codex_marketplace_manifest(metadata),
         GEMINI_EXTENSION_PATH: build_gemini_extension_manifest(metadata),
     }
 

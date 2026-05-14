@@ -14,23 +14,18 @@ icon: "/images/icons/codex.svg"
   Sign-in will fail if you skip this. See [Authentication → Enable the MCP in your workspace](/authentication#enable-the-mcp-in-your-workspace) for the canonical reference, and [FAQ](/faq) for other common install issues.
 </Info>
 
-Two install paths are supported. The first uses Codex's built-in OAuth login; the second uses an API key in your config file.
+Two install paths are supported. The plugin path is preferred — it ships the bundled skill prompt and uses OAuth.
 
-## CLI install (OAuth)
+## Plugin install (preferred, OAuth)
 
-From a terminal:
+From a Codex session:
 
-```bash
-codex mcp add klarity --url https://architect-v2-api.klarity.ai/mcp
+```text
+/plugin marketplace add klarity-ai/klarity-mcp
+/plugin install klarity@klarity
 ```
 
-Then log in:
-
-```bash
-codex mcp login klarity
-```
-
-You'll be redirected to Klarity in your browser to authenticate.
+The first request that hits a Klarity tool will prompt you to sign in.
 
 ## Config file install (API key)
 
