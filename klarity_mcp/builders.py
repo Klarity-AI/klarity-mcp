@@ -63,7 +63,12 @@ def build_claude_marketplace_manifest(
         "plugins": [
             {
                 "name": metadata.plugin_name,
-                "source": ".",
+                # Trailing slash is load-bearing: Claude Code's source parser
+                # rejects bare "." with "source type your Claude Code version
+                # does not support". The "./" form (canonical "repo root is the
+                # plugin" pattern, used by e.g. sentry-for-claude) is what
+                # actually parses. Verified against working vendor marketplaces.
+                "source": "./",
                 "description": metadata.plugin_description,
                 "version": metadata.plugin_version,
                 "homepage": metadata.homepage_url,
