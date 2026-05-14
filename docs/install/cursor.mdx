@@ -5,20 +5,16 @@ icon: "/images/icons/cursor.svg"
 ---
 
 <Info>
-  **Before you install: enable the MCP in your Klarity workspace.**
+  **Before you install:** [enable the MCP in your Klarity workspace](/authentication#enable-the-mcp-in-your-workspace). Sign-in will fail until you do.
 
-  1. Log in to Klarity in a browser.
-  2. Go to **Settings → MCP**.
-  3. Pick the workspace you want to expose to your assistant and complete the in-app setup.
-
-  Sign-in or Bearer-token requests will fail if you skip this. See [Authentication → Enable the MCP in your workspace](/authentication#enable-the-mcp-in-your-workspace) for the canonical reference, and [FAQ](/faq) for other common install issues.
+  You can switch workspaces later by asking your AI assistant. For other common install issues, see the [FAQ](/faq).
 </Info>
 
 Cursor supports both install paths. The OAuth path is preferred — Cursor manages the token for you and there's no key handling.
 
 ## OAuth install (preferred)
 
-In Cursor, open **Settings → Tools & MCP → New MCP Server** (or edit `.cursor/mcp.json` directly). Add the Klarity server without an `Authorization` header:
+In Cursor, open **Settings → Tools & MCP → New MCP Server** (or edit `.cursor/mcp.json` directly) and add the Klarity server:
 
 ```json
 {
@@ -35,7 +31,7 @@ Save and reload MCP servers. Cursor detects that the server requires OAuth and s
 
 ## API key install
 
-Use this when you need a long-lived headless connection or want to bypass the browser flow. Generate an API key from `Settings → MCP` in your Klarity workspace first (see [Authentication](/authentication#api-key)), then add it as a Bearer header:
+Use this for long-running background agents. Generate an API key from `Settings → MCP` in your Klarity workspace (see [Authentication](/authentication#api-key)) and add it as a Bearer header:
 
 ```json
 {

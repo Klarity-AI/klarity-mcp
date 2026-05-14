@@ -5,13 +5,9 @@ icon: "/images/icons/codex.svg"
 ---
 
 <Info>
-  **Before you install: enable the MCP in your Klarity workspace.**
+  **Before you install:** [enable the MCP in your Klarity workspace](/authentication#enable-the-mcp-in-your-workspace). Sign-in will fail until you do.
 
-  1. Log in to Klarity in a browser.
-  2. Go to **Settings → MCP**.
-  3. Pick the workspace you want to expose to your assistant and complete the in-app setup.
-
-  Sign-in will fail if you skip this. See [Authentication → Enable the MCP in your workspace](/authentication#enable-the-mcp-in-your-workspace) for the canonical reference, and [FAQ](/faq) for other common install issues.
+  You can switch workspaces later by asking your AI assistant. For other common install issues, see the [FAQ](/faq).
 </Info>
 
 Two install paths are supported. The plugin path is preferred — it ships the bundled skill prompt and uses OAuth.
@@ -29,7 +25,7 @@ The first request that hits a Klarity tool will prompt you to sign in.
 
 ## Config file install (API key)
 
-Generate an API key from `Settings → MCP` in your Klarity workspace (see [Authentication](/authentication#api-key)). Add the server to `~/.codex/config.toml`:
+Use this for long-running background agents. Generate an API key from `Settings → MCP` in your Klarity workspace (see [Authentication](/authentication#api-key)) and add the server to `~/.codex/config.toml`:
 
 ```toml
 [mcp_servers.klarity_architect]
