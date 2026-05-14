@@ -52,7 +52,7 @@ def _check(texts: dict[Path, str]) -> int:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="klarity_mcp")
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("--write", action="store_true", help="regenerate the 3 public manifests")
+    group.add_argument("--write", action="store_true", help="regenerate the public manifests")
     group.add_argument("--check", action="store_true", help="exit 1 if any committed manifest is stale")
     args = parser.parse_args(argv)
 

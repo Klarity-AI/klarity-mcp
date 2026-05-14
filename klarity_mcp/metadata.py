@@ -97,5 +97,8 @@ CLAUDE_PLUGIN_DIR = REPO_ROOT / ".claude-plugin"
 # is the directory containing `.claude-plugin/`. Putting the file under
 # `.claude-plugin/.mcp.json` causes Claude to silently register zero servers.
 CLAUDE_MCP_CONFIG_PATH = REPO_ROOT / ".mcp.json"
+# Marketplace manifest must live at `.claude-plugin/marketplace.json` for
+# `/plugin install <plugin>@<owner>/<repo>` to resolve this repo as a marketplace.
+CLAUDE_MARKETPLACE_PATH = CLAUDE_PLUGIN_DIR / "marketplace.json"
 GEMINI_EXTENSION_PATH = REPO_ROOT / "gemini-extension.json"
 SKILLS_DIR = REPO_ROOT / "skills"

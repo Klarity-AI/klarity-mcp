@@ -18,17 +18,14 @@ Two install paths are supported. The plugin path is preferred — it ships the b
 
 ## Plugin install (preferred, OAuth)
 
-From a Claude Code session:
+From a Claude Code session, add this repository as a marketplace, then install the plugin:
 
 ```text
-/plugin install klarity@Klarity-AI/klarity-mcp
+/plugin marketplace add Klarity-AI/klarity-mcp
+/plugin install klarity@klarity
 ```
 
-After the plugin is approved into the official Anthropic marketplace (`claude-plugins-official`):
-
-```text
-/plugin install klarity
-```
+The first command points Claude Code at this repo's `.claude-plugin/marketplace.json` catalog. The second installs plugin `klarity` from marketplace `klarity` (same name — the marketplace exposes a single plugin).
 
 The first request that hits a Klarity tool will prompt you to sign in.
 

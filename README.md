@@ -24,14 +24,12 @@ Context Graph traversal. The full skill prompt lives at
 [`skills/klarity-process-context-graph/SKILL.md`](./skills/klarity-process-context-graph/SKILL.md).
 
 ## Install - Claude.ai
-After the plugin is approved into the official Anthropic marketplace (`claude-plugins-official`)
 
 Customize -> Connectors -> Search -> Klarity -> Connect
 
 > (NOTE: your organization might have to approve this connector, and you should be added as a user into Klarity for this to work)
 
 ## Install - ChatGPT
-After the plugin is approved into the official OpenAI App Store
 
 Apps -> Search -> Klarity -> Connect
 
@@ -39,18 +37,17 @@ Apps -> Search -> Klarity -> Connect
 
 ## Install — Claude Code
 
-From a Claude Code session, install directly from this repository:
+From a Claude Code session, add this repository as a marketplace, then install:
 
 ```text
-/plugin install klarity@Klarity-AI/klarity-mcp
+/plugin marketplace add Klarity-AI/klarity-mcp
+/plugin install klarity@klarity
 ```
 
-Or, after the plugin is approved into the official Anthropic marketplace
-(`claude-plugins-official`):
-
-```text
-/plugin install klarity
-```
+The `marketplace add` step points Claude Code at this repo's
+[`.claude-plugin/marketplace.json`](./.claude-plugin/marketplace.json). The
+install step then resolves `klarity@klarity` as plugin `klarity` from
+marketplace `klarity`.
 
 ## Install - Codex
 From your terminal, run the following:
@@ -92,6 +89,7 @@ to Klarity. the MCP will use whatever authentication is configured by your organ
 |---|---|
 | `klarity_mcp/` | Python package: metadata + builders + CLI for regenerating manifests |
 | `.claude-plugin/plugin.json` | Claude Code plugin manifest (generated) |
+| `.claude-plugin/marketplace.json` | Claude Code marketplace catalog (generated) |
 | `.mcp.json` | Claude Code MCP server config (generated, HTTP transport) |
 | `gemini-extension.json` | Gemini CLI extension manifest (generated) |
 | `skills/klarity-process-context-graph/SKILL.md` | The Klarity skill prompt |
@@ -103,7 +101,7 @@ to Klarity. the MCP will use whatever authentication is configured by your organ
 
 ```bash
 pip install -e ".[dev]"
-python -m klarity_mcp --write     # regenerates the 3 public manifests
+python -m klarity_mcp --write     # regenerates the public manifests
 python -m klarity_mcp --check     # CI-side drift check
 pytest -v
 ```
