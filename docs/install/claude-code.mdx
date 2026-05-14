@@ -15,28 +15,30 @@ Two install paths are supported. The plugin path is preferred — it ships the b
 
 ## Plugin install (preferred, OAuth)
 
-From a Claude session, run these two commands one after the other.
+From a Claude Code session, run these two commands one after the other.
 
-**1. First**, install the marketplace:
-
-```text
-/plugin marketplace add klarity-ai/klarity-mcp
-```
-
-**2. Next**, install the plugin:
-
-```text
-/plugin install klarity@klarity
-```
-
-The first request that hits a Klarity tool will prompt you to sign in.
+<Steps>
+  <Step title="Install the marketplace">
+    ```text
+    /plugin marketplace add klarity-ai/klarity-mcp
+    ```
+  </Step>
+  <Step title="Install the plugin">
+    ```text
+    /plugin install klarity@klarity
+    ```
+  </Step>
+  <Step title="Sign in">
+    The first request that hits a Klarity tool will prompt you to authenticate.
+  </Step>
+</Steps>
 
 ## Manual MCP add (API key)
 
 Use this for long-running background agents. Generate an API key from `Settings → MCP` in your Klarity workspace (see [Authentication](/authentication#api-key)), then run:
 
 ```bash
-claude mcp add --transport http klarity_architect \
+claude mcp add --transport http klarity \
   https://architect-v2-api.klarity.ai/mcp \
   --header "Authorization: Bearer <YOUR_API_KEY>"
 ```

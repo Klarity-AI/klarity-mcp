@@ -13,19 +13,20 @@ icon: "/images/icons/gemini.svg"
 
 ## Extension install (OAuth)
 
-Install the extension directly from the repository:
+<Steps>
+  <Step title="Install the extension from your shell">
+    ```bash
+    gemini extensions install https://github.com/klarity-ai/klarity-mcp
+    ```
+  </Step>
+  <Step title="Log in from a Gemini CLI session">
+    ```text
+    /mcp auth klarity
+    ```
 
-```bash
-gemini extensions install https://github.com/klarity-ai/klarity-mcp
-```
-
-Then log in:
-
-```text
-/mcp auth klarity
-```
-
-You'll be redirected to Klarity in your browser to authenticate.
+    You'll be redirected to Klarity in your browser to authenticate.
+  </Step>
+</Steps>
 
 ## API key install
 

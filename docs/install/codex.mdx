@@ -15,38 +15,42 @@ Two install paths are supported. The plugin path is preferred — it ships the b
 
 ## Plugin install (preferred, OAuth)
 
-Codex splits this into two steps — a shell command to register the marketplace, then a slash command inside Codex to install the plugin.
+Codex splits this into a shell command to register the marketplace, then a slash command inside Codex to install the plugin.
 
-**1. From your shell**, add the Klarity marketplace to Codex:
+<Steps>
+  <Step title="Add the marketplace from your shell">
+    ```bash
+    codex plugin marketplace add Klarity-AI/klarity-mcp
+    ```
+  </Step>
+  <Step title="Install the plugin from a Codex session">
+    Open the plugins picker:
 
-```bash
-codex plugin marketplace add Klarity-AI/klarity-mcp
-```
+    ```text
+    /plugins
+    ```
 
-**2. From a Codex session**, run:
-
-```text
-/plugins
-```
-
-Search for **Klarity** and install the plugin.
-
-The first request that hits a Klarity tool will prompt you to sign in.
+    Search for **klarity** and install the plugin.
+  </Step>
+  <Step title="Sign in">
+    The first request that hits a Klarity tool will prompt you to authenticate.
+  </Step>
+</Steps>
 
 ## Config file install (API key)
 
 Use this for long-running background agents. Generate an API key from `Settings → MCP` in your Klarity workspace (see [Authentication](/authentication#api-key)) and add the server to `~/.codex/config.toml`:
 
 ```toml
-[mcp_servers.klarity_architect]
+[mcp_servers.klarity]
 url = "https://architect-v2-api.klarity.ai/mcp"
-bearer_token_env_var = "KLARITY_ARCHITECT_MCP_TOKEN"
+bearer_token_env_var = "KLARITY_MCP_TOKEN"
 ```
 
 Set the environment variable in your shell profile (`~/.zshrc`, `~/.bashrc`):
 
 ```bash
-export KLARITY_ARCHITECT_MCP_TOKEN=<YOUR_API_KEY>
+export KLARITY_MCP_TOKEN=<YOUR_API_KEY>
 ```
 
 Restart your terminal (or source the profile) so Codex picks up the new variable.
