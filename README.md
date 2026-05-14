@@ -2,6 +2,8 @@
 
 > Public plugin/extension distribution for the Klarity MCP server.
 
+📚 **Developer documentation:** <https://developers.klarity.ai/>
+
 `klarity-mcp` packages [Klarity](https://www.klarity.ai/) as an installable
 plugin for AI assistant clients that speak the [Model Context Protocol](https://modelcontextprotocol.io/).
 Once installed, the plugin lets your assistant query your organization's processes,
