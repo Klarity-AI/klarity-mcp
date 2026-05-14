@@ -26,7 +26,8 @@
             "pages": [
               "index",
               "quickstart",
-              "authentication"
+              "authentication",
+              "security"
             ]
           },
           {
