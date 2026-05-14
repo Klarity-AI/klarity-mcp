@@ -34,3 +34,24 @@ The default loop for any process question:
 3. **Drill** into specific dependencies, hierarchy siblings, or version history when the summary isn't enough.
 
 See [Tools by purpose → Process Index](/tools/process-index) for the full toolset and [Find opportunities](/guides/find-opportunities) for an end-to-end walkthrough.
+
+## Observations
+
+The Process Index tells you what a process *should* be. **Observations** tell you what actually happened.
+
+An observation is a deviation or exception captured by the Klarity Companion during a real session. Observations are the most "primary source" evidence Klarity has — they record where the documented process and the executed process diverged.
+
+Each observation has:
+
+- A pointer to the process and version it was logged against
+- A short description of the deviation
+- A linked **activity timeline**: the exact sequence of user actions, with timestamps
+
+When a user asks "what changed?", "why does this run this way?", or "are there edge cases I should know about?", observations are the answer.
+
+| User question | Tool to start with |
+|---|---|
+| "What has been edited recently?" | [`get_recent_process_changes`](/tools/observations-and-changes) |
+| "What deviation patterns are emerging?" | [`get_recent_process_observations`](/tools/observations-and-changes) |
+| "What exceptions has this process seen?" | [`get_process_observations`](/tools/observations-and-changes) |
+| "What did the user actually do in this session?" | [`get_observation_activity_timeline`](/tools/observations-and-changes) |

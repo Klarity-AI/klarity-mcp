@@ -51,12 +51,8 @@ If your question isn't here, reach out to [hello@klarity.ai](mailto:hello@klarit
     No. Every tool in production is read-only with one exception: `switch_mcp_workspace`. All process, artifact, and graph edits happen in the Klarity Architect UI. See [Limitations](/limitations).
   </Accordion>
 
-  <Accordion title="Why can't I access Companion meeting recordings?" icon="video-slash">
-    Ambient capture data from Klarity Companion (meeting recordings, real-time signals) is not exposed through the MCP today. The Companion-derived **observations** that are attached to processes are accessible — use [`get_process_observations`](/tools/observations-and-changes) and [`get_observation_activity_timeline`](/tools/observations-and-changes) instead.
-  </Accordion>
-
   <Accordion title="The assistant says 'no evidence found in the workspace.' Is something broken?" icon="magnifying-glass">
-    Usually not. That response means the workspace doesn't yet have captured data covering the question — typically a Companion or Interviewer capture gap, not an MCP bug. The gap itself is useful: it tells you what to capture next.
+    Usually not. That response means the workspace doesn't yet have captured data covering the question — typically a capture gap, not an MCP bug. The gap itself is useful: it tells you what to capture next.
 
     If the question *should* have evidence and the assistant can't find it, try refining the query — single searches miss, and processes use organization-specific names. See [Operating principles](/tools/operating-principles).
   </Accordion>

@@ -10,10 +10,6 @@ The Klarity MCP is read-mostly and scoped intentionally. Knowing where it stops 
 
 Tools available through the MCP are query-only with one exception: `switch_mcp_workspace`. You can search, read, explore, and analyze. You cannot create or modify processes, artifacts, or graph entities through the MCP — those writes happen in the Klarity Architect UI.
 
-## Companion sessions not yet accessible
-
-Ambient capture data from Klarity Companion (meeting recordings, real-time signals) is not exposed through the MCP today. You cannot ask "what did we discuss in the meeting about X?" through this channel. Use the Companion-derived **observations** that are already attached to processes instead — those are accessible via [`get_process_observations`](/tools/observations-and-changes) and related tools.
-
 ## Authentication coverage
 
 OAuth is supported in Claude, ChatGPT, Claude Code (via the plugin), Codex (via `codex mcp login`), and Gemini CLI (via `/mcp auth`). For Cursor and any other client that does not yet support MCP OAuth, use the API key fallback. See [Authentication](/authentication) for the full breakdown.
@@ -24,13 +20,12 @@ Each session is scoped to one Klarity workspace. If the user belongs to multiple
 
 ## Tool surface evolves
 
-The production tool catalog grows over time as new Klarity capabilities ship (Companion access, additional graph traversals, write tools for specific safe operations). The [Tool reference](/tools/overview) is the live source of truth — check there before assuming a tool exists.
+The production tool catalog grows over time as new Klarity capabilities ship (additional graph traversals, write tools for specific safe operations). The [Tool reference](/tools/overview) is the live source of truth — check there before assuming a tool exists.
 
 ## When to fall back to the UI
 
 - Bulk edits to processes or artifacts.
 - Configuring workspace-level attributes or policies.
-- Reviewing Companion session recordings end-to-end.
 - Inviting users or managing roles.
 
 For everything else, the MCP should be enough — and if it isn't, [reach out](mailto:hello@klarity.ai).
