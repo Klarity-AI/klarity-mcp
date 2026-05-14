@@ -15,14 +15,21 @@ Two install paths are supported. The plugin path is preferred — it ships the b
 
 ## Plugin install (preferred, OAuth)
 
-From a Codex session:
+Codex splits this into two steps — a shell command to register the marketplace, then a slash command inside Codex to install the plugin.
 
-```text
-/plugin marketplace add klarity-ai/klarity-mcp
-/plugin install klarity@klarity
+**1. From your shell**, add the Klarity marketplace to Codex:
+
+```bash
+codex plugin marketplace add Klarity-AI/klarity-mcp
 ```
 
-The first request that hits a Klarity tool will prompt you to sign in.
+**2. From a Codex session**, open the plugin picker:
+
+```text
+/plugins
+```
+
+In the picker, switch to the **Klarity** marketplace, open **klarity**, and select **Install plugin**. The first request that hits a Klarity tool will prompt you to sign in.
 
 ## Config file install (API key)
 

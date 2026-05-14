@@ -37,21 +37,37 @@ Apps -> Search -> Klarity -> Connect
 
 ## Install — Claude Code
 
-From a Claude Code session:
+From a Claude session, run these two commands one after the other.
+
+**1. First**, install the marketplace:
 
 ```text
 /plugin marketplace add klarity-ai/klarity-mcp
+```
+
+**2. Next**, install the plugin:
+
+```text
 /plugin install klarity@klarity
 ```
 
 ## Install — Codex
 
-From a Codex session:
+Codex splits this into two steps. First, from your **shell**, register the
+Klarity marketplace with Codex:
+
+```bash
+codex plugin marketplace add Klarity-AI/klarity-mcp
+```
+
+Then, from a **Codex session**, open the plugin picker:
 
 ```text
-/plugin marketplace add klarity-ai/klarity-mcp
-/plugin install klarity@klarity
+/plugins
 ```
+
+In the picker, switch to the **Klarity** marketplace, open **klarity**, and
+select **Install plugin**.
 
 ## Install — Gemini CLI
 
