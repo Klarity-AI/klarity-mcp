@@ -60,14 +60,15 @@ Klarity marketplace with Codex:
 codex plugin marketplace add Klarity-AI/klarity-mcp
 ```
 
-Then, from a **Codex session**, open the plugin picker:
+Then, from a **Codex session**, run:
 
 ```text
 /plugins
 ```
 
-In the picker, switch to the **Klarity** marketplace, open **klarity**, and
-select **Install plugin**.
+Search for **Klarity** and install the plugin.
+
+The first request that hits a Klarity tool will prompt you to sign in.
 
 ## Install — Gemini CLI
 
