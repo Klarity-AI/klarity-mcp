@@ -25,22 +25,14 @@ This distinction matters more than any single tool call.
 
 If the workspace does not have evidence, say so plainly. That gap is itself useful information for the customer — it's how they learn what to capture next.
 
-## 5. Do not expose internal IDs unless needed
-
-Resource keys are for tool calls, not user-facing prose. If the user needs the ID for a follow-up (linking back to Klarity, opening in the UI), surface it — otherwise, keep it internal.
-
-## 6. Read-only by default
+## 5. Read-only by default
 
 Every tool in production is read-only with one exception: `switch_mcp_workspace`. Only call it when the user explicitly asks to change workspace.
 
-## 7. `search_*` returns starting points, not answers
+## 6. `search_*` returns starting points, not answers
 
 `search`, `search_processes`, `search_knowledge_graph`, `search_artifacts` all return short snippets meant to help you locate the right object. Always chain into a `get_*` or `fetch` call to read the full content before answering. Snippets are the lookup, not the citation.
 
-## 8. Prefer `resource_key` for portability, `id` for speed
-
-Most objects expose both an integer `id` (fast, stable) and a string `resource_key` (human-readable, shareable). Use `resource_key` when references will be shared across systems or surfaced in user-facing text.
-
-## 9. Let the assistant chain tools
+## 7. Let the assistant chain tools
 
 The best results come from open-ended prompts that let the model decide which tools to call and in what order. Describe what you want to know, not how to get it. The MCP is stateless per call — there's no penalty for parallel reads.
