@@ -34,9 +34,6 @@ In Claude Code, Cursor, or Codex, the assistant can chain process intelligence w
   <Step title="Confirm observation shape">
     Call [`list_process_observations`](/tools/observations-and-changes) and [`get_observation_activity_timeline`](/tools/observations-and-changes) on a sample observation. The assistant now knows the real fields and timing semantics.
   </Step>
-  <Step title="Pull schema if the code touches the DB">
-    Call [`get_schema`](/tools/schema-and-web) for the full PostgreSQL schema. Treat it as last-resort context — prefer typed tools where they exist.
-  </Step>
   <Step title="Generate, test, iterate">
     Standard code-gen loop, but every assumption is checkable against a live MCP call.
   </Step>

@@ -93,8 +93,7 @@
               "tools/artifacts",
               "tools/context-graph",
               "tools/objectives",
-              "tools/workspace",
-              "tools/schema-and-web"
+              "tools/workspace"
             ]
           }
         ]

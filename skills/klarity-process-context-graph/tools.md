@@ -163,24 +163,15 @@ build on prior analysis instead of starting from scratch.
 
 ---
 
-## I. Database & schema (advanced fallback)
+## I. Raw SQL (advanced fallback)
 
 | Tool | When to use |
 |---|---|
-| `get_schema` | Read the workspace database schema. |
 | `execute_query` | Raw SQL against the workspace DB. **Last resort** — prefer the typed tools above. Useful when the customer asks an analytics question no typed tool covers. |
 
 ---
 
-## J. Web research
-
-| Tool | When to use |
-|---|---|
-| `research_web` | Research a topic on the public web. Use sparingly — Klarity's value is grounded in the customer's workspace, not the open web. |
-
----
-
-## K. Workspace attributes & sessions
+## J. Workspace attributes & sessions
 
 | Tool | When to use |
 |---|---|
@@ -326,8 +317,6 @@ hierarchy.
    - `get_downstream_dependencies` — first cut at blast radius.
 10. Synthesize a ranked candidate set: process IDs, observation counts,
     dependency depth, similarity to known patterns, evidence trail.
-11. Optional: `research_web` to cross-check vendor automation tooling
-    for the highest-ranked candidates.
 
 ### Scenario 4 — Form a transformation thesis on a chosen process or value stream
 
