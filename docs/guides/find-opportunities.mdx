@@ -36,9 +36,6 @@ A platform lead, AI architect, or transformation owner asks where to focus next.
   <Step title="Check workspace metadata">
     Call [`get_attribute_configurations`](/tools/workspace) to look for "automation status", "system of record", "control level", or similar attributes that help rank candidates.
   </Step>
-  <Step title="Avoid duplicating prior Advisor work">
-    Call [`list_objective_findings`](/tools/objectives). If Advisor has already analyzed this area, call [`get_objective_context_bundle`](/tools/objectives) to load prior thinking and build on it. If not, surface a fresh candidate set.
-  </Step>
   <Step title="Confirm each top candidate">
     For each top candidate:
     - [`get_process_observations`](/tools/observations-and-changes) — confirm the deviation or manual pattern with concrete evidence.

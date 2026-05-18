@@ -48,8 +48,7 @@
               "concepts/intelligence-layers",
               "concepts/process-index",
               "concepts/context-graph",
-              "concepts/artifacts",
-              "concepts/objectives"
+              "concepts/artifacts"
             ]
           },
           {
@@ -92,7 +91,6 @@
               "tools/visualization",
               "tools/artifacts",
               "tools/context-graph",
-              "tools/objectives",
               "tools/workspace"
             ]
           }
