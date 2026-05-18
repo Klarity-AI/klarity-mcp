@@ -88,7 +88,6 @@
               "tools/entry-points",
               "tools/process-index",
               "tools/observations-and-changes",
-              "tools/visualization",
               "tools/artifacts",
               "tools/context-graph",
               "tools/workspace"

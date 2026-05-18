@@ -79,15 +79,7 @@ Use these to pull the evidence trail behind a process.
 
 ---
 
-## D. Process visualization
-
-| Tool | When to use |
-|---|---|
-| `generate_process_diagram` | When the user asks to **see** a process — diagrams, BPMN, flows. Choose `BPMNDiagram` when roles/teams/ownership matter; `ProcessFlowDiagram` for plain step flow. |
-
----
-
-## E. Artifacts — the source evidence
+## D. Artifacts — the source evidence
 
 Artifacts are the underlying documents, recordings, and source files behind
 processes (BRDs, SOPs, video recordings, screenshots).
@@ -106,7 +98,7 @@ processes (BRDs, SOPs, video recordings, screenshots).
 
 ---
 
-## F. Context Graph — relational map
+## E. Context Graph — relational map
 
 The Context Graph is the relational layer above the Process Index — entities
 (systems, teams, controls), communities (clusters of related work),
@@ -127,34 +119,7 @@ relationships (handoffs, dependencies). Use when the question is **relational**:
 
 ---
 
-## G. Objectives — Advisor & transformation tracking
-
-Objectives represent **transformation work** the customer is driving with
-Klarity Advisor (e.g., "shorten close from 7 to 3 days", "find duplicate
-invoice processing across geographies"). Each objective accumulates findings,
-actions, activity, and notes over time.
-
-Use these when the customer asks about ongoing transformation work or wants to
-build on prior analysis instead of starting from scratch.
-
-| Tool | When to use |
-|---|---|
-| `get_objective` | Full objective by resource key. |
-| `get_objective_action` | One specific action. |
-| `get_objective_finding` | One specific finding. |
-| `get_objective_note` | One specific note (agent notebook, user context, or run summary). |
-| `list_objective_actions` | All actions for an objective. |
-| `list_objective_findings` | All findings for an objective. |
-| `list_objective_notes` | All notes for an objective. |
-| `list_objective_activity` | Append-only activity log for an objective. |
-| `get_objective_context_bundle` | The stitched bundle: objective + findings + actions + activity + notes + agent state. **Best one-call for orientation.** |
-| `get_objective_analysis_input` | Top-of-run context bundle plus recent workspace evidence — what the Advisor agent itself sees at start of a run. |
-| `get_objective_agent_state` | The persisted agent checkpoint. Use when resuming or debugging an Advisor run. |
-| `list_objective_items_with_active_steering` | Findings/actions where the user has provided active steering feedback. |
-
----
-
-## H. Workspace navigation
+## F. Workspace navigation
 
 | Tool | When to use |
 |---|---|
@@ -163,15 +128,7 @@ build on prior analysis instead of starting from scratch.
 
 ---
 
-## I. Raw SQL (advanced fallback)
-
-| Tool | When to use |
-|---|---|
-| `execute_query` | Raw SQL against the workspace DB. **Last resort** — prefer the typed tools above. Useful when the customer asks an analytics question no typed tool covers. |
-
----
-
-## J. Workspace attributes & sessions
+## G. Workspace attributes & sessions
 
 | Tool | When to use |
 |---|---|
@@ -190,9 +147,7 @@ build on prior analysis instead of starting from scratch.
 
 **"What depends on Z?" / "What is the impact?"** → `search_knowledge_graph` to find Z's entity → `get_downstream_dependencies` (impact) or `get_upstream_sources` (root cause / inputs).
 
-**"Find improvement opportunities in our P2P value stream"** → `get_process_hierarchy_tree` (root: P2P node) → for each leaf: `get_process_details` → look for duplication, exception handling, missing controls. Surface as findings; offer to seed an objective.
-
-**"Continue the transformation work we started"** → `list_accessible_workspaces` (right workspace?) → if there is an existing objective, `get_objective_context_bundle` to load full prior state, then build on it.
+**"Find improvement opportunities in our P2P value stream"** → `get_process_hierarchy_tree` (root: P2P node) → for each leaf: `get_process_details` → look for duplication, exception handling, missing controls. Surface as a ranked candidate set with evidence.
 
 ---
 
@@ -276,9 +231,7 @@ should produce a concise, evidence-backed brief that the manager can act on.
 6. Spot-check the top 2–3 emerging deviations:
    `get_observation_activity_timeline` — drill into the actual session
    for primary-source detail.
-7. Optional: `generate_process_diagram` for processes the manager
-   wants to share with their team in a 1:1 or team meeting.
-8. Synthesize: "Your team owns N processes. M changed in the last 30
+7. Synthesize: "Your team owns N processes. M changed in the last 30
    days. K are showing deviation patterns worth your attention. Here are
    the top 3 with evidence."
 
@@ -307,16 +260,12 @@ hierarchy.
 6. `get_attribute_configurations` — workspace attribute schema (look for
    "automation status", "system of record", "control level" or similar
    metadata that helps rank candidates).
-7. `list_objective_findings` — has Advisor already analyzed this area?
-   Don't duplicate prior work.
-8. If yes: `get_objective_context_bundle` — load prior thinking and
-   build on it. If no: surface the candidate set fresh.
-9. For each top candidate:
+7. For each top candidate:
    - `get_process_observations` — confirm the deviation/manual pattern
      with concrete evidence.
    - `get_downstream_dependencies` — first cut at blast radius.
-10. Synthesize a ranked candidate set: process IDs, observation counts,
-    dependency depth, similarity to known patterns, evidence trail.
+8. Synthesize a ranked candidate set: process IDs, observation counts,
+   dependency depth, similarity to known patterns, evidence trail.
 
 ### Scenario 4 — Form a transformation thesis on a chosen process or value stream
 
@@ -355,13 +304,7 @@ evidence-grounded understanding before recommending changes.
 11. `explore_graph_neighbors` to map the surrounding network.
 12. `summarize_community_subgraph` if the process sits in a meaningful
     community — gives a one-call overview of the surrounding work.
-13. `list_objective_findings` — any prior Advisor thinking on this
-    process or value stream.
-14. If yes: `get_objective_context_bundle` — load prior findings,
-    actions, steering. Build on them, don't start from scratch.
-15. Optional: `generate_process_diagram` — produce a visual of current
-    state for the thesis document.
-16. Synthesize a transformation thesis:
+13. Synthesize a transformation thesis:
     - **Current state:** how the process actually runs (cite
       observations).
     - **Blast radius:** upstream feeders + downstream dependents.
@@ -382,9 +325,6 @@ evidence-grounded understanding before recommending changes.
   confidence.
 - **Always ground synthesis.** Cite process IDs, observation timestamps, and
   graph entity IDs. Never invent.
-- **Build on prior work when possible.** `list_objective_findings` +
-  `get_objective_context_bundle` save dozens of tool calls when the customer
-  has existing Advisor work in flight.
 - **Parallelize on transformation scans.** Scenario 3 explicitly benefits
   from multiple agents fanning out across the hierarchy. The MCP is
   stateless per call — there's no penalty for parallel reads.

@@ -46,7 +46,6 @@ The Klarity MCP is the surface where a customer's AI agents pull organization-sp
 
 - **Outcome: find the highest-leverage automation / transformation opportunities across our org.** A platform lead, AI architect, or transformation owner asks "where in our [P2P / O2C / close cycle / value stream] can we automate?" Walk the hierarchy under the value stream (often in parallel across many leaves), look for high-volume manual steps, exception patterns, and cross-process duplication. Surface a ranked candidate set with citable evidence.
 - **Outcome: form a transformation thesis on a specific process or value stream.** The customer has zeroed in on a target. Build current-state, blast-radius, and dependency understanding; identify intervention points; ground the thesis in observations and graph relationships.
-- **Outcome: continue in-flight transformation work without restarting.** The customer has an existing Advisor objective ("shorten close from 7 to 3 days", "find duplicate invoice processing across geographies"). Pull `get_objective_context_bundle` to load prior findings, actions, activity, and agent state — then build on it instead of starting cold.
 
 See `tools.md` for end-to-end worked scenarios that compose many tools together for each of these outcomes.
 
@@ -76,10 +75,10 @@ Klarity runs the **Discover -> Structure -> Improve** loop continuously (replaci
 
 - **Discover**: Companion (ambient capture from sessions) and Interviewer (AI-guided structured capture) generate the raw process knowledge. Agents read this via process / observation / artifact tools.
 - **Structure**: The Process Index and Context Graph are the living, queryable map of the customer's organization. Agents navigate this via `search` / `fetch` / hierarchy / graph tools.
-- **Improve**: Advisor analyzes thousands of processes simultaneously to surface improvement opportunities; Signals give individual-level feedback. Agents read in-flight transformation work via objective tools.
+- **Improve**: Advisor analyzes thousands of processes simultaneously to surface improvement opportunities; Signals give individual-level feedback. Agents can scan the index in their own AI tools to surface candidates and form transformation theses, grounded in the same evidence.
 
 The customer's question almost always maps to one of these stages. Use the catalog in `tools.md` to pick the right tool for the goal.
 
 ## Tool Catalog
 
-The full PROD-allowed tool list, organized by use case with selection guidance, lives in `tools.md` (alongside this file). Read it when you need to pick a specific tool — it covers all 51 tools the Klarity MCP exposes in production and gives explicit "if the user asks X, call Y" patterns.
+The full PROD-allowed tool list, organized by use case with selection guidance, lives in `tools.md` (alongside this file). Read it when you need to pick a specific tool — it covers every tool the Klarity MCP exposes in production and gives explicit "if the user asks X, call Y" patterns.

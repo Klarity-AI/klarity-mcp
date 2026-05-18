@@ -10,7 +10,6 @@ icon: "building"
 | `switch_mcp_workspace` | **Only write tool exposed in production.** Switch the active workspace. Only call when the customer explicitly asks. |
 | `get_attribute_configurations` | Workspace-level attribute configs (custom fields, compliance attributes). Use when the customer asks about controls, compliance attributes, or process metadata schema. |
 | `search_workspace_activity_or_sessions` | Recent workspace sessions as supporting evidence. |
-| `search_users` | Find users in the workspace by name or other criteria. |
 
 ## Workspace switching
 
@@ -24,4 +23,3 @@ Customers configure custom attributes on processes (automation status, system of
 
 - **Confirm workspace at start**: `list_accessible_workspaces` → only call `switch_mcp_workspace` if the user explicitly asks
 - **Compliance audit**: `get_attribute_configurations` (read the schema) → walk the relevant hierarchy and filter by the attribute the user cares about
-- **Find a process owner**: `search` for the process → `search_users` for the owner named on it → hand off to a [Calendar or Slack connector](/guides/chain-with-connectors) for action
