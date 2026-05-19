@@ -23,13 +23,13 @@ What lives here:
 
 ## Structure
 
-The [Process Index](/concepts/process-index) and the [Context Graph](/concepts/context-graph) are the living, queryable map of your organization. Agents navigate this layer through `search`, `fetch`, hierarchy, and graph tools.
+The [Process Index](/concepts/process-index) is Klarity's context graph of how your organization runs — a living, queryable map of every process, its dependencies, and the evidence captured against it. Agents navigate this layer through `search`, `fetch`, and hierarchy tools.
 
 What lives here:
 
-- A versioned hierarchy of every process the organization runs
-- An entity graph linking processes, systems, teams, controls, and the relationships between them
-- Communities that cluster related work
+- A versioned hierarchy of every process the organization runs, with steps, policies, inputs, outputs, and dependencies
+- The full observation history of each process — deviations, exceptions, and the activity timelines behind them
+- The teams, systems, and controls referenced from each process
 
 ## Improve
 
@@ -42,7 +42,7 @@ Any question your assistant asks usually maps to one stage of the loop:
 | Question shape | Loop stage | Where to look |
 |---|---|---|
 | "What's our evidence for X?" | Discover | Observations, activity timelines, artifacts |
-| "How does X work today?" | Structure | Process Index, Context Graph |
-| "Where should we focus next?" | Improve | Observations, dependency graph, recent changes |
+| "How does X work today?" | Structure | Process Index — hierarchy, version, dependencies |
+| "Where should we focus next?" | Improve | Observations, process dependencies, recent changes |
 
 The [Tool reference](/tools/overview) is organized along the same axis.

@@ -7,7 +7,7 @@ description: Use to understand or transform how work happens in the user's organ
 
 Use this skill when a customer asks an AI assistant to understand how work actually happens in their organiation.
 
-Klarity follows the Discover -> Structure -> Improve loop. Companion and Interviewer capture how work happens, the Process Index / Context Graph organizes that knowledge into a living map, and Advisor-style analysis helps customers improve with evidence.
+Klarity follows the Discover -> Structure -> Improve loop. Companion and Interviewer capture how work happens, the **Process Index — Klarity's context graph of how work happens** — organizes that knowledge into a living, hierarchical map of every process the organization runs, and Advisor-style analysis helps customers improve with evidence.
 
 ## Core Journey
 
@@ -15,7 +15,7 @@ Klarity follows the Discover -> Structure -> Improve loop. Companion and Intervi
 2. Fetch the selected process. Use `fetch` with the process ID returned by `search` to read the citable process summary, version metadata, inputs, outputs, steps, policies, and dependencies.
 3. Drill deeper when the standard summary is not enough. Use process hierarchy and process detail tools to inspect hierarchy nodes, attributes, tasks, sub-tasks, linked artifacts, and recent changes.
 4. Gather evidence before answering. Pull observations, activity timelines, artifacts, screenshots, or artifact text when the user needs support for what changed, what happened, or why a process behaves a certain way.
-5. Traverse the Context Graph when the question is relational. Use graph tools to find entities, communities, relationships, upstream sources, downstream dependencies, supporting chunks, and connected claims.
+5. Walk dependencies through the Process Index when the question is relational. The `dependencies` field on `get_process_details` lists the upstream and downstream processes by ID — `fetch` each one and read its steps, observations, and own dependencies for as many hops as the question needs.
 6. Recurse across related processes or graph nodes until the answer has enough context. Stop when additional traversal is duplicative, low-confidence, or outside the user's scope.
 7. Synthesize in business language. Separate observed facts from inference, cite Klarity evidence when available, and call out gaps when the workspace does not contain enough support.
 
@@ -34,7 +34,7 @@ The Klarity MCP is the surface where a customer's AI agents pull organization-sp
 ### Helping process performers do their job
 
 - **Outcome: do the task the way my team actually does it, not the way ChatGPT thinks it's done.** A process performer (AP lead, ops manager, recruiter, analyst) asks their agent to do task X — vendor reconciliation, invoice approval, candidate screening, ERP migration prep, audit readiness. Pull the customer's existing process for X via `search` + `fetch` BEFORE improvising. Use the customer's actual approach.
-- **Outcome: notice if my org already does this somewhere else.** A user suspects duplication mid-task. Search across teams, geographies, or business units for similar processes; traverse the context graph for related entities. Surface the duplicate set with process IDs.
+- **Outcome: notice if my org already does this somewhere else.** A user suspects duplication mid-task. Search the Process Index across teams, geographies, or business units for similar processes; `fetch` the candidates and compare steps and observations side by side. Surface the duplicate set with process IDs.
 
 ### Giving managers insight on the processes they own
 
@@ -54,7 +54,7 @@ See `tools.md` for end-to-end worked scenarios that compose many tools together 
 - Prefer read-only tools for customer-facing analysis.
 - Use `search` and `fetch` as the default process discovery and citation path for ChatGPT/Codex company-knowledge-style requests.
 - Use workspace switching only when the customer explicitly asks to change the active Klarity workspace.
-- Do not invent process facts. If the Process Index, artifacts, observations, or Context Graph do not support a claim, say what is missing.
+- Do not invent process facts. If the Process Index, artifacts, or observations do not support a claim, say what is missing.
 - Do not expose internal IDs unless the user needs them for a follow-up action.
 - Keep answers grounded in the authenticated Klarity session and the customer's current workspace.
 
@@ -74,7 +74,7 @@ Help customers answer questions such as:
 Klarity runs the **Discover -> Structure -> Improve** loop continuously (replacing one-time "transformation projects" that take months and have a 30% success rate). When a customer's agent uses this MCP, it is plugging into that loop:
 
 - **Discover**: Companion (ambient capture from sessions) and Interviewer (AI-guided structured capture) generate the raw process knowledge. Agents read this via process / observation / artifact tools.
-- **Structure**: The Process Index and Context Graph are the living, queryable map of the customer's organization. Agents navigate this via `search` / `fetch` / hierarchy / graph tools.
+- **Structure**: The Process Index is Klarity's context graph of how the customer's organization runs — every process, its hierarchy, dependencies, observations, and activity timelines, all linked into one navigable structure. Agents navigate this via `search` / `fetch` / hierarchy / process-detail / observation tools.
 - **Improve**: Advisor analyzes thousands of processes simultaneously to surface improvement opportunities; Signals give individual-level feedback. Agents can scan the index in their own AI tools to surface candidates and form transformation theses, grounded in the same evidence.
 
 The customer's question almost always maps to one of these stages. Use the catalog in `tools.md` to pick the right tool for the goal.

@@ -47,7 +47,6 @@
               "concepts/discover-structure-improve",
               "concepts/intelligence-layers",
               "concepts/process-index",
-              "concepts/context-graph",
               "concepts/artifacts"
             ]
           },
@@ -89,7 +88,6 @@
               "tools/process-index",
               "tools/observations-and-changes",
               "tools/artifacts",
-              "tools/context-graph",
               "tools/workspace"
             ]
           }

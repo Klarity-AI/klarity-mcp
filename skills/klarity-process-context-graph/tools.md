@@ -13,9 +13,10 @@ Klarity workspace.
 
 Klarity is a process intelligence platform that captures **how work
 actually happens** inside a customer's organization (Companion + Interviewer),
-organizes it into a living **Process Index / Context Graph** (Structure), and
-helps customers improve via Advisor + Signals (Improve). When an agent calls
-the Klarity MCP, it is reading from that living map.
+organizes it into a living **Process Index — Klarity's context graph of how
+work happens** (Structure), and helps customers improve via Advisor + Signals
+(Improve). When an agent calls the Klarity MCP, it is reading from that living
+map.
 
 The agent's job is usually one of:
 
@@ -98,28 +99,7 @@ processes (BRDs, SOPs, video recordings, screenshots).
 
 ---
 
-## E. Context Graph — relational map
-
-The Context Graph is the relational layer above the Process Index — entities
-(systems, teams, controls), communities (clusters of related work),
-relationships (handoffs, dependencies). Use when the question is **relational**:
-"what feeds X", "what depends on Y", "where is Z covered".
-
-| Tool | When to use |
-|---|---|
-| `search_knowledge_graph` | Entry point. Returns starting points (entities, communities, claims, chunks). **Always follow up** with one of the get_* / explore_* tools — do not answer from snippets. |
-| `get_entity_details` | Specific entity (system, team, person, control). |
-| `get_community_details` | Specific community (cluster of related work). |
-| `get_relationship_details` | Between two entities — types and metadata. |
-| `get_text_chunk_details` | Full text + metadata for a specific chunk. |
-| `explore_graph_neighbors` | N-hop neighbors of an entity or community. Use for impact analysis. |
-| `summarize_community_subgraph` | Community summary up to N hops. Good for orientation when the graph area is unfamiliar. |
-| `get_upstream_sources` | Recursive upstream trace. "What feeds this?" |
-| `get_downstream_dependencies` | Recursive downstream trace. "What breaks if this changes?" |
-
----
-
-## F. Workspace navigation
+## E. Workspace navigation
 
 | Tool | When to use |
 |---|---|
@@ -128,7 +108,7 @@ relationships (handoffs, dependencies). Use when the question is **relational**:
 
 ---
 
-## G. Workspace attributes & sessions
+## F. Workspace attributes & sessions
 
 | Tool | When to use |
 |---|---|
@@ -145,7 +125,7 @@ relationships (handoffs, dependencies). Use when the question is **relational**:
 
 **"What changed recently?"** → `get_recent_process_changes` + `get_recent_process_observations` → drill into specific processes via `fetch`.
 
-**"What depends on Z?" / "What is the impact?"** → `search_knowledge_graph` to find Z's entity → `get_downstream_dependencies` (impact) or `get_upstream_sources` (root cause / inputs).
+**"What depends on Z?" / "What is the impact?"** → `search` for Z → `fetch` + `get_process_details` to read its `dependencies` field → `fetch` each upstream and downstream process to walk the chain. For impact-critical answers, also pull observations on the dependents.
 
 **"Find improvement opportunities in our P2P value stream"** → `get_process_hierarchy_tree` (root: P2P node) → for each leaf: `get_process_details` → look for duplication, exception handling, missing controls. Surface as a ranked candidate set with evidence.
 
@@ -203,9 +183,9 @@ before improvising.
 8. `get_observation_activity_timeline` — drill into the most recent or
    most relevant exception session for primary-source evidence of how the
    process actually runs in practice.
-9. Optional: `get_upstream_sources` / `get_downstream_dependencies` —
-   only if the user's task touches the boundary (e.g., "what should I check
-   before I close this out?").
+9. Optional: read the `dependencies` field already in `get_process_details`,
+   and `fetch` an upstream or downstream process if the user's task touches
+   the boundary (e.g., "what should I check before I close this out?").
 10. Synthesize: "Here's how your team does this, here's the deviation
     pattern from last quarter, here's what to watch for."
 
@@ -252,19 +232,19 @@ hierarchy.
    - `get_process_details` — current version, steps, dependencies.
      Note step count, manual vs system steps, exception count.
    - `list_process_observations` — exception volume per process.
-4. `search_knowledge_graph` — query for common high-leverage patterns:
-   "manual approval", "duplicate entry", "data re-keying", "exception
-   handling", "swivel-chair workflow".
-5. `explore_graph_neighbors` on each pattern entity — see which
-   processes and systems touch it.
-6. `get_attribute_configurations` — workspace attribute schema (look for
+4. `search` directly on the index for high-leverage patterns: "manual
+   approval", "duplicate entry", "data re-keying", "exception handling",
+   "swivel-chair workflow". `fetch` each hit to confirm the pattern is
+   real, not just a name match.
+5. `get_attribute_configurations` — workspace attribute schema (look for
    "automation status", "system of record", "control level" or similar
    metadata that helps rank candidates).
-7. For each top candidate:
+6. For each top candidate:
    - `get_process_observations` — confirm the deviation/manual pattern
      with concrete evidence.
-   - `get_downstream_dependencies` — first cut at blast radius.
-8. Synthesize a ranked candidate set: process IDs, observation counts,
+   - Read the `dependencies` field already returned by
+     `get_process_details` for a first cut at blast radius.
+7. Synthesize a ranked candidate set: process IDs, observation counts,
    dependency depth, similarity to known patterns, evidence trail.
 
 ### Scenario 4 — Form a transformation thesis on a chosen process or value stream
@@ -291,20 +271,23 @@ evidence-grounded understanding before recommending changes.
 7. For 3–5 representative observations:
    `get_observation_activity_timeline` — primary-source detail of how
    the process runs in practice (not how it's documented).
-8. **Map upstream and downstream:**
-   - `get_upstream_sources` — what feeds this process. Root cause /
-     input quality matters for transformation viability.
-   - `get_downstream_dependencies` — blast radius if we change it.
-     Surfacing this early prevents under-scoped transformation
-     proposals.
-9. `search_knowledge_graph` — find entities (systems, teams, controls)
-   that touch this process.
-10. `get_entity_details` for the most-connected entities — understand
-    them as transformation surfaces.
-11. `explore_graph_neighbors` to map the surrounding network.
-12. `summarize_community_subgraph` if the process sits in a meaningful
-    community — gives a one-call overview of the surrounding work.
-13. Synthesize a transformation thesis:
+8. **Walk the dependency graph in the index.** The `dependencies` field
+   already in `get_process_details` lists upstream and downstream
+   processes by ID. For each, `fetch` + `get_process_details`. Read
+   their steps, their own dependencies, and their recent observations.
+   Repeat for as many hops as the thesis needs.
+   - **Upstream:** what feeds this. Root cause / input quality matters
+     for transformation viability.
+   - **Downstream:** blast radius if we change it. Surfacing this early
+     prevents under-scoped transformation proposals.
+   - For the most-affected dependencies, drill one level deeper:
+     `get_process_observations` and `get_observation_activity_timeline`.
+9. **Cross-check sibling processes.** From the
+   `get_process_hierarchy_node_details` payload returned earlier,
+   `fetch` two or three sibling processes under the same value stream.
+   If they share patterns, controls, or systems with the target, the
+   transformation thesis may need to address them too.
+10. Synthesize a transformation thesis:
     - **Current state:** how the process actually runs (cite
       observations).
     - **Blast radius:** upstream feeders + downstream dependents.
@@ -321,10 +304,10 @@ evidence-grounded understanding before recommending changes.
   drilling. Don't bail after one query.
 - **Composition is the value.** No single tool answers a real question. The
   agent's job is to chain reads — search → process → version → observation
-  → activity timeline → graph — until it has enough to answer with
-  confidence.
-- **Always ground synthesis.** Cite process IDs, observation timestamps, and
-  graph entity IDs. Never invent.
+  → activity timeline → dependencies → sibling processes — until it has
+  enough to answer with confidence.
+- **Always ground synthesis.** Cite process IDs and observation timestamps.
+  Never invent.
 - **Parallelize on transformation scans.** Scenario 3 explicitly benefits
   from multiple agents fanning out across the hierarchy. The MCP is
   stateless per call — there's no penalty for parallel reads.

@@ -31,7 +31,7 @@ Every tool in production is read-only with one exception: `switch_mcp_workspace`
 
 ## 6. `search_*` returns starting points, not answers
 
-`search`, `search_processes`, `search_knowledge_graph`, `search_artifacts` all return short snippets meant to help you locate the right object. Always chain into a `get_*` or `fetch` call to read the full content before answering. Snippets are the lookup, not the citation.
+`search`, `search_processes`, and `search_artifacts` all return short snippets meant to help you locate the right object. Always chain into a `get_*` or `fetch` call to read the full content before answering. Snippets are the lookup, not the citation.
 
 ## 7. Let the assistant chain tools
 

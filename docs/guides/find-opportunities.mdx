@@ -30,8 +30,8 @@ A platform lead, AI architect, or transformation owner asks where to focus next.
       The MCP is stateless per call. There's no penalty for parallel reads — fan out aggressively.
     </Tip>
   </Step>
-  <Step title="Hunt high-leverage patterns in the graph">
-    Call [`search_knowledge_graph`](/tools/context-graph) for patterns: "manual approval", "duplicate entry", "data re-keying", "exception handling", "swivel-chair workflow". Then [`explore_graph_neighbors`](/tools/context-graph) on each pattern entity to see which processes and systems touch it.
+  <Step title="Hunt high-leverage patterns in the index">
+    Call [`search`](/tools/entry-points) directly on the index with pattern queries: "manual approval", "duplicate entry", "data re-keying", "exception handling", "swivel-chair workflow". For each hit, [`fetch`](/tools/entry-points) the process to confirm the pattern is real, not just a name match.
   </Step>
   <Step title="Check workspace metadata">
     Call [`get_attribute_configurations`](/tools/workspace) to look for "automation status", "system of record", "control level", or similar attributes that help rank candidates.
@@ -39,7 +39,7 @@ A platform lead, AI architect, or transformation owner asks where to focus next.
   <Step title="Confirm each top candidate">
     For each top candidate:
     - [`get_process_observations`](/tools/observations-and-changes) — confirm the deviation or manual pattern with concrete evidence.
-    - [`get_downstream_dependencies`](/tools/context-graph) — first cut at blast radius.
+    - Read the `dependencies` field already returned by [`get_process_details`](/tools/process-index) for a first cut at blast radius.
   </Step>
   <Step title="Synthesize a ranked candidate set">
     Process IDs, observation counts, dependency depth, similarity to known patterns, evidence trail.

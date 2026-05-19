@@ -33,7 +33,7 @@ A process performer — an AP lead, ops manager, recruiter, analyst — asks the
     Call [`get_observation_activity_timeline`](/tools/observations-and-changes) to read the exact user actions behind a deviation. This is the most "primary source" evidence the workspace has.
   </Step>
   <Step title="Check boundaries (optional)">
-    If the task touches another team or system, call [`get_upstream_sources`](/tools/context-graph) or [`get_downstream_dependencies`](/tools/context-graph) to map handoffs.
+    If the task touches another team or system, read the `dependencies` field already returned by [`get_process_details`](/tools/process-index). To go deeper on a handoff, [`fetch`](/tools/entry-points) the referenced upstream or downstream process and read its steps and observations the same way.
   </Step>
   <Step title="Synthesize">
     "Here's how your team does this. Here's the deviation pattern from last quarter. Here's what to watch for."
@@ -42,4 +42,4 @@ A process performer — an AP lead, ops manager, recruiter, analyst — asks the
 
 ## Catch duplication
 
-If the user suspects a different team already does this work, search across teams or business units for similar processes and traverse the graph for related entities. Surface the duplicate set with process IDs.
+If the user suspects a different team already does this work, run [`search`](/tools/entry-points) again with broader queries — task name, system, business outcome — across the whole workspace. If results look similar to the current process, `fetch` each candidate and compare steps and observations side by side. Surface the duplicate set with process IDs.
