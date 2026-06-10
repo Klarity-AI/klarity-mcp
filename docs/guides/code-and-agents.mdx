@@ -32,7 +32,7 @@ In Claude Code, Cursor, or Codex, the assistant can chain process intelligence w
     Call [`search`](/tools/entry-points) → [`fetch`](/tools/entry-points) → [`get_process_details`](/tools/process-index). The assistant should write code against the actual schema and process structure, not its training-data assumptions.
   </Step>
   <Step title="Confirm observation shape">
-    Call [`list_process_observations`](/tools/observations-and-changes) and [`get_observation_activity_timeline`](/tools/observations-and-changes) on a sample observation. The assistant now knows the real fields and timing semantics.
+    Call [`get_process_observations`](/tools/observations-and-changes) and [`get_observation_citation`](/tools/observations-and-changes) on a sample observation. The assistant now knows the real fields and timing semantics.
   </Step>
   <Step title="Generate, test, iterate">
     Standard code-gen loop, but every assumption is checkable against a live MCP call.

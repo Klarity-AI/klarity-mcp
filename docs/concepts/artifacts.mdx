@@ -16,11 +16,10 @@ Use artifacts when the user wants to cite a specific document, replay a session,
 |---|---|
 | "Find the latest SOX checklist" | [`search_artifacts`](/tools/artifacts) |
 | "Show me the full text" | [`get_artifact_content`](/tools/artifacts) |
-| "Cite specific lines" | [`get_artifact_lines`](/tools/artifacts) |
-| "Pull a frame from this recording" | [`get_artifact_screenshots`](/tools/artifacts) or [`sample_video_frames`](/tools/artifacts) |
+| "Cite specific lines" | [`get_artifact_content`](/tools/artifacts) with `start_line` / `end_line` |
 
 ## Always follow up search with content
 
-`search_artifacts` returns short snippets to help you locate the right artifact. Always chain into `get_artifact_content` or `get_artifact_lines` to read the full passage before answering. Snippets are not citations.
+`search_artifacts` returns short snippets to help you locate the right artifact. Always chain into `get_artifact_content` (full text, or a `start_line`/`end_line` range) to read the full passage before answering. Snippets are not citations.
 
 See [Tools by purpose → Artifacts](/tools/artifacts) for the full toolset.
