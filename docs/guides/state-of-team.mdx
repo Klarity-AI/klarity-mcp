@@ -19,21 +19,18 @@ A team manager is checking in on the processes they own. The assistant should pr
     Call [`list_accessible_workspaces`](/tools/workspace) and switch if needed.
   </Step>
   <Step title="Pull the team's slice of the index">
-    Call [`get_process_hierarchy_tree`](/tools/process-index) rooted at the team's value-stream node.
+    Call [`get_process_hierarchy`](/tools/process-index) rooted at the team's value-stream node.
   </Step>
-  <Step title="Find recent changes">
-    Call [`get_recent_process_changes`](/tools/observations-and-changes) — what versions have been edited recently across the workspace, filtered to this team's tree.
+  <Step title="Find what's changed">
+    Call [`get_recent_process_changes`](/tools/observations-and-changes) — the workspace-wide feed of recently-edited process versions, filtered to this team's tree. Use this as your shortlist.
   </Step>
-  <Step title="Find recent deviations">
-    Call [`get_recent_process_observations`](/tools/observations-and-changes) — what exception patterns are emerging.
-  </Step>
-  <Step title="Drill into the top processes">
-    For each high-volume or recently-changed process:
+  <Step title="Drill into the recently-changed processes">
+    For each process from the previous step:
     - [`get_process_details`](/tools/process-index) for current state, dependencies, and version label
-    - [`list_process_observations`](/tools/observations-and-changes) for a lighter recent observation summary
+    - [`get_process_observations`](/tools/observations-and-changes) for a recent observation summary (default `verbosity="summary"`)
   </Step>
   <Step title="Spot-check emerging deviations">
-    Call [`get_observation_activity_timeline`](/tools/observations-and-changes) on the top two or three observations for primary-source detail.
+    Call [`get_observation_citation`](/tools/observations-and-changes) on the top two or three observations for primary-source detail.
   </Step>
   <Step title="Synthesize">
     "Your team owns N processes. M changed in the last 30 days. K are showing deviation patterns worth your attention. Here are the top 3 with evidence."
@@ -46,4 +43,4 @@ The same chain works for onboarding a new person (or a fresh agent): walk the te
 
 ## Prove control coverage
 
-For audit-readiness questions ("where is control X supported?", "what's our evidence for policy Y?"), pull the relevant processes, surface the policies attached to the current version, and cite the supporting observations and activity timelines. [`get_attribute_configurations`](/tools/workspace) shows the workspace's custom compliance attributes if the user asks about a specific control type.
+For audit-readiness questions ("where is control X supported?", "what's our evidence for policy Y?"), pull the relevant processes, surface the policies attached to the current version, and cite the supporting observations and activity timelines. The `attributes` field on [`get_process_details`](/tools/process-index) surfaces the workspace's custom compliance attributes if the user asks about a specific control type.

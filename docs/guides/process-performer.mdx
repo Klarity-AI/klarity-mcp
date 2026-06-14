@@ -21,16 +21,16 @@ A process performer — an AP lead, ops manager, recruiter, analyst — asks the
   <Step title="Search for the process">
     Call [`search`](/tools/entry-points) with the task in the user's words ("vendor invoice reconciliation"). Iterate two to four times with refined queries — single queries rarely cover broad topics.
 
-    If results are still sparse, call [`get_process_hierarchy_tree`](/tools/process-index) to orient on the right value stream, then drill in.
+    If results are still sparse, call [`get_process_hierarchy`](/tools/process-index) to orient on the right value stream, then drill in.
   </Step>
   <Step title="Fetch the matched process">
     Use [`fetch`](/tools/entry-points) to read steps, policies, inputs, outputs, and dependencies. If you need the richer nested payload (full version metadata or every dependency ID), call [`get_process_details`](/tools/process-index) directly.
   </Step>
   <Step title="Pull recent observations">
-    Call [`get_recent_process_observations`](/tools/observations-and-changes) and [`get_process_observations`](/tools/observations-and-changes) to find emerging edge cases and exception patterns.
+    Call [`get_process_observations`](/tools/observations-and-changes) to find emerging edge cases and exception patterns. Default `verbosity="summary"` is the scan; bump to `"full"` when you want the rich payload inline.
   </Step>
   <Step title="Drill into the most relevant session">
-    Call [`get_observation_activity_timeline`](/tools/observations-and-changes) to read the exact user actions behind a deviation. This is the most "primary source" evidence the workspace has.
+    Call [`get_observation_citation`](/tools/observations-and-changes) to read the exact user actions behind a deviation. This is the most "primary source" evidence the workspace has.
   </Step>
   <Step title="Check boundaries (optional)">
     If the task touches another team or system, read the `dependencies` field already returned by [`get_process_details`](/tools/process-index). To go deeper on a handoff, [`fetch`](/tools/entry-points) the referenced upstream or downstream process and read its steps and observations the same way.

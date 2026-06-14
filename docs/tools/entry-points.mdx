@@ -9,7 +9,7 @@ Most ChatGPT, Claude, and standard MCP clients will begin every Klarity interact
 | Tool | When to use |
 |---|---|
 | `search` | First call for almost any process question. Semantic search over the customer's process index. **Iterate** — single queries rarely cover broad topics, and processes use organization-specific names. |
-| `fetch` | Pull full details for one process by ID returned from `search` or hierarchy navigation: placement in the index, current version (steps, policies, inputs, outputs), dependencies, history. Fetch dependency IDs to walk relationships. |
+| `fetch` | Pull full details for one process by ID returned from `search` or hierarchy navigation: placement in the index, current version (steps, policies, linked artifacts), dependencies, history. Fetch dependency IDs to walk relationships. |
 
 ## The default loop
 
@@ -18,7 +18,7 @@ Most ChatGPT, Claude, and standard MCP clients will begin every Klarity interact
     Query in the user's words. Refine two to four times if results feel sparse.
   </Step>
   <Step title="fetch">
-    Pull the matched process. Read steps, policies, inputs, outputs, and dependencies.
+    Pull the matched process. Read steps, policies, linked artifacts, and dependencies.
   </Step>
   <Step title="Drill if needed">
     If `fetch`'s summary isn't enough, drop into [Process Index tools](/tools/process-index) for the richer payload, then chain into [observations and activity timelines](/tools/observations-and-changes) for primary-source evidence.
@@ -27,4 +27,4 @@ Most ChatGPT, Claude, and standard MCP clients will begin every Klarity interact
 
 ## When to skip `search`
 
-If the user has already named a specific process or you have the ID from a prior call, go straight to `fetch`. If the user wants to *browse* rather than search, start with [`get_process_hierarchy_tree`](/tools/process-index) instead.
+If the user has already named a specific process or you have the ID from a prior call, go straight to `fetch`. If the user wants to *browse* rather than search, start with [`get_process_hierarchy`](/tools/process-index) instead.

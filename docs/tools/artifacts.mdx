@@ -8,15 +8,10 @@ Artifacts are the underlying documents, recordings, and source files behind proc
 
 | Tool | When to use |
 |---|---|
-| `search_artifacts` | Hybrid semantic + lexical search across artifact text chunks. Returns short snippets. **Start here** for artifact discovery. |
-| `search_workspace_artifacts` | Lookup by display name. |
-| `get_artifact_detail` | Latest artifact matching exact display name or resource key. |
-| `get_artifact_details` | Full metadata + content (~15k token cap). |
-| `get_artifact_content` | Full text up to ~15k tokens. |
-| `get_artifact_lines` | Line-numbered text up to ~5k tokens. Use when you need to cite specific lines. |
-| `search_artifact_text` | Within one artifact, find line-numbered matches. |
-| `get_artifact_screenshots` | Pull PNG screenshots from a VIDEO artifact at specific timestamps. |
-| `sample_video_frames` | Same idea — up to 5 timestamps, returns image files. |
+| `search_artifacts` | Hybrid semantic + lexical search across artifact text. Returns ranked results with short context snippets. **Start here** for artifact discovery. |
+| `get_artifact_details` | Full metadata for a single artifact by `resource_key` — type, status, file info, and linked artifacts (`input_artifacts`, `output_artifacts`, `children`). |
+| `get_artifact_content` | Full or range-mode text extraction for a single artifact. Use range mode (`start_line` / `end_line`) when you need to cite specific lines. |
+| `search_artifact_text` | Within one artifact (by `resource_key`), find line-numbered matches with surrounding context. Regex or literal. There is no cross-document text search on the external surface — for multi-document retrieval, use `search_artifacts`. |
 
 ## Artifact types and origins
 
@@ -29,7 +24,7 @@ Filter by these when the user is asking for a specific kind of source — "show 
 
 ## Common chains
 
-- **Cite a passage**: `search_artifacts` → `get_artifact_lines` with the line range → quote the lines back to the user
-- **Read a full SOP**: `search_workspace_artifacts` (exact name) → `get_artifact_detail` → `get_artifact_content`
-- **Pull a frame from a recording**: `search_artifacts` → `get_artifact_screenshots` with the timestamps the user cares about
-- **Search inside one artifact**: `get_artifact_detail` → `search_artifact_text` to find specific mentions
+- **Cite a passage**: `search_artifacts` → `get_artifact_content` with a line range → quote the lines back to the user
+- **Read a full SOP**: `search_artifacts` (find by query) → `get_artifact_content` (full text)
+- **Search inside one artifact**: `search_artifacts` (find the artifact) → `search_artifact_text` (locate specific mentions by regex or literal)
+- **Trace lineage**: `get_artifact_details` → walk `input_artifacts` / `output_artifacts` / `children` to find related sources

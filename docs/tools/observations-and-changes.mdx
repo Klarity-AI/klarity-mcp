@@ -9,22 +9,21 @@ Use these tools when the user asks "what changed?", "what happened?", or "why do
 | Tool | When to use |
 |---|---|
 | `get_recent_process_changes` | Workspace-wide version-change feed. "What has been edited recently?" |
-| `get_recent_process_observations` | Workspace-wide observations feed. Observations are the **deviations / exceptions** captured by Companion. |
-| `get_process_observations` | Full rich payload for each observation on a process: step-level content, `positive_deviations`, `negative_deviations`, `process_mapping`. Use this when you need the structured evidence. Optional version filter. |
-| `list_process_observations` | Lightweight listing — observation IDs, timestamps, brief descriptions. Use this to scan before drilling into `get_process_observations`. |
-| `get_observation_activity_timeline` | The actual session timeline behind an observation: what the user did, when. The most "primary source" evidence Klarity has. For long sessions, page through with `start_timestamp` / `end_timestamp` in `HH:MM:SS` format — the response surfaces `activity_timeline_truncated` when the full window doesn't fit. |
+| `get_process_observations` | Observations on a specific process. Each surfaces the friction signals — `rationale`, `windows_time_frame`, `negative_deviations`, `positive_deviations` — and a session reference. Default response is the summary shape; pass `verbosity="full"` to also include the runtime inputs, outputs, and the step-by-step narrative (heavy — use a small `limit`). Optional version filter. |
+| `get_observation_citation` | The activity timeline behind an observation: what the user did, when, on which systems. The most "primary source" evidence Klarity has. For long sessions, page through with `start_timestamp` / `end_timestamp` in `HH:MM:SS` format — the response flags `activity_timeline_truncated` when the full window doesn't fit. |
+| `list_sessions` | Recent workspace sessions, paginated. Session resource keys are correlation-only — to inspect what happened in a session, find an observation that references it (`get_process_observations`) and call `get_observation_citation` with the **observation's** resource key. |
 
 ## What an observation is
 
-An observation is a captured deviation or exception from a real session. It is attached to a specific process and version. The **activity timeline** is the underlying sequence of user actions that produced the observation — clicks, navigations, field entries, with timestamps.
+An observation is a captured execution of a process — a real session, attached to a specific process and version. The **activity timeline** is the underlying sequence of user actions that produced the observation — the systems they used, what they did, when.
 
-If you only call one tool from this group, call `get_observation_activity_timeline` on a top observation. It is the closest thing the workspace has to a video replay.
+If you only call one tool from this group, call `get_observation_citation` on a top observation. It is the closest thing the workspace has to a video replay.
 
 ## Common chains
 
-- **State-of-team brief**: `get_recent_process_changes` + `get_recent_process_observations` → drill into specific processes via [`fetch`](/tools/entry-points)
-- **Deep-dive on a process**: `get_process_observations` → pick the top 3 by frequency → `get_observation_activity_timeline` on each
-- **Confirm a transformation candidate**: `list_process_observations` for exception volume → `get_observation_activity_timeline` to confirm the manual pattern with concrete evidence
+- **State-of-team brief**: `get_recent_process_changes` → drill into specific processes via [`fetch`](/tools/entry-points) or `get_process_details`
+- **Deep-dive on a process**: `get_process_observations` (summary mode, scan the friction signals) → pick the most relevant → re-call with `verbosity="full"` for the narrative, or jump straight to `get_observation_citation` for the activity timeline
+- **Confirm a transformation candidate**: `get_process_observations` for exception patterns → `get_observation_citation` to confirm the manual pattern with concrete evidence
 
 ## Cite what you find
 
@@ -32,12 +31,12 @@ Observations have timestamps and version pointers. When the user asks "what's th
 
 ## Deviations
 
-Each observation carries the agent's per-session understanding of how that run compared to the documented process. Per observation, there are two flavors:
+Each observation carries the agent's per-session understanding of how that run compared to the documented process:
 
 - **Positive deviations** — places where the user went *beyond* the documented path in a useful way: a shortcut, a better validation step, a quality-improving move worth promoting.
 - **Negative deviations** — friction or workarounds: an extra manual step, a retry, a small fix to keep moving.
 
-Both are judgments made in isolation against one session's activity timeline. Per-session friction often looks routine on its own, so `negative_deviations` is frequently `null` on individual observations even when a pattern is present across many sessions.
+Both are judgments made in isolation against one session's activity timeline. Per-session friction often looks routine on its own, so `negative_deviations` is frequently empty on individual observations even when a pattern is present across many sessions.
 
 ### How to use deviations
 
@@ -46,4 +45,4 @@ A single observation gives you the single-session view. The signal most teams wa
 Two paths:
 
 1. **Klarity Advisor** does this aggregation natively across the workspace.
-2. **MCP-stitched**: pull `get_observation_activity_timeline` across the observation set for the process, then diff against the pinned process version yourself. The MCP exposes everything Advisor reads — the cross-observation pass is what you stitch.
+2. **MCP-stitched**: pull `get_observation_citation` across the observation set for the process, then diff against the pinned process version yourself. The MCP exposes everything Advisor reads — the cross-observation pass is what you stitch.

@@ -20,10 +20,10 @@ Each process carries:
 | User question | Tool to start with |
 |---|---|
 | "Tell me about process X" | [`search`](/tools/entry-points) → [`fetch`](/tools/entry-points) |
-| "Browse the whole index" | [`get_process_hierarchy_tree`](/tools/process-index) |
-| "Look up by exact team or name" | [`search_workspace_processes`](/tools/process-index) |
+| "Browse the whole index" | [`get_process_hierarchy`](/tools/process-index) |
+| "Look up by exact team or name" | [`search_processes`](/tools/process-index) |
 | "Pull the rich nested payload" | [`get_process_details`](/tools/process-index) |
-| "What does this hierarchy node cover?" | [`get_process_hierarchy_node_details`](/tools/process-index) |
+| "What does this hierarchy node cover?" | [`get_hierarchy_node_details`](/tools/process-index) |
 
 ## Search → fetch → drill → drill further
 
@@ -53,6 +53,6 @@ When a user asks "what changed?", "why does this run this way?", or "are there e
 | User question | Tool to start with |
 |---|---|
 | "What has been edited recently?" | [`get_recent_process_changes`](/tools/observations-and-changes) |
-| "What deviation patterns are emerging?" | [`get_recent_process_observations`](/tools/observations-and-changes) |
+| "What sessions have been recorded across the workspace?" | [`list_sessions`](/tools/observations-and-changes) |
 | "What exceptions has this process seen?" | [`get_process_observations`](/tools/observations-and-changes) |
-| "What did the user actually do in this session?" | [`get_observation_activity_timeline`](/tools/observations-and-changes) |
+| "What did the user actually do in the session behind this observation?" | [`get_observation_citation`](/tools/observations-and-changes) |
