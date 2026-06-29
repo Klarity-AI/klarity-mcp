@@ -20,7 +20,7 @@ This repository is the canonical public surface for two install paths:
 ## What it does
 
 The plugin connects your AI assistant to the Klarity MCP server at
-`https://architect-v2-api.klarity.ai/mcp`. Tools the assistant gets access to
+`https://api.klarity.ai/mcp`. Tools the assistant gets access to
 include `search`, `fetch`, process-hierarchy navigation, evidence retrieval, and
 Context Graph traversal. The full skill prompt lives at
 [`skills/klarity-process-context-graph/SKILL.md`](./skills/klarity-process-context-graph/SKILL.md).
