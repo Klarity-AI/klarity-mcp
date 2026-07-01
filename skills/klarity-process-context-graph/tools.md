@@ -1,9 +1,8 @@
 # Klarity MCP — PROD Tool Catalog
 
 This is the operational reference for every tool the Klarity MCP exposes to a
-customer's AI agent in production. **All tools here are read-only**, with one
-exception (`switch_mcp_workspace`) needed to change the agent's active
-workspace.
+customer's AI agent in production. **All tools here are read-only** — the MCP
+never mutates workspace state.
 
 The point of this catalog is not to enumerate APIs — it's to help an agent
 **pick the right tool for the goal at hand** when working inside a customer's
@@ -56,12 +55,10 @@ metadata than `fetch` returns.
 
 | Tool | When to use |
 |---|---|
-| `search_processes` | Like `search` but returns mixed hierarchy-node + process results. Use when a top-level value stream / department might be a better starting point than a leaf process. |
-| `search_workspace_processes` | Lookup by **name / objective / team**, not semantic. Use when you have an exact phrase or team filter. |
-| `get_process_hierarchy_tree` | Browse the whole index structure. Use when search misses, or to orient before drilling in. |
-| `get_process_hierarchy_node_details` | Inspect a single hierarchy node — parent, children, linked process. |
-| `get_process_detail` | Flat lookup by resource key or exact name. Light payload (name, objective, team, updated_at, source_url). |
-| `get_process_details` | The rich nested payload: `current_version`, `dependencies`, `hierarchy_node`, optional version history. This is what `fetch` reshapes. Use directly when you need the structured shape. |
+| `search_processes` | Search processes by name, objective, team, or semantic similarity — ranked keyword + semantic results. Use for an exact phrase or team filter as well as broad topic search. |
+| `get_process_hierarchy` | Browse the whole index tree structure (nodes with name, type, children). Use when search misses, or to orient before drilling in. Supports `max_depth` / `root`. |
+| `get_hierarchy_node_details` | Inspect a single hierarchy node — parent, children, linked process. |
+| `get_process_details` | The rich nested payload: `current_version`, `dependencies`, `hierarchy_node`, optional version history. This is what `fetch` reshapes. Use directly when you need the structured shape, or narrow with `scope` (any of `attributes`, `tasks`, `observations`, `dependencies`, `linked_artifacts`, `policies`, `history`; defaults to `attributes`). |
 
 ---
 
@@ -73,29 +70,22 @@ Use these to pull the evidence trail behind a process.
 | Tool | When to use |
 |---|---|
 | `get_recent_process_changes` | Workspace-wide version-change feed. "What has been edited recently?" |
-| `get_recent_process_observations` | Workspace-wide observations feed. Observations are the **deviations / exceptions** captured by Companion. |
-| `get_process_observations` | All observations for one process across versions. Optional version filter. |
-| `list_process_observations` | Lighter variant — recent observations for one process. |
-| `get_observation_activity_timeline` | The actual session timeline behind an observation: what the user did, when. The most "primary source" evidence Klarity has. |
+| `get_process_observations` | Recorded executions of one process, surfacing the friction signals (deviations / exceptions captured by Companion). `verbosity="summary"` to scan; `verbosity="full"` for the narrative. Optional version filter. |
+| `get_observation_citation` | The actual session timeline behind an observation: what the user did, when. The most "primary source" evidence Klarity has. Only works for your own sessions. |
 
 ---
 
 ## D. Artifacts — the source evidence
 
 Artifacts are the underlying documents, recordings, and source files behind
-processes (BRDs, SOPs, video recordings, screenshots).
+processes (BRDs, SOPs, recordings).
 
 | Tool | When to use |
 |---|---|
 | `search_artifacts` | Hybrid semantic + lexical search across artifact text chunks. Returns short snippets. **Start here** for artifact discovery. |
-| `search_workspace_artifacts` | Lookup by display name. |
-| `get_artifact_detail` | Latest artifact matching exact display name or resource key. |
-| `get_artifact_details` | ~15k token cap details. |
-| `get_artifact_content` | Full text up to ~15k tokens. |
-| `get_artifact_lines` | Line-numbered text up to ~5k tokens. Use when you need to cite specific lines. |
-| `search_artifact_text` | Within one artifact, find line-numbered matches. |
-| `get_artifact_screenshots` | Pull PNG screenshots from a VIDEO artifact at specific timestamps. |
-| `sample_video_frames` | Same idea — up to 5 timestamps, returns image files. |
+| `get_artifact_details` | Artifact metadata and relationships. |
+| `get_artifact_content` | Artifact text — `mode="preview"` for the first ~15k tokens, or `mode="range"` with `start_line` / `end_line` for numbered lines (~5k-token cap) when you need to cite specific lines. |
+| `search_artifact_text` | Within one artifact (by `resource_key`), find matches with surrounding context. |
 
 ---
 
@@ -104,30 +94,32 @@ processes (BRDs, SOPs, video recordings, screenshots).
 | Tool | When to use |
 |---|---|
 | `list_accessible_workspaces` | List the customer's workspaces and which one is currently active. |
-| `switch_mcp_workspace` | **Only write tool exposed in PROD.** Switch the active workspace. Only call when the customer explicitly asks. |
+
+The connection is scoped to a single workspace. Switching workspace is an
+auth-level action (reconnect via OAuth, or use a key generated in the other
+workspace), not something the agent does at runtime.
 
 ---
 
-## F. Workspace attributes & sessions
+## F. Sessions
 
 | Tool | When to use |
 |---|---|
-| `get_attribute_configurations` | Workspace-level attribute configs (custom fields, compliance attributes). Use when the customer asks about controls, compliance attributes, or process metadata schema. |
-| `search_workspace_activity_or_sessions` | Recent workspace sessions as supporting evidence. |
+| `list_sessions` | Recent workspace sessions as supporting evidence — the processes each updated, its duration, and who created it. |
 
 ---
 
 ## Tool-selection patterns by goal
 
-**"Tell me about process X"** → `search` → `fetch`. If sparse: `get_process_hierarchy_tree` to browse, then `fetch` the right leaf.
+**"Tell me about process X"** → `search` → `fetch`. If sparse: `get_process_hierarchy` to browse, then `fetch` the right leaf.
 
-**"What is the evidence for Y?"** → `fetch` (process) → look at policies in current_version + observations → `get_observation_activity_timeline` for the actual session that produced an observation.
+**"What is the evidence for Y?"** → `fetch` (process) → look at policies in current_version + observations → `get_observation_citation` for the actual session that produced an observation.
 
-**"What changed recently?"** → `get_recent_process_changes` + `get_recent_process_observations` → drill into specific processes via `fetch`.
+**"What changed recently?"** → `get_recent_process_changes` → drill into specific processes via `fetch`, then `get_process_observations` for the deviation detail.
 
 **"What depends on Z?" / "What is the impact?"** → `search` for Z → `fetch` + `get_process_details` to read its `dependencies` field → `fetch` each upstream and downstream process to walk the chain. For impact-critical answers, also pull observations on the dependents.
 
-**"Find improvement opportunities in our P2P value stream"** → `get_process_hierarchy_tree` (root: P2P node) → for each leaf: `get_process_details` → look for duplication, exception handling, missing controls. Surface as a ranked candidate set with evidence.
+**"Find improvement opportunities in our P2P value stream"** → `get_process_hierarchy` (root: P2P node) → for each leaf: `get_process_details` → look for duplication, exception handling, missing controls. Surface as a ranked candidate set with evidence.
 
 ---
 
@@ -144,8 +136,8 @@ processes (BRDs, SOPs, video recordings, screenshots).
    That gap is itself useful information for the customer.
 5. **Do not expose internal IDs unless needed for a follow-up.** Resource keys
    are for tool calls, not user-facing prose.
-6. **Read-only by default.** `switch_mcp_workspace` is the only PROD write
-   tool — only call when explicitly asked.
+6. **Read-only.** Every PROD tool is read-only; the MCP never mutates
+   workspace state.
 
 ---
 
@@ -166,28 +158,26 @@ migration prep, audit walkthrough. Pull the customer's existing process
 before improvising.
 
 1. `list_accessible_workspaces` — confirm the agent is in the right
-   workspace (or `switch_mcp_workspace` if not).
+   workspace (if not, the user must reconnect to switch — the agent can't).
 2. `search` — query the task in the user's words ("vendor invoice
    reconciliation"). Iterate 2–4 times with refined queries — single queries
    rarely cover broad topics.
-3. If still sparse: `get_process_hierarchy_tree` — orient on the value
+3. If still sparse: `get_process_hierarchy` — orient on the value
    stream (P2P, O2C, close cycle, etc.) and find the right leaf.
 4. `fetch` — pull the matched process. Read steps, policies, inputs,
    outputs, and dependencies.
 5. `get_process_details` — go deeper if `fetch`'s shape is not enough
    (e.g., need the full version metadata or all dependency IDs to walk).
-6. `get_recent_process_observations` — has anything changed in this
-   process recently? Are there new edge cases the user should know about?
-7. `get_process_observations` — exception patterns observed for this
-   process across versions.
-8. `get_observation_activity_timeline` — drill into the most recent or
+6. `get_process_observations` — exception patterns observed for this
+   process across versions; surface new edge cases the user should know about.
+7. `get_observation_citation` — drill into the most recent or
    most relevant exception session for primary-source evidence of how the
    process actually runs in practice.
-9. Optional: read the `dependencies` field already in `get_process_details`,
+8. Optional: read the `dependencies` field already in `get_process_details`,
    and `fetch` an upstream or downstream process if the user's task touches
    the boundary (e.g., "what should I check before I close this out?").
-10. Synthesize: "Here's how your team does this, here's the deviation
-    pattern from last quarter, here's what to watch for."
+9. Synthesize: "Here's how your team does this, here's the deviation
+   pattern from last quarter, here's what to watch for."
 
 ### Scenario 2 — Give a manager a state-of-the-team report
 
@@ -198,20 +188,18 @@ A team manager is checking in on the processes their team owns. The agent
 should produce a concise, evidence-backed brief that the manager can act on.
 
 1. `list_accessible_workspaces` — confirm workspace.
-2. `get_process_hierarchy_tree` (root: their team's value stream node) —
+2. `get_process_hierarchy` (root: their team's value stream node) —
    pull the team's part of the index.
 3. `get_recent_process_changes` — what's been edited recently across the
    workspace, filtered to processes under the team's tree.
-4. `get_recent_process_observations` — what deviation patterns are
-   emerging across the team's processes.
-5. For each high-volume or recently-changed process:
+4. For each high-volume or recently-changed process:
    - `get_process_details` — current state, dependencies, version label.
-   - `list_process_observations` — recent observation summary (lighter
-     than `get_process_observations`).
-6. Spot-check the top 2–3 emerging deviations:
-   `get_observation_activity_timeline` — drill into the actual session
+   - `get_process_observations` (`verbosity="summary"`) — recent
+     observation summary and emerging deviation patterns.
+5. Spot-check the top 2–3 emerging deviations:
+   `get_observation_citation` — drill into the actual session
    for primary-source detail.
-7. Synthesize: "Your team owns N processes. M changed in the last 30
+6. Synthesize: "Your team owns N processes. M changed in the last 30
    days. K are showing deviation patterns worth your attention. Here are
    the top 3 with evidence."
 
@@ -226,25 +214,23 @@ process tree" use case — agents should fan out in parallel across the
 hierarchy.
 
 1. `list_accessible_workspaces` — confirm workspace.
-2. `get_process_hierarchy_tree` — pull the whole tree, or filter to the
+2. `get_process_hierarchy` — pull the whole tree, or filter to the
    value stream of interest. This becomes the work queue.
 3. **In parallel** across leaves (this is where multiple agents pay off):
    - `get_process_details` — current version, steps, dependencies.
      Note step count, manual vs system steps, exception count.
-   - `list_process_observations` — exception volume per process.
+   - `get_process_observations` (`verbosity="summary"`) — exception
+     volume per process.
 4. `search` directly on the index for high-leverage patterns: "manual
    approval", "duplicate entry", "data re-keying", "exception handling",
    "swivel-chair workflow". `fetch` each hit to confirm the pattern is
    real, not just a name match.
-5. `get_attribute_configurations` — workspace attribute schema (look for
-   "automation status", "system of record", "control level" or similar
-   metadata that helps rank candidates).
-6. For each top candidate:
+5. For each top candidate:
    - `get_process_observations` — confirm the deviation/manual pattern
      with concrete evidence.
    - Read the `dependencies` field already returned by
      `get_process_details` for a first cut at blast radius.
-7. Synthesize a ranked candidate set: process IDs, observation counts,
+6. Synthesize a ranked candidate set: process IDs, observation counts,
    dependency depth, similarity to known patterns, evidence trail.
 
 ### Scenario 4 — Form a transformation thesis on a chosen process or value stream
@@ -261,7 +247,7 @@ evidence-grounded understanding before recommending changes.
    the target process.
 3. `get_process_details` — full nested payload: current version, all
    dependencies, hierarchy node, version history.
-4. `get_process_hierarchy_node_details` — context within the index
+4. `get_hierarchy_node_details` — context within the index
    (parent value stream, sibling processes that may share patterns).
 5. `get_recent_process_changes` (filtered to this process if possible)
    — version evolution. What has the team been changing? In which
@@ -269,7 +255,7 @@ evidence-grounded understanding before recommending changes.
 6. `get_process_observations` — all observations across versions. Look
    for repeated deviation patterns, exception types, manual workarounds.
 7. For 3–5 representative observations:
-   `get_observation_activity_timeline` — primary-source detail of how
+   `get_observation_citation` — primary-source detail of how
    the process runs in practice (not how it's documented).
 8. **Walk the dependency graph in the index.** The `dependencies` field
    already in `get_process_details` lists upstream and downstream
@@ -281,9 +267,9 @@ evidence-grounded understanding before recommending changes.
    - **Downstream:** blast radius if we change it. Surfacing this early
      prevents under-scoped transformation proposals.
    - For the most-affected dependencies, drill one level deeper:
-     `get_process_observations` and `get_observation_activity_timeline`.
+     `get_process_observations` and `get_observation_citation`.
 9. **Cross-check sibling processes.** From the
-   `get_process_hierarchy_node_details` payload returned earlier,
+   `get_hierarchy_node_details` payload returned earlier,
    `fetch` two or three sibling processes under the same value stream.
    If they share patterns, controls, or systems with the target, the
    transformation thesis may need to address them too.

@@ -54,7 +54,7 @@ In short, the MCP inherits the user's existing posture. Granting MCP access does
 
 ## Read-only data scope
 
-All tools exposed by the MCP in production are **read-only**, with one exception: `switch_mcp_workspace`, which changes which workspace the current MCP session reads from. It cannot read across workspaces and does not modify user-facing data.
+All tools exposed by the MCP in production are **read-only**. The MCP does not modify user-facing data and cannot read across workspaces — each connection is scoped to a single workspace, set by the authenticated user's session or the workspace the API key was issued for.
 
 The MCP cannot:
 
@@ -70,6 +70,6 @@ All write operations happen in the Klarity Architect UI. See [Limitations](/limi
 - **Hosting**: Same infrastructure as the Klarity Architect web application.
 - **AuthN**: OAuth (interactive) or long-lived API key (automated). Both revocable from `Settings → MCP`.
 - **AuthZ**: Identical to the Klarity web app — same workspace and per-resource permissions.
-- **Data scope**: Read-only, except `switch_mcp_workspace`. Cannot bypass user permissions.
+- **Data scope**: Read-only. Cannot bypass user permissions.
 
 If your review needs detail not covered here, reach out at [hello@klarity.ai](mailto:hello@klarity.ai).

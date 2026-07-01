@@ -8,7 +8,7 @@ The Klarity MCP is read-mostly and scoped intentionally. Knowing where it stops 
 
 ## Read-only access
 
-Tools available through the MCP are query-only with one exception: `switch_mcp_workspace`. You can search, read, explore, and analyze. You cannot create or modify processes, artifacts, or graph entities through the MCP — those writes happen in the Klarity Architect UI.
+Tools available through the MCP are query-only. You can search, read, explore, and analyze. You cannot create or modify processes, artifacts, or graph entities through the MCP — those writes happen in the Klarity Architect UI.
 
 ## Authentication coverage
 
@@ -16,7 +16,7 @@ OAuth is supported in Claude, ChatGPT, Claude Code (via the plugin), Codex (via 
 
 ## Workspace scope
 
-Each session is scoped to one Klarity workspace. If the user belongs to multiple workspaces, the assistant can switch between them at runtime with `switch_mcp_workspace`, but a single call cannot read across workspaces.
+Each connection is scoped to one Klarity workspace. If the user belongs to multiple workspaces, they switch by reconnecting (OAuth) or by using a key generated in the other workspace (API key) — see [Authentication → Switching workspaces](/authentication#switching-workspaces).
 
 ## Tool surface evolves
 
