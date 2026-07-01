@@ -10,14 +10,14 @@ Use these tools when the user asks "what changed?", "what happened?", or "why do
 |---|---|
 | `get_recent_process_changes` | Workspace-wide version-change feed. "What has been edited recently?" |
 | `get_process_observations` | Observations on a specific process. Each surfaces the friction signals — `rationale`, `windows_time_frame`, `negative_deviations`, `positive_deviations` — and a session reference. Default response is the summary shape; pass `verbosity="full"` to also include the runtime inputs, outputs, and the step-by-step narrative (heavy — use a small `limit`). Optional version filter. |
-| `get_observation_citation` | The activity timeline behind an observation: what the user did, when, on which systems. The most "primary source" evidence Klarity has. For long sessions, page through with `start_timestamp` / `end_timestamp` in `HH:MM:SS` format — the response flags `activity_timeline_truncated` when the full window doesn't fit. |
-| `list_sessions` | Recent workspace sessions, paginated. Session resource keys are correlation-only — to inspect what happened in a session, find an observation that references it (`get_process_observations`) and call `get_observation_citation` with the **observation's** resource key. |
+| `get_observation_citation` | The activity timeline behind an observation: what the user did, when, on which systems. The most "primary source" evidence Klarity has. Pass the `observation_resource_key`; use `verbosity` (`low`/`medium`/`high`) for detail, and `activity_block_index` to page through the timeline one block at a time. Only works for your own sessions. |
+| `list_sessions` | Recent workspace sessions, paginated. Each entry returns the processes the session updated, its duration, and who created it — a quick way to see recent activity and who's driving it. |
 
 ## What an observation is
 
 An observation is a captured execution of a process — a real session, attached to a specific process and version. The **activity timeline** is the underlying sequence of user actions that produced the observation — the systems they used, what they did, when.
 
-If you only call one tool from this group, call `get_observation_citation` on a top observation. It is the closest thing the workspace has to a video replay.
+If you only call one tool from this group, call `get_observation_citation` on a top observation. It is the closest thing the workspace has to a video replay. It only works for your own sessions.
 
 ## Common chains
 
