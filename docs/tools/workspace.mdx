@@ -1,18 +1,24 @@
 ---
 title: "Workspace"
-description: "List workspaces and switch the active workspace."
+description: "List the workspaces you can access and see which one is active."
 icon: "building"
 ---
 
 | Tool | When to use |
 |---|---|
 | `list_accessible_workspaces` | List the customer's workspaces and which one is currently active. |
-| `switch_mcp_workspace` | **Only write tool exposed in production.** Switch the active workspace. Only call when the customer explicitly asks. |
 
-## Workspace switching
+All tools in production are read-only. Use `list_accessible_workspaces` to orient at the start of a session or to confirm which workspace the assistant is reading from before drilling in.
 
-`switch_mcp_workspace` is the **only** tool in production that mutates state — it changes which workspace the rest of the session reads from. Call it only when the user explicitly asks to change workspace. If you're unsure which workspace the user is in, call `list_accessible_workspaces` first to confirm.
+## Switching workspaces
+
+Each session is scoped to a single workspace. To switch, how you do it depends on how you authenticated:
+
+- **OAuth** — disconnect the Klarity connection in your client and reconnect. The reconnect flow shows a workspace picker.
+- **API key** — keys are bound to the workspace they were generated in. Generate a new key in the other workspace and swap the Bearer token in your client.
+
+See [Authentication → Switching workspaces](/authentication#switching-workspaces) for the full walkthrough.
 
 ## Common chains
 
-- **Confirm workspace at start**: `list_accessible_workspaces` → only call `switch_mcp_workspace` if the user explicitly asks
+- **Confirm workspace at start**: `list_accessible_workspaces` to see which workspace is active before drilling in

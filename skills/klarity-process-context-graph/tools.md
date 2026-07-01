@@ -1,9 +1,8 @@
 # Klarity MCP — PROD Tool Catalog
 
 This is the operational reference for every tool the Klarity MCP exposes to a
-customer's AI agent in production. **All tools here are read-only**, with one
-exception (`switch_mcp_workspace`) needed to change the agent's active
-workspace.
+customer's AI agent in production. **All tools here are read-only** — the MCP
+never mutates workspace state.
 
 The point of this catalog is not to enumerate APIs — it's to help an agent
 **pick the right tool for the goal at hand** when working inside a customer's
@@ -104,7 +103,10 @@ processes (BRDs, SOPs, video recordings, screenshots).
 | Tool | When to use |
 |---|---|
 | `list_accessible_workspaces` | List the customer's workspaces and which one is currently active. |
-| `switch_mcp_workspace` | **Only write tool exposed in PROD.** Switch the active workspace. Only call when the customer explicitly asks. |
+
+The connection is scoped to a single workspace. Switching workspace is an
+auth-level action (reconnect via OAuth, or use a key generated in the other
+workspace), not something the agent does at runtime.
 
 ---
 
@@ -144,8 +146,8 @@ processes (BRDs, SOPs, video recordings, screenshots).
    That gap is itself useful information for the customer.
 5. **Do not expose internal IDs unless needed for a follow-up.** Resource keys
    are for tool calls, not user-facing prose.
-6. **Read-only by default.** `switch_mcp_workspace` is the only PROD write
-   tool — only call when explicitly asked.
+6. **Read-only.** Every PROD tool is read-only; the MCP never mutates
+   workspace state.
 
 ---
 
@@ -166,7 +168,7 @@ migration prep, audit walkthrough. Pull the customer's existing process
 before improvising.
 
 1. `list_accessible_workspaces` — confirm the agent is in the right
-   workspace (or `switch_mcp_workspace` if not).
+   workspace (if not, the user must reconnect to switch — the agent can't).
 2. `search` — query the task in the user's words ("vendor invoice
    reconciliation"). Iterate 2–4 times with refined queries — single queries
    rarely cover broad topics.

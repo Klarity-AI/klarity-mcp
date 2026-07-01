@@ -25,10 +25,13 @@ If your question isn't here, reach out to [hello@klarity.ai](mailto:hello@klarit
     Your organization's Klarity workspace admin needs to approve the Klarity connector (Claude) or app (ChatGPT) before users can sign in. Ask your admin, or have them reach out to [hello@klarity.ai](mailto:hello@klarity.ai).
   </Accordion>
 
-  <Accordion title="How do I switch between Klarity workspaces from inside my assistant?" icon="arrows-rotate">
-    Ask your assistant to switch — for example, "switch my Klarity workspace to EMEA-ops." It will call `switch_mcp_workspace` (the only write tool exposed in production). This only affects the active session; it does not change your default workspace in Klarity.
+  <Accordion title="How do I switch between Klarity workspaces?" icon="arrows-rotate">
+    A connection is scoped to one workspace, so you switch at the auth level rather than from inside the assistant. How you do it depends on your authentication method:
 
-    See [Workspace tools](/tools/workspace) for the details.
+    - **OAuth:** disconnect the Klarity connection in your client and reconnect. The reconnect flow shows a workspace picker.
+    - **API key:** keys are bound to the workspace they were generated in. Generate a new key in the other workspace and swap the Bearer token in your client.
+
+    See [Authentication → Switching workspaces](/authentication#switching-workspaces) for the full walkthrough.
   </Accordion>
 
   <Accordion title="How do I rotate or revoke an API key?" icon="rotate">
@@ -48,7 +51,7 @@ If your question isn't here, reach out to [hello@klarity.ai](mailto:hello@klarit
   </Accordion>
 
   <Accordion title="Can I create or edit processes through the MCP?" icon="pen-slash">
-    No. Every tool in production is read-only with one exception: `switch_mcp_workspace`. All process, artifact, and graph edits happen in the Klarity Architect UI. See [Limitations](/limitations).
+    No. Every tool in production is read-only. All process, artifact, and graph edits happen in the Klarity Architect UI. See [Limitations](/limitations).
   </Accordion>
 
   <Accordion title="The assistant says 'no evidence found in the workspace.' Is something broken?" icon="magnifying-glass">

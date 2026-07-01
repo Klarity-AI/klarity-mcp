@@ -16,7 +16,7 @@ A process performer — an AP lead, ops manager, recruiter, analyst — asks the
 
 <Steps>
   <Step title="Confirm the workspace">
-    Call [`list_accessible_workspaces`](/tools/workspace) and switch with [`switch_mcp_workspace`](/tools/workspace) if the user names a workspace other than the active one.
+    Call [`list_accessible_workspaces`](/tools/workspace) to confirm the active workspace. If the user names a different one, they'll need to [switch workspaces](/authentication#switching-workspaces) — the assistant can't change it mid-session.
   </Step>
   <Step title="Search for the process">
     Call [`search`](/tools/entry-points) with the task in the user's words ("vendor invoice reconciliation"). Iterate two to four times with refined queries — single queries rarely cover broad topics.

@@ -68,7 +68,7 @@ Make sure you've completed [Enable the MCP in your workspace](#enable-the-mcp-in
   </Step>
 </Steps>
 
-You can view, disable, or rotate existing keys from the same screen. You can switch workspaces from inside the AI client later using `switch_mcp_workspace`.
+You can view, disable, or rotate existing keys from the same screen. Keys are bound to the workspace they were generated in — to work in a different workspace, generate a separate key there (see [Switching workspaces](#switching-workspaces)).
 
 ### Pass the key to your client
 
@@ -93,4 +93,24 @@ Per-client snippets:
 
 ## Switching workspaces
 
-If you're a user in more than one Klarity workspace, the assistant can switch between them at runtime using `switch_mcp_workspace`. This is the only write tool exposed in production, and it only affects which workspace the current session reads from. See [Workspace tools](/tools/workspace) for the details.
+Each connection is scoped to a single Klarity workspace. If you belong to more than one, how you switch depends on your authentication method.
+
+### OAuth
+
+Disconnect the Klarity connection in your client and reconnect. The reconnect flow shows a workspace picker, so you choose the workspace at sign-in.
+
+### API key
+
+API keys are bound to the workspace they were generated in — an existing key cannot be pointed at a different workspace.
+
+<Steps>
+  <Step title="Enable the MCP in the other workspace">
+    If you haven't already, complete [Enable the MCP in your workspace](#enable-the-mcp-in-your-workspace) for the workspace you want to switch to.
+  </Step>
+  <Step title="Generate a key there">
+    In that workspace, go to **Settings → MCP** and create a new API key.
+  </Step>
+  <Step title="Swap the Bearer token">
+    Update your client to send the new key as the `Bearer` token. The connection now reads from the new workspace.
+  </Step>
+</Steps>

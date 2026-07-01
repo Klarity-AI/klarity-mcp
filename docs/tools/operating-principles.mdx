@@ -25,9 +25,9 @@ This distinction matters more than any single tool call.
 
 If the workspace does not have evidence, say so plainly. That gap is itself useful information for the customer — it's how they learn what to capture next.
 
-## 5. Read-only by default
+## 5. Read-only
 
-Every tool in production is read-only with one exception: `switch_mcp_workspace`. Only call it when the user explicitly asks to change workspace.
+Every tool in production is read-only. The MCP never mutates workspace state — all edits happen in the Klarity Architect UI.
 
 ## 6. `search_*` returns starting points, not answers
 
