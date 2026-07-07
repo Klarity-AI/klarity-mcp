@@ -1,64 +1,13 @@
 ---
-title: "Build an agent with Agent Builder"
-description: "A guided, evidence-grounded workflow that takes you from 'what should we automate?' to a shipped skill or a developer-ready spec."
+title: "Build skills, agents, and automations"
+description: "A guided way to turn how your organization works into skills, agents, and automations — grounded in your real processes."
 icon: "wand-magic-sparkles"
 ---
 
-Agent Builder is a guided workflow for turning how your organization actually works into automations. Instead of guessing at what to build, the assistant walks you through a lifecycle — scope an objective, map your current state, diagnose the highest-leverage opportunities, propose a prioritized plan, and then either ship a skill or hand a developer a ready-to-build spec. Every recommendation is grounded in real process evidence from your workspace.
+Agent Builder helps you turn the way your organization already works into something you can reuse: a skill, an agent, an automation, or a lighter change like a shared prompt or project. It analyzes your workspace, surfaces opportunities, and helps you decide what to build — grounded in your real processes, not generic guesses.
 
-You don't need to memorize the steps. Agent Builder is self-guiding: you ask for the instructions once, and it orients you, figures out where you are, and tells you what to run next.
+You can use it to start something new, pick up an existing project in a fresh chat, or get help deciding what to do next.
 
-<Note>
-  Agent Builder is gated per workspace. If the tools below aren't available, ask your Klarity admin to enable agent development for your workspace.
-</Note>
+## Get started
 
-## Start here
-
-Ask your assistant to **get the Agent Builder instructions**, or just tell it what you're trying to do ("help me figure out what to automate in procurement"). Under the hood this calls `get_agent_builder_instructions` with the `begin` step — the orientation step that resolves your workspace, reads your intent, and routes you into the right part of the lifecycle.
-
-From there the assistant self-navigates. It fetches the instructions for each step as it reaches it and pulls in supporting resources on demand with `get_agent_builder_resource`. You stay in the loop at every decision point.
-
-## The lifecycle
-
-Agent Builder follows one lifecycle with two entry paths.
-
-| Step | What happens |
-|---|---|
-| **Objective** | Capture the scope of the project — what you're trying to improve and why. |
-| **Current state** | Map the relevant part of your workspace from real process evidence and confirm the readout with you. |
-| **Diagnose** | Score and rank the automation opportunities, each tied to the kind of artifact it would become. |
-| **Propose** | Present a prioritized plan you review and pick from, then route each choice to the right next step. |
-| **Spec** | For a buildable recommendation, produce a developer-ready specification to hand off. |
-
-There's also a **skill track** — when a recommendation is best expressed as a skill, Agent Builder walks you through discovering, outlining, and building it end-to-end. And a read-only **home** view answers "where am I?" and "what's next?" at any point.
-
-## Two ways in
-
-<Steps>
-  <Step title="Build skills">
-    You already know you want to build something. Agent Builder takes you into the skill track — discover candidate skills, outline the one you pick, and build the bundle.
-  </Step>
-  <Step title="Explore and decide">
-    You're not sure what to build yet. Agent Builder walks the full explore chain — objective → current state → diagnose → propose — and only then routes you to a spec or a skill build, grounded in what it found.
-  </Step>
-</Steps>
-
-## What to expect
-
-<Steps>
-  <Step title="It asks before it assumes">
-    When there's a finite set of choices, the assistant presents them and lets you pick rather than guessing. Human checkpoints are built into the workflow by design.
-  </Step>
-  <Step title="No recommendation without evidence">
-    Every diagnosis and proposal is backed by real process data from your workspace. If the evidence isn't there, Agent Builder won't invent it.
-  </Step>
-  <Step title="Your work stays with you">
-    Project artifacts and intermediate state live in a local `./klarity/` project directory on your machine — not in the Klarity backend. You can revisit or resume a project across sessions, and the assistant reconciles where you are against your saved progress.
-  </Step>
-</Steps>
-
-## Watch for
-
-- **Come back after the plan.** The proposal step is interactive — you review and make your picks, then the assistant continues from your selections. Give it your choices before expecting it to build.
-- **One workspace at a time.** Agent Builder resolves the workspace up front. If you work across multiple workspaces, confirm you're in the right one before you start.
-- **Resuming a project.** If you've done work before, start the same way — ask for the instructions. The `begin` step reads your local project state and picks up where you left off instead of starting over.
+Just tell your assistant what you're trying to do — for example, "I want to build a skill from our invoice intake process with Klarity" or "help me find something worth automating in procurement." It recognizes the intent, pulls in what it needs, and guides you through the rest.

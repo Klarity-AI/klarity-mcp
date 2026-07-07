@@ -13,15 +13,6 @@ Artifacts are the underlying documents, recordings, and source files behind proc
 | `get_artifact_content` | Full or range-mode text extraction for a single artifact. Use range mode (`start_line` / `end_line`) when you need to cite specific lines. |
 | `search_artifact_text` | Within one artifact (by `resource_key`), find line-numbered matches with surrounding context. Regex or literal. There is no cross-document text search on the external surface — for multi-document retrieval, use `search_artifacts`. |
 
-## Artifact types and origins
-
-| Field | Values |
-|---|---|
-| **Type** | `video`, `audio`, `document`, `diagram`, `log`, `image`, `folder`, `rav_session_data`, `session_analysis` |
-| **Origin** | `user_input`, `system_input`, `ai_generated`, `system_processed`, `gold_document` |
-
-Filter by these when the user is asking for a specific kind of source — "show me the gold SOP for X", "find the recording of the migration walkthrough".
-
 ## Common chains
 
 - **Cite a passage**: `search_artifacts` → `get_artifact_content` with a line range → quote the lines back to the user

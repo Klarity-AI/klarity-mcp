@@ -1,64 +1,14 @@
 ---
 title: "Agent Builder"
-description: "Fetch the guided Agent Builder workflow and its supporting resources, step by step."
+description: "Fetch the Agent Builder instructions and the resources used to build with them."
 icon: "wand-magic-sparkles"
 ---
 
-Agent Builder is a guided workflow for turning how an organization works into automations — scope an objective, map current state, diagnose opportunities, propose a plan, then ship a skill or a developer-ready spec. The methodology is served over these two tools rather than shipped in the client, so the assistant fetches each step's instructions as it reaches it.
+Agent Builder is a guided way to turn how your organization works into skills, agents, and automations. Two tools drive it.
 
-<Note>
-  These tools are gated by the `enable_agent_development_mcp` workspace setting. They only appear for workspaces where agent development is enabled.
-</Note>
-
-| Tool | When to use |
+| Tool | What it does |
 |---|---|
-| `get_agent_builder_instructions` | The entry point and the per-step fetcher. Start with `step="begin"` to orient, then fetch each step as the workflow routes to it. |
-| `get_agent_builder_resource` | Pull a supporting resource (reference, primitive, or template) named in a step's manifest — fetched on demand, not up front. |
+| `get_agent_builder_instructions` | Fetches the instructions relevant to the Agent Builder process. |
+| `get_agent_builder_resource` | Fetches a resource used while building. |
 
-## `get_agent_builder_instructions`
-
-Fetches one step's instruction body plus the manifest of supporting resources it may draw on.
-
-- **`step`** — the step to fetch. One of: `begin`, `home`, `start`, `objective`, `current_state`, `diagnose`, `propose`, `spec`, `skill_track`, `skill_discovery`, `skill_outline`, `skill_build`.
-
-Returns:
-
-- **`instructions`** — the step's body, with a "Relevant resources" appendix listing the resources you can fetch on demand.
-- **`resource_manifest`** — the same resources as structured `(type, subtype)` pairs. These are **relevance hints**, not required reads — fetch one only when the conversation calls for it.
-
-Always begin with `step="begin"`. The orientation step resolves the workspace, reads the user's intent, and routes into the right part of the lifecycle. There is no `next` field — routing lives in each step's prose, so the workflow self-navigates from `begin` onward.
-
-## `get_agent_builder_resource`
-
-Fetches a single supporting resource named in a step's `resource_manifest`.
-
-- **`type`** — `reference`, `primitive`, or `template`.
-- **`subtype`** — the specific variant. Must be valid for the given `type`; an invalid pairing is rejected.
-
-Returns:
-
-- **`content`** — the resource payload (markdown, HTML, or YAML).
-- **`version`** — the resource version number.
-- **`subtype`** — the resolved subtype.
-
-## The loop
-
-<Steps>
-  <Step title="Orient">
-    Call `get_agent_builder_instructions` with `step="begin"`. Resolve the workspace and let the step route you to the entry point.
-  </Step>
-  <Step title="Walk the lifecycle">
-    Fetch each step's instructions as the workflow reaches it — `objective`, `current_state`, `diagnose`, `propose`, and then `spec` or the skill track. Follow the body's prose to decide what runs next.
-  </Step>
-  <Step title="Pull resources on demand">
-    When a step's manifest names a resource the current work needs, call `get_agent_builder_resource` for that `(type, subtype)`. Don't fetch the whole manifest up front.
-  </Step>
-</Steps>
-
-## Watch for
-
-- **Begin first.** For MCP-only clients with no skills to auto-load, the convention is that the first call is `get_agent_builder_instructions(step="begin")`. Everything else routes from there.
-- **The manifest is a hint.** `resource_manifest` tells you what a step *may* draw on, not what to load. Fetch resources lazily.
-- **Feature-gated.** If these tools aren't present, the workspace doesn't have agent development enabled.
-
-See the [Build an agent with Agent Builder](/guides/agent-builder) guide for the end-to-end walkthrough.
+See the [Build skills, agents, and automations](/guides/agent-builder) guide for how to get started.
