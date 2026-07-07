@@ -1,6 +1,6 @@
 {
   "name": "klarity",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Bring your organization's processes and operational knowledge into your AI assistant. The Klarity MCP connects to your Klarity workspace so you can query your organization's processes, explore the process index knowledge graph linking processes to systems and teams, and ground answers in how your business actually runs \u2014 not generic guesses.",
   "author": {
     "name": "Klarity Intelligence, Inc.",
