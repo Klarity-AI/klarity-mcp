@@ -59,7 +59,7 @@
               "guides/transformation-thesis",
               "guides/chain-with-connectors",
               "guides/deep-research",
-              "guides/code-and-agents"
+              "guides/agent-builder"
             ]
           },
           {
@@ -88,7 +88,8 @@
               "tools/process-index",
               "tools/observations-and-changes",
               "tools/artifacts",
-              "tools/workspace"
+              "tools/workspace",
+              "tools/agent-builder"
             ]
           }
         ]

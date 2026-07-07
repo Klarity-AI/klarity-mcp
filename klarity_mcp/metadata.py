@@ -95,20 +95,9 @@ KLARITY_MCP_METADATA = KlarityMCPMetadata(
     repository_url="https://github.com/Klarity-AI/klarity-mcp",
     skills=(
         "klarity-process-context-graph",
-        "klarity-agent-builder-using-klarity",
-        "klarity-agent-builder-start",
-        "klarity-agent-builder-home",
-        "klarity-agent-builder-objective",
-        "klarity-agent-builder-current-state",
-        "klarity-agent-builder-diagnose",
-        "klarity-agent-builder-propose",
-        "klarity-agent-builder-spec",
-        "klarity-agent-builder-skill-track",
-        "klarity-agent-builder-skill-discovery",
-        "klarity-agent-builder-skill-outline",
-        "klarity-agent-builder-skill-build",
+        "agent-builder",
     ),
-    gemini_context_skill="klarity-agent-builder-using-klarity",
+    gemini_context_skill="agent-builder",
 )
 
 
