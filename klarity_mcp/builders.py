@@ -190,6 +190,15 @@ def build_gemini_extension_manifest(
     """Output: gemini-extension.json (Gemini CLI extension manifest).
 
     Uses the consolidated `url` key (not `httpUrl`) per Gemini CLI PR #13762.
+
+    PARITY LIMITATION: Gemini's extension schema accepts a single
+    `contextFileName`, so it cannot enumerate every bundled skill the way Codex
+    (`skills: "./skills/"`) and Claude (plugin-dir discovery) do. We point it at
+    the agent-builder entry shim (`metadata.gemini_context_skill`), which is the
+    ADK entry point; that skill's prose routes to the rest of the lifecycle via
+    the MCP tools. The process-context-graph skill and the remaining
+    agent-builder step skills are NOT surfaced to Gemini as separate context
+    files — they remain reachable through the MCP tools the entry shim invokes.
     """
     return {
         "name": metadata.plugin_name,
@@ -200,7 +209,7 @@ def build_gemini_extension_manifest(
                 "url": metadata.mcp_url,
             }
         },
-        "contextFileName": "skills/klarity-process-context-graph/SKILL.md",
+        "contextFileName": f"skills/{metadata.gemini_context_skill}/SKILL.md",
     }
 
 

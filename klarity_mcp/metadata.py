@@ -43,13 +43,19 @@ class KlarityMCPMetadata:
     submission_test_prompts: tuple[str, ...]
     license_spdx: str
     repository_url: str
+    # All skill directory names bundled under skills/. Ships across every client.
+    skills: tuple[str, ...]
+    # The single entry-point skill Gemini's `contextFileName` points at. Gemini's
+    # extension schema accepts exactly one context file, so it cannot enumerate
+    # every skill the way Codex/Claude do; this designates the one that loads.
+    gemini_context_skill: str
 
 
 KLARITY_MCP_METADATA = KlarityMCPMetadata(
     product_name="Klarity",
     app_display_name="Klarity",
     plugin_name="klarity",
-    plugin_version="1.0.0",
+    plugin_version="1.1.0",
     author_name="Klarity Intelligence, Inc.",
     author_email="hello@klarity.ai",
     author_url="https://www.klarity.ai/",
@@ -87,6 +93,11 @@ KLARITY_MCP_METADATA = KlarityMCPMetadata(
     ),
     license_spdx="Apache-2.0",
     repository_url="https://github.com/Klarity-AI/klarity-mcp",
+    skills=(
+        "klarity-process-context-graph",
+        "agent-builder",
+    ),
+    gemini_context_skill="agent-builder",
 )
 
 

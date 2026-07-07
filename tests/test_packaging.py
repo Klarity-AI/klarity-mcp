@@ -231,6 +231,30 @@ def test_gemini_extension_context_file_points_at_skill() -> None:
     )
 
 
+def test_declared_skills_resolve_to_real_skill_dirs() -> None:
+    """Every skill name in metadata.skills must be a real dir with a SKILL.md.
+
+    These are the skills that ship across Claude, Codex, and Gemini. A typo or a
+    missing dir would ship a plugin that references a skill that isn't there.
+    """
+    missing: list[str] = []
+    for skill in KLARITY_MCP_METADATA.skills:
+        skill_md = SKILLS_DIR / skill / "SKILL.md"
+        if not skill_md.is_file():
+            missing.append(skill)
+    assert not missing, (
+        f"metadata.skills lists names with no skills/<name>/SKILL.md: {missing}"
+    )
+
+
+def test_gemini_context_skill_is_a_declared_skill() -> None:
+    """Gemini's single contextFileName must point at one of the bundled skills."""
+    assert KLARITY_MCP_METADATA.gemini_context_skill in KLARITY_MCP_METADATA.skills, (
+        f"gemini_context_skill {KLARITY_MCP_METADATA.gemini_context_skill!r} "
+        f"must be one of metadata.skills"
+    )
+
+
 # ---------- 3. Drift + safety invariants ----------
 
 def test_generated_manifests_match_committed_files() -> None:
