@@ -1,0 +1,71 @@
+---
+title: "GitHub Copilot"
+description: "Register the Klarity MCP server in the GitHub Copilot CLI and desktop app."
+---
+
+Copilot has no plugin marketplace, so register the MCP server directly. The CLI and the desktop app read the same MCP configuration (`~/.copilot/mcp-config.json`), so registering the server once makes it available in both. OAuth is the preferred auth path. Use an API key for long-running background agents.
+
+<Note>
+  Because there's no plugin, the bundled skill prompt that ships with the Claude Code and Codex installs isn't included. The MCP tools work the same, the assistant just starts without the extra prompt guidance.
+</Note>
+
+## OAuth install (preferred)
+
+<Steps>
+  <Step title="Register the server">
+    From your shell:
+
+    ```bash theme={null}
+    copilot mcp add --transport http klarity https://api.klarity.ai/mcp
+    ```
+
+    Or in the desktop app: open settings, go to **MCP servers**, click **Add server**, then **Add custom server**. Name the server `klarity`, switch the type from **Local** to **HTTP**, and enter `https://api.klarity.ai/mcp` as the URL. Leave **Headers** and **OAuth Client ID** empty.
+  </Step>
+
+  <Step title="Sign in">
+    Copilot prompts you to authenticate the first time it uses the server. The CLI shows the prompt when you open a session, and the desktop app shows a **Sign in** button on the `klarity` row under **MCP servers** in settings. Complete the sign-in in your browser once; the credential is shared between the CLI and the app.
+  </Step>
+</Steps>
+
+## API key install
+
+Use this for long-running background agents. Generate an API key from `Settings → MCP` in your Klarity workspace (see [Authentication](/authentication#api-key)), then register the server with an Authorization header:
+
+```bash theme={null}
+copilot mcp add --transport http \
+  --header "Authorization: Bearer <YOUR_API_KEY>" \
+  klarity https://api.klarity.ai/mcp
+```
+
+Or add it to `~/.copilot/mcp-config.json` directly:
+
+```json theme={null}
+{
+  "mcpServers": {
+    "klarity": {
+      "type": "http",
+      "url": "https://api.klarity.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer <YOUR_API_KEY>"
+      },
+      "tools": ["*"]
+    }
+  }
+}
+```
+
+In the desktop app, the same header goes in the **Headers** fields of the add-server form: `Authorization` as the name, `Bearer <YOUR_API_KEY>` as the value.
+
+<Warning>
+  Treat the API key like a password. Anyone with the key can query your Klarity workspace. Rotate it from `Settings → MCP` in Klarity if it's exposed.
+</Warning>
+
+## Verify
+
+Run `/mcp show` in a CLI session (or check **MCP servers** in the desktop app's settings) to confirm `klarity` is listed. If it isn't, quit and reopen Copilot. The configuration is read at startup, so a server added while a session was open, or added from the other surface, won't appear until a restart. Then ask:
+
+```text theme={null}
+Search Klarity for AI transformation opportunities across our processes — where could we build skills or deploy agents?
+```
+
+The assistant should call `get_agent_builder_instructions` and start working from your workspace's processes.
