@@ -38,7 +38,8 @@
               "install/chatgpt",
               "install/codex",
               "install/cursor",
-              "install/gemini-cli"
+              "install/gemini-cli",
+              "install/github-copilot"
             ]
           },
           {
