@@ -16,7 +16,7 @@ Copilot has no plugin marketplace, so register the MCP server directly. The CLI 
   <Step title="Register the server">
     From your shell:
 
-    ```bash theme={null}
+    ```bash
     copilot mcp add --transport http klarity https://api.klarity.ai/mcp
     ```
 
@@ -32,7 +32,7 @@ Copilot has no plugin marketplace, so register the MCP server directly. The CLI 
 
 Use this for long-running background agents. Generate an API key from `Settings → MCP` in your Klarity workspace (see [Authentication](/authentication#api-key)), then register the server with an Authorization header:
 
-```bash theme={null}
+```bash
 copilot mcp add --transport http \
   --header "Authorization: Bearer <YOUR_API_KEY>" \
   klarity https://api.klarity.ai/mcp
@@ -40,7 +40,7 @@ copilot mcp add --transport http \
 
 Or add it to `~/.copilot/mcp-config.json` directly:
 
-```json theme={null}
+```json
 {
   "mcpServers": {
     "klarity": {
@@ -65,7 +65,7 @@ In the desktop app, the same header goes in the **Headers** fields of the add-se
 
 Run `/mcp show` in a CLI session (or check **MCP servers** in the desktop app's settings) to confirm `klarity` is listed. If it isn't, quit and reopen Copilot. The configuration is read at startup, so a server added while a session was open, or added from the other surface, won't appear until a restart. Then ask:
 
-```text theme={null}
+```text
 Search Klarity for AI transformation opportunities across our processes — where could we build skills or deploy agents?
 ```
 
