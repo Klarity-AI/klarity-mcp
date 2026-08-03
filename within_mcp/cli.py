@@ -1,4 +1,4 @@
-"""CLI for klarity-mcp: regenerate or check the public plugin manifests."""
+"""CLI for within-mcp: regenerate or check the public plugin manifests."""
 
 from __future__ import annotations
 
@@ -6,12 +6,12 @@ import argparse
 import sys
 from pathlib import Path
 
-from klarity_mcp.builders import build_manifest_texts
-from klarity_mcp.metadata import KLARITY_MCP_METADATA, REPO_ROOT
+from within_mcp.builders import build_manifest_texts
+from within_mcp.metadata import REPO_ROOT, WITHIN_MCP_METADATA
 
 
 _REMEDIATION_HINT = (
-    "Generated manifests are out of date. Run `python -m klarity_mcp --write` "
+    "Generated manifests are out of date. Run `python -m within_mcp --write` "
     "from the repo root and commit the result."
 )
 
@@ -50,13 +50,13 @@ def _check(texts: dict[Path, str]) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="klarity_mcp")
+    parser = argparse.ArgumentParser(prog="within_mcp")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--write", action="store_true", help="regenerate the public manifests")
     group.add_argument("--check", action="store_true", help="exit 1 if any committed manifest is stale")
     args = parser.parse_args(argv)
 
-    texts = build_manifest_texts(KLARITY_MCP_METADATA)
+    texts = build_manifest_texts(WITHIN_MCP_METADATA)
 
     if args.write:
         return _write(texts)

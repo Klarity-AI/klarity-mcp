@@ -5,7 +5,7 @@ description: Entry point for turning how your organization works into skills, ag
 
 # Agent Builder
 
-This is the entry point for all Klarity agent-building work. The methodology is served from the Klarity Architect MCP — do not improvise it. Fetch it and follow it.
+This is the entry point for all Within agent-building work. The methodology is served from the Within MCP — do not improvise it. Fetch it and follow it.
 
 1. Call `get_agent_builder_instructions` and follow what it returns before doing any other agent-building work. It self-guides from there.
 2. The returned instructions may reference supporting resources. When the current work needs one, call `get_agent_builder_resource` to fetch it and use the returned content.

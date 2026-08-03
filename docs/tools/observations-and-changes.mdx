@@ -10,7 +10,7 @@ Use these tools when the user asks "what changed?", "what happened?", or "why do
 |---|---|
 | `get_recent_process_changes` | Workspace-wide version-change feed. "What has been edited recently?" |
 | `get_process_observations` | Observations on a specific process. Each surfaces the friction signals — `rationale`, `windows_time_frame`, `negative_deviations`, `positive_deviations` — and a session reference. Default response is the summary shape; pass `verbosity="full"` to also include the runtime inputs, outputs, and the step-by-step narrative (heavy — use a small `limit`). Optional version filter. |
-| `get_observation_citation` | The activity timeline behind an observation: what the user did, when, on which systems. The most "primary source" evidence Klarity has. Pass the `observation_resource_key`; use `verbosity` (`low`/`medium`/`high`) for detail, and `activity_block_index` to page through the timeline one block at a time. Only works for your own sessions. |
+| `get_observation_citation` | The activity timeline behind an observation: what the user did, when, on which systems. The most "primary source" evidence Within has. Pass the `observation_resource_key`; use `verbosity` (`low`/`medium`/`high`) for detail, and `activity_block_index` to page through the timeline one block at a time. Only works for your own sessions. |
 | `list_sessions` | Recent workspace sessions, paginated. Each entry returns the processes the session updated, its duration, and who created it — a quick way to see recent activity and who's driving it. |
 
 ## What an observation is
@@ -27,7 +27,7 @@ If you only call one tool from this group, call `get_observation_citation` on a 
 
 ## Cite what you find
 
-Observations have timestamps and version pointers. When the user asks "what's the evidence?", surface the observation timestamp and the version it was logged against — that's a citation the user can audit in Klarity.
+Observations have timestamps and version pointers. When the user asks "what's the evidence?", surface the observation timestamp and the version it was logged against — that's a citation the user can audit in Within.
 
 ## Deviations
 
@@ -44,5 +44,5 @@ A single observation gives you the single-session view. The signal most teams wa
 
 Two paths:
 
-1. **Klarity Advisor** does this aggregation natively across the workspace.
+1. **Within Advisor** does this aggregation natively across the workspace.
 2. **MCP-stitched**: pull `get_observation_citation` across the observation set for the process, then diff against the pinned process version yourself. The MCP exposes everything Advisor reads — the cross-observation pass is what you stitch.

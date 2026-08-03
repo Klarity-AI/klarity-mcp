@@ -1,13 +1,13 @@
-Klarity Architect MCP Plugin
+Within MCP Plugin
 Copyright (c) 2026 Klarity Intelligence, Inc.
 
 This plugin shim is licensed under the Apache License, Version 2.0.
 
-The Klarity Architect service this plugin connects to
-(https://api.klarity.ai/mcp) is a commercial service.
+The Within service this plugin connects to
+(https://api.within.ai/mcp) is a commercial service.
 Use of the service is subject to:
-  - Terms of Service:  https://www.klarity.ai/terms-of-service-2025
-  - Privacy Policy:    https://www.klarity.ai/product-privacy-policy
+  - Terms of Service:  https://www.within.ai/terms-of-service-2025
+  - Privacy Policy:    https://www.within.ai/product-privacy-policy
 
-"Klarity", "Klarity Architect", and the Klarity logo are trademarks of
+"Within" and the Within logo are trademarks of
 Klarity Intelligence, Inc. The Apache License does not grant trademark rights.

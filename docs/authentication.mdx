@@ -4,22 +4,22 @@ description: "OAuth where the client supports it, API key everywhere else."
 icon: "key"
 ---
 
-The Klarity MCP supports two authentication methods. Most clients will use one or the other based on what they support.
+The Within MCP supports two authentication methods. Most clients will use one or the other based on what they support.
 
 | Method | When to use |
 |---|---|
 | **OAuth** | Preferred. Use in any client that supports MCP OAuth (Claude, ChatGPT, Claude Code via the plugin, Codex via `codex mcp login`, Cursor via the **Connect** button, Gemini CLI via `/mcp auth`). |
 | **API key** | Use when you need a long-lived headless connection, or for custom and automated setups where the OAuth flow isn't a fit. |
 
-Both methods scope the assistant to your active Klarity workspace and obey the same permissions as your Klarity user account.
+Both methods scope the assistant to your active Within workspace and obey the same permissions as your Within user account.
 
 ## Enable the MCP in your workspace
 
 Whichever auth method your client uses, the very first step is to turn the MCP on for the workspace you want to expose. Sign-in and Bearer-token connections will both fail until this is done.
 
 <Steps>
-  <Step title="Log in to Klarity">
-    Sign in to your Klarity workspace in a browser.
+  <Step title="Log in to Within">
+    Sign in to your Within workspace in a browser.
   </Step>
   <Step title="Open MCP settings">
     Go to **Settings → MCP**.
@@ -40,24 +40,24 @@ See [FAQ](/faq) for other common install issues.
 
 ## OAuth
 
-When the client supports MCP OAuth, you don't handle any credentials yourself. The first time the assistant calls a Klarity tool, the client redirects you to sign in to Klarity. After that, the client manages the token.
+When the client supports MCP OAuth, you don't handle any credentials yourself. The first time the assistant calls a Within tool, the client redirects you to sign in to Within. After that, the client manages the token.
 
 Per-client setup is covered in the [Install pages](/install/claude).
 
 <Note>
-  Your organization may need to approve the Klarity connector or app before users can sign in. Contact your Klarity workspace admin if the OAuth redirect fails.
+  Your organization may need to approve the Within connector or app before users can sign in. Contact your Within workspace admin if the OAuth redirect fails.
 </Note>
 
 ## API key
 
-API key auth uses a long-lived secret that you generate in Klarity and pass to the MCP server as a `Bearer` token. Use this for any custom or headless setup, or when a client doesn't yet support MCP OAuth.
+API key auth uses a long-lived secret that you generate in Within and pass to the MCP server as a `Bearer` token. Use this for any custom or headless setup, or when a client doesn't yet support MCP OAuth.
 
 ### Generate a key
 
 Make sure you've completed [Enable the MCP in your workspace](#enable-the-mcp-in-your-workspace) first — keys are scoped to the workspace you selected there.
 
 <Steps>
-  <Step title="Open MCP settings in Klarity">
+  <Step title="Open MCP settings in Within">
     Go to **Settings → MCP** in the workspace you enabled.
   </Step>
   <Step title="Create the key">
@@ -89,16 +89,16 @@ Per-client snippets:
 ### Keep keys safe
 
 <Warning>
-  Anyone with your API key can read everything your Klarity user can read. Don't commit keys to git, share them in chat, or check them into shared configs. Prefer environment variables over inline values in JSON/TOML files, and rotate immediately if a key is exposed.
+  Anyone with your API key can read everything your Within user can read. Don't commit keys to git, share them in chat, or check them into shared configs. Prefer environment variables over inline values in JSON/TOML files, and rotate immediately if a key is exposed.
 </Warning>
 
 ## Switching workspaces
 
-Each connection is scoped to a single Klarity workspace. If you belong to more than one, how you switch depends on your authentication method.
+Each connection is scoped to a single Within workspace. If you belong to more than one, how you switch depends on your authentication method.
 
 ### OAuth
 
-Disconnect the Klarity connection in your client and reconnect. The reconnect flow shows a workspace picker, so you choose the workspace at sign-in.
+Disconnect the Within connection in your client and reconnect. The reconnect flow shows a workspace picker, so you choose the workspace at sign-in.
 
 ### API key
 

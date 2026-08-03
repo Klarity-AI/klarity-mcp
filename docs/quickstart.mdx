@@ -5,12 +5,12 @@ icon: "rocket"
 ---
 
 <Info>
-  You need an active Klarity workspace and a user account. If you're not sure whether your organization has one, contact [hello@klarity.ai](mailto:hello@klarity.ai).
+  You need an active Within workspace and a user account. If you're not sure whether your organization has one, contact [hello@within.ai](mailto:hello@within.ai).
 </Info>
 
 <Steps>
   <Step title="Pick your client">
-    Klarity MCP works with any MCP-compatible client. Use the install page that matches yours.
+    Within MCP works with any MCP-compatible client. Use the install page that matches yours.
 
     <Columns cols={2}>
       <Card title="Claude" icon="/images/icons/claude.svg" href="/install/claude">Anthropic assistant</Card>
@@ -25,8 +25,8 @@ icon: "rocket"
   <Step title="Authenticate">
     Two methods are supported:
 
-    - **OAuth** — preferred where the client supports it. Sign in to Klarity from the client; no key handling.
-    - **API key** — used in alpha clients and as a fallback. Generate a key from `Settings → MCP` in your Klarity workspace and pass it as a `Bearer` token.
+    - **OAuth** — preferred where the client supports it. Sign in to Within from the client; no key handling.
+    - **API key** — used in alpha clients and as a fallback. Generate a key from `Settings → MCP` in your Within workspace and pass it as a `Bearer` token.
 
     See [Authentication](/authentication) for the full setup.
   </Step>
@@ -46,7 +46,7 @@ icon: "rocket"
 
 ## What to expect
 
-The first time the assistant calls a Klarity tool, it will prompt you to authenticate (OAuth) or read your configured API key. After that, the assistant chains MCP tools in the background — searching the Process Index, fetching specific processes, pulling observations, and drilling into the activity timelines behind those observations — and answers in business language, citing the workspace evidence behind each claim.
+The first time the assistant calls a Within tool, it will prompt you to authenticate (OAuth) or read your configured API key. After that, the assistant chains MCP tools in the background — searching the Process Index, fetching specific processes, pulling observations, and drilling into the activity timelines behind those observations — and answers in business language, citing the workspace evidence behind each claim.
 
 If the assistant cannot find evidence for a claim in your workspace, it should say so plainly. That gap is itself useful information.
 

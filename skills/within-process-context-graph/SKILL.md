@@ -1,13 +1,15 @@
 ---
-name: klarity-process-context-graph
-description: Use to understand or transform how work happens in the user's organization — references 'our' processes, SOPs, or workflows. Triggers span current state ('how does our [process] work', 'what feeds/depends on X') and change ('where can we automate', 'what should we redesign about [process]', 'find opportunities or risk gaps'). Skip generic, hypothetical, or public-knowledge questions with no organizational anchor.
+name: within-process-context-graph
+description: Use to understand how work happens in the user's organization; references 'our' processes, SOPs, or workflows. Triggers are current-state and analytical ('how does our [process] work', 'what feeds/depends on X', 'what changed', 'where is control Y supported', 'trace the impact of Z'). Skip generic, hypothetical, or public-knowledge questions with no organizational anchor. For deciding what to build, automate, or change, use the agent-builder skill instead.
 ---
 
-# Klarity
+# Within
 
-Use this skill when a customer asks an AI assistant to understand how work actually happens in their organiation.
+Use this skill when a customer asks an AI assistant to understand how work actually happens in their organization: how a process runs today, what it depends on, what changed, and what the evidence is.
 
-Klarity follows the Discover -> Structure -> Improve loop. Companion and Interviewer capture how work happens, the **Process Index — Klarity's context graph of how work happens** — organizes that knowledge into a living, hierarchical map of every process the organization runs, and Advisor-style analysis helps customers improve with evidence.
+This skill is for **understanding and analysis**, not for deciding what to build. When the user wants to decide what to automate, build, or change, use the `agent-builder` skill instead. It owns that end to end and leans on the process-index tools below underneath.
+
+Within captures how work happens (Companion and Interviewer) and organizes it into the **Process Index — Within's context graph of how work happens** — a living, hierarchical map of every process the organization runs, with dependencies, observations, and activity timelines.
 
 ## Core Journey
 
@@ -17,7 +19,7 @@ Klarity follows the Discover -> Structure -> Improve loop. Companion and Intervi
 4. Gather evidence before answering. Pull observations, activity timelines, artifacts, screenshots, or artifact text when the user needs support for what changed, what happened, or why a process behaves a certain way.
 5. Walk dependencies through the Process Index when the question is relational. The `dependencies` field on `get_process_details` lists the upstream and downstream processes by ID — `fetch` each one and read its steps, observations, and own dependencies for as many hops as the question needs.
 6. Recurse across related processes or graph nodes until the answer has enough context. Stop when additional traversal is duplicative, low-confidence, or outside the user's scope.
-7. Synthesize in business language. Separate observed facts from inference, cite Klarity evidence when available, and call out gaps when the workspace does not contain enough support.
+7. Synthesize in business language. Separate observed facts from inference, cite Within evidence when available, and call out gaps when the workspace does not contain enough support.
 
 ## Common User Stories
 
@@ -25,11 +27,11 @@ Klarity follows the Discover -> Structure -> Improve loop. Companion and Intervi
 - A customer asks where a policy, control, or operating rule is supported: identify the relevant process and artifacts, inspect the supporting content, then explain the evidence.
 - A customer asks what changed recently: review recent process changes and observations, then connect those changes to specific processes, sessions, artifacts, or graph evidence.
 - A customer asks about dependencies or impact: start from the relevant entity, community, or process, trace upstream and downstream relationships, then summarize the dependency chain.
-- A customer asks for improvement opportunities: gather process details, observations, deviations, graph relationships, and source artifacts before forming recommendations.
+- A customer asks to understand where a process is fragile or inconsistent: gather process details, observations, deviations, graph relationships, and source artifacts, then describe what the evidence shows (observed facts, not recommendations to change).
 
-## AI Transformation User Stories
+## User Stories, by who the agent serves
 
-The Klarity MCP is the surface where a customer's AI agents pull organization-specific context at runtime. The customer's people interact with this skill **through their agents** — Claude, ChatGPT, Cursor, Workato, Agentforce, or an internal LLM. Common transformation-flavored patterns, organized by who the agent is ultimately serving:
+The Within MCP is the surface where a customer's AI agents pull organization-specific context at runtime. The customer's people interact with this skill **through their agents** — Claude, ChatGPT, Cursor, Workato, Agentforce, or an internal LLM. Common understanding-and-analysis patterns, organized by who the agent is ultimately serving:
 
 ### Helping process performers do their job
 
@@ -42,10 +44,9 @@ The Klarity MCP is the surface where a customer's AI agents pull organization-sp
 - **Outcome: ramp a new joiner (or a fresh agent) on how this team operates.** Walk the team's process index, fetch top processes, surface dependencies and recent changes. Ground the new person / agent in the customer's operational reality, not in generic role-based assumptions.
 - **Outcome: prove our control or compliance coverage.** An auditor, SOX owner, or risk lead asks "where is control X supported?" or "what's our evidence for policy Y?" Pull the relevant processes, surface the policies attached to the current version, and cite the supporting observations and activity timelines.
 
-### Driving transformation
+### Understanding a process or value stream in depth
 
-- **Outcome: find the highest-leverage automation / transformation opportunities across our org.** A platform lead, AI architect, or transformation owner asks "where in our [P2P / O2C / close cycle / value stream] can we automate?" Walk the hierarchy under the value stream (often in parallel across many leaves), look for high-volume manual steps, exception patterns, and cross-process duplication. Surface a ranked candidate set with citable evidence.
-- **Outcome: form a transformation thesis on a specific process or value stream.** The customer has zeroed in on a target. Build current-state, blast-radius, and dependency understanding; identify intervention points; ground the thesis in observations and graph relationships.
+- **Outcome: understand how a whole value stream runs today.** Someone wants a grounded picture of a value stream (P2P, O2C, close cycle, etc.): the processes under it, how they connect, where the evidence shows manual steps or exceptions, and what feeds and depends on them. Walk the hierarchy, pull details and observations, trace dependencies, and describe the current state with citations. Report what's there; leave what to *do* about it to the `agent-builder` skill.
 
 See `tools.md` for end-to-end worked scenarios that compose many tools together for each of these outcomes.
 
@@ -53,10 +54,10 @@ See `tools.md` for end-to-end worked scenarios that compose many tools together 
 
 - Prefer read-only tools for customer-facing analysis.
 - Use `search` and `fetch` as the default process discovery and citation path for ChatGPT/Codex company-knowledge-style requests.
-- Use workspace switching only when the customer explicitly asks to change the active Klarity workspace.
+- Use workspace switching only when the customer explicitly asks to change the active Within workspace.
 - Do not invent process facts. If the Process Index, artifacts, or observations do not support a claim, say what is missing.
 - Do not expose internal IDs unless the user needs them for a follow-up action.
-- Keep answers grounded in the authenticated Klarity session and the customer's current workspace.
+- Keep answers grounded in the authenticated Within session and the customer's current workspace.
 
 ## Good Outcomes
 
@@ -69,16 +70,16 @@ Help customers answer questions such as:
 - "Which upstream teams, systems, or steps feed this process?"
 - "What downstream processes would be affected if this handoff changed?"
 
-## How Klarity Fits a Customer's Transformation Loop
+## How Within Fits a Customer's Transformation Loop
 
-Klarity runs the **Discover -> Structure -> Improve** loop continuously (replacing one-time "transformation projects" that take months and have a 30% success rate). When a customer's agent uses this MCP, it is plugging into that loop:
+Within runs the **Discover -> Structure -> Improve** loop continuously (replacing one-time "transformation projects" that take months and have a 30% success rate). When a customer's agent uses this MCP, it is plugging into that loop:
 
 - **Discover**: Companion (ambient capture from sessions) and Interviewer (AI-guided structured capture) generate the raw process knowledge. Agents read this via process / observation / artifact tools.
-- **Structure**: The Process Index is Klarity's context graph of how the customer's organization runs — every process, its hierarchy, dependencies, observations, and activity timelines, all linked into one navigable structure. Agents navigate this via `search` / `fetch` / hierarchy / process-detail / observation tools.
-- **Improve**: Advisor analyzes thousands of processes simultaneously to surface improvement opportunities; Signals give individual-level feedback. Agents can scan the index in their own AI tools to surface candidates and form transformation theses, grounded in the same evidence.
+- **Structure**: The Process Index is Within's context graph of how the customer's organization runs — every process, its hierarchy, dependencies, observations, and activity timelines, all linked into one navigable structure. Agents navigate this via `search` / `fetch` / hierarchy / process-detail / observation tools.
+- **Improve**: Advisor analyzes thousands of processes simultaneously and Signals give individual-level feedback. Through this skill, agents read that same evidence to explain current state, dependencies, and change. Deciding what to build or change from it is the `agent-builder` skill's job.
 
 The customer's question almost always maps to one of these stages. Use the catalog in `tools.md` to pick the right tool for the goal.
 
 ## Tool Catalog
 
-The full PROD-allowed tool list, organized by use case with selection guidance, lives in `tools.md` (alongside this file). Read it when you need to pick a specific tool — it covers every tool the Klarity MCP exposes in production and gives explicit "if the user asks X, call Y" patterns.
+The full PROD-allowed tool list, organized by use case with selection guidance, lives in `tools.md` (alongside this file). Read it when you need to pick a specific tool — it covers every tool the Within MCP exposes in production and gives explicit "if the user asks X, call Y" patterns.

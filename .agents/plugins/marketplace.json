@@ -1,14 +1,14 @@
 {
-  "name": "klarity",
+  "name": "within",
   "interface": {
-    "displayName": "Klarity"
+    "displayName": "Within"
   },
   "plugins": [
     {
-      "name": "klarity",
+      "name": "within",
       "source": {
         "source": "url",
-        "url": "https://github.com/Klarity-AI/klarity-mcp.git"
+        "url": "https://github.com/Within/within-mcp.git"
       },
       "policy": {
         "installation": "AVAILABLE",

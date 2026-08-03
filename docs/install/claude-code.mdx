@@ -1,6 +1,6 @@
 ---
 title: "Claude Code"
-description: "Install the Klarity plugin or register the MCP server in Claude Code."
+description: "Install the Within plugin or register the MCP server in Claude Code."
 icon: "/images/icons/claude.svg"
 ---
 
@@ -13,31 +13,31 @@ From a Claude Code session, run these two commands one after the other.
 <Steps>
   <Step title="Install the marketplace">
     ```text
-    /plugin marketplace add klarity-ai/klarity-mcp
+    /plugin marketplace add within/within-mcp
     ```
   </Step>
   <Step title="Install the plugin">
     ```text
-    /plugin install klarity@klarity
+    /plugin install within@within
     ```
   </Step>
   <Step title="Sign in">
-    The first request that hits a Klarity tool will prompt you to authenticate.
+    The first request that hits a Within tool will prompt you to authenticate.
   </Step>
 </Steps>
 
 ## Manual MCP add (API key)
 
-Use this for long-running background agents. Generate an API key from `Settings → MCP` in your Klarity workspace (see [Authentication](/authentication#api-key)), then run:
+Use this for long-running background agents. Generate an API key from `Settings → MCP` in your Within workspace (see [Authentication](/authentication#api-key)), then run:
 
 ```bash
-claude mcp add --transport http klarity \
-  https://api.klarity.ai/mcp \
+claude mcp add --transport http within \
+  https://api.within.ai/mcp \
   --header "Authorization: Bearer <YOUR_API_KEY>"
 ```
 
 <Warning>
-  Treat the API key like a password. Anyone with the key can query your Klarity workspace. Rotate it from `Settings → MCP` if it's exposed.
+  Treat the API key like a password. Anyone with the key can query your Within workspace. Rotate it from `Settings → MCP` if it's exposed.
 </Warning>
 
 ## Verify
@@ -45,7 +45,7 @@ claude mcp add --transport http klarity \
 In a Claude Code session, ask:
 
 ```text
-Search Klarity for AI transformation opportunities across our processes — where could we build skills or deploy agents?
+Search Within for AI transformation opportunities across our processes — where could we build skills or deploy agents?
 ```
 
 The assistant should call `search` and return process results from your workspace.

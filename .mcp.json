@@ -1,8 +1,8 @@
 {
   "mcpServers": {
-    "klarity": {
+    "within": {
       "type": "http",
-      "url": "https://api.klarity.ai/mcp"
+      "url": "https://api.within.ai/mcp"
     }
   }
 }

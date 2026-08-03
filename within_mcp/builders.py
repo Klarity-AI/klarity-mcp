@@ -1,4 +1,4 @@
-"""Public manifest builders for Klarity MCP plugin distribution."""
+"""Public manifest builders for Within MCP plugin distribution."""
 
 from __future__ import annotations
 
@@ -6,20 +6,20 @@ import json
 from pathlib import Path
 from typing import Any
 
-from klarity_mcp.metadata import (
+from within_mcp.metadata import (
     CLAUDE_MARKETPLACE_PATH,
     CLAUDE_MCP_CONFIG_PATH,
     CLAUDE_PLUGIN_DIR,
     CODEX_MARKETPLACE_PATH,
     CODEX_PLUGIN_DIR,
     GEMINI_EXTENSION_PATH,
-    KLARITY_MCP_METADATA,
-    KlarityMCPMetadata,
+    WITHIN_MCP_METADATA,
+    WithinMCPMetadata,
 )
 
 
 def build_claude_plugin_manifest(
-    metadata: KlarityMCPMetadata = KLARITY_MCP_METADATA,
+    metadata: WithinMCPMetadata = WITHIN_MCP_METADATA,
 ) -> dict[str, Any]:
     """Output: .claude-plugin/plugin.json (Claude Code plugin manifest)."""
     return {
@@ -41,7 +41,7 @@ def build_claude_plugin_manifest(
 
 
 def build_claude_marketplace_manifest(
-    metadata: KlarityMCPMetadata = KLARITY_MCP_METADATA,
+    metadata: WithinMCPMetadata = WITHIN_MCP_METADATA,
 ) -> dict[str, Any]:
     """Output: .claude-plugin/marketplace.json (Claude Code marketplace catalog).
 
@@ -92,7 +92,7 @@ def build_claude_marketplace_manifest(
 
 
 def build_claude_mcp_config(
-    metadata: KlarityMCPMetadata = KLARITY_MCP_METADATA,
+    metadata: WithinMCPMetadata = WITHIN_MCP_METADATA,
 ) -> dict[str, Any]:
     """Output: .mcp.json at the repo root (Claude Code MCP server config, HTTP transport).
 
@@ -110,7 +110,7 @@ def build_claude_mcp_config(
 
 
 def build_codex_plugin_manifest(
-    metadata: KlarityMCPMetadata = KLARITY_MCP_METADATA,
+    metadata: WithinMCPMetadata = WITHIN_MCP_METADATA,
 ) -> dict[str, Any]:
     """Output: .codex-plugin/plugin.json (Codex plugin manifest).
 
@@ -150,7 +150,7 @@ def build_codex_plugin_manifest(
 
 
 def build_codex_marketplace_manifest(
-    metadata: KlarityMCPMetadata = KLARITY_MCP_METADATA,
+    metadata: WithinMCPMetadata = WITHIN_MCP_METADATA,
 ) -> dict[str, Any]:
     """Output: .agents/plugins/marketplace.json (Codex marketplace catalog).
 
@@ -185,7 +185,7 @@ def build_codex_marketplace_manifest(
 
 
 def build_gemini_extension_manifest(
-    metadata: KlarityMCPMetadata = KLARITY_MCP_METADATA,
+    metadata: WithinMCPMetadata = WITHIN_MCP_METADATA,
 ) -> dict[str, Any]:
     """Output: gemini-extension.json (Gemini CLI extension manifest).
 
@@ -214,7 +214,7 @@ def build_gemini_extension_manifest(
 
 
 def build_manifest_payloads(
-    metadata: KlarityMCPMetadata = KLARITY_MCP_METADATA,
+    metadata: WithinMCPMetadata = WITHIN_MCP_METADATA,
 ) -> dict[Path, dict[str, Any]]:
     return {
         CLAUDE_PLUGIN_DIR / "plugin.json": build_claude_plugin_manifest(metadata),
@@ -232,7 +232,7 @@ def render_manifest(payload: dict[str, Any]) -> str:
 
 
 def build_manifest_texts(
-    metadata: KlarityMCPMetadata = KLARITY_MCP_METADATA,
+    metadata: WithinMCPMetadata = WITHIN_MCP_METADATA,
 ) -> dict[Path, str]:
     return {
         path: render_manifest(payload)

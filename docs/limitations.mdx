@@ -4,11 +4,11 @@ description: "What the MCP does not do today — and what's coming."
 icon: "triangle-exclamation"
 ---
 
-The Klarity MCP is read-mostly and scoped intentionally. Knowing where it stops keeps assistant behavior honest.
+The Within MCP is read-mostly and scoped intentionally. Knowing where it stops keeps assistant behavior honest.
 
 ## Read-only access
 
-Tools available through the MCP are query-only. You can search, read, explore, and analyze. You cannot create or modify processes, artifacts, or graph entities through the MCP — those writes happen in the Klarity Architect UI.
+Tools available through the MCP are query-only. You can search, read, explore, and analyze. You cannot create or modify processes, artifacts, or graph entities through the MCP — those writes happen in the Within UI.
 
 ## Authentication coverage
 
@@ -16,11 +16,11 @@ OAuth is supported in Claude, ChatGPT, Claude Code (via the plugin), Codex (via 
 
 ## Workspace scope
 
-Each connection is scoped to one Klarity workspace. If the user belongs to multiple workspaces, they switch by reconnecting (OAuth) or by using a key generated in the other workspace (API key) — see [Authentication → Switching workspaces](/authentication#switching-workspaces).
+Each connection is scoped to one Within workspace. If the user belongs to multiple workspaces, they switch by reconnecting (OAuth) or by using a key generated in the other workspace (API key) — see [Authentication → Switching workspaces](/authentication#switching-workspaces).
 
 ## Tool surface evolves
 
-The production tool catalog grows over time as new Klarity capabilities ship (additional graph traversals, write tools for specific safe operations). The [Tool reference](/tools/overview) is the live source of truth — check there before assuming a tool exists.
+The production tool catalog grows over time as new Within capabilities ship (additional graph traversals, write tools for specific safe operations). The [Tool reference](/tools/overview) is the live source of truth — check there before assuming a tool exists.
 
 ## When to fall back to the UI
 
@@ -28,4 +28,4 @@ The production tool catalog grows over time as new Klarity capabilities ship (ad
 - Configuring workspace-level attributes or policies.
 - Inviting users or managing roles.
 
-For everything else, the MCP should be enough — and if it isn't, [reach out](mailto:hello@klarity.ai).
+For everything else, the MCP should be enough — and if it isn't, [reach out](mailto:hello@within.ai).
