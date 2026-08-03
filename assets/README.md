@@ -1,71 +1,32 @@
 # assets/
 
-Marketing and submission assets for Within MCP across vendor app stores.
+Brand assets for Within MCP.
 
-## Layout
+## Current state
 
-```
-assets/
-  logos/         # square brand logo at multiple sizes (master + downscaled)
-  hero/          # hero/banner image for store listings
-  screenshots/   # product screenshots (vendor-neutral filenames)
-  app-package/   # Microsoft 365 app-package icons (filenames pinned to manifest)
-```
+The live product surfaces reference only the docs-site assets, which are
+committed under `docs/`:
 
-## Naming convention
+- `docs/logo/within-logo-light.png` — docs header logo (light mode), 512×512
+- `docs/logo/within-logo-dark.png` — docs header logo (dark mode), 512×512
+- `docs/favicon.png` — browser-tab icon, 192×192
 
-`within-{kind}-{WIDTH}x{HEIGHT}.{ext}` — sortable, self-describing, vendor-neutral.
+These are the Within icon (orange rounded square with the white "W" mark).
 
-Exception: `app-package/color.png` and `app-package/outline.png` use Microsoft's
-required filenames so they match the `icons` block in `manifest.json`.
+## Masters
 
-## Vendor mapping
+The icon and wordmark exist as vector masters and are the source of truth for
+any raster export:
 
-**Microsoft 365 Copilot — Partner Center listing**
-- `logos/within-logo-48x48.png` (small)
-- `logos/within-logo-90x90.png` (medium)
-- `logos/within-logo-216x216.png` (large)
-- `hero/within-hero-815x378.png`
-- `screenshots/within-screenshot-1-1366x768.png`
-- `screenshots/within-screenshot-2-1366x768.png`
+- Within icon (square mark) — SVG
+- Within wordmark (mark + "Within" name) — SVG
 
-**Microsoft 365 Copilot — app-package zip** (filenames must match `manifest.json`)
-- `app-package/color.png` (192x192, full color)
-- `app-package/outline.png` (32x32, transparent + white only, dedicated K-mark)
+Export PNGs from these when a new size is needed. Standard icon sizes:
+1092, 512, 216, 192, 90, 48 (plus a 32×32 white-on-transparent outline variant
+for the Microsoft 365 app-package, which is NOT a plain recolor of the icon).
 
-**OpenAI / Anthropic / general listings**
-- `logos/within-logo-512x512.png`
-- `screenshots/within-screenshot-{1,2}-original.png` (706x557, 706x478)
+## Store-listing assets (not yet added)
 
-## Sources
-
-- Master logo (1092x1092): `~/Downloads/within-logo-1092x1092.png`, identical
-  (sha256-matched) to `within-mcp/logo.png` at the repo root.
-- Outline source (white K on transparent): `~/Downloads/K-White.png` (243x292).
-  Distinct from the full-color logo — used only for `app-package/outline.png`.
-  Cleaned + archived at `logos/within-logo-mark-white-243x292.png`.
-- Hero source: `~/Downloads/withinai_cover.jpeg` (1128x191 banner).
-  Letterboxed onto extended-edge gradient to fit 815x378.
-- Screenshot sources: `~/Desktop/within-chatgpt-app-screenshot-{1,2}.png`.
-  Renamed to vendor-neutral `within-screenshot-{1,2}-*` and letterboxed onto
-  the matching dark-gray background (#212121) to fit 1366x768.
-
-## Regeneration
-
-All assets derive from the master `logo.png` plus the source files above.
-To regenerate logos at new sizes (requires Pillow in the active env):
-
-```bash
-poetry run python3 - <<'PY'
-from PIL import Image
-master = Image.open("logo.png")
-for s in (1092, 512, 216, 192, 90, 48):
-    out = f"assets/logos/within-logo-{s}x{s}.png"
-    img = master if s == 1092 else master.resize((s, s), Image.LANCZOS)
-    img.save(out, "PNG", optimize=True)
-PY
-```
-
-The Microsoft `app-package/outline.png` is not derived from `logo.png`; see
-the recipe in the original asset-generation task — it uses the dedicated
-white-on-transparent K mark and force-whitens any non-transparent pixels.
+Vendor app-store listings (OpenAI / Anthropic / Microsoft 365) additionally
+require a hero/banner image and product screenshots. These are prepared at
+submission time and are not committed here yet.
