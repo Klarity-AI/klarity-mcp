@@ -2,7 +2,7 @@
 
 > Public plugin/extension distribution for the Within MCP server.
 
-📚 **Developer documentation:** <https://developers.within.ai/>
+📚 **Developer documentation:** <https://www.within.ai/developers>
 
 `within-mcp` packages [Within](https://www.within.ai/) as an installable
 plugin for AI assistant clients that speak the [Model Context Protocol](https://modelcontextprotocol.io/).
