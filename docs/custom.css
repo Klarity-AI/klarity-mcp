@@ -12,3 +12,36 @@
 .dark img[src*="/openai.svg"] {
   filter: invert(1);
 }
+
+/* Banner text in the brand orange, over the navy background set in docs.json.
+   Mirrors the announcement bar in the klarity-docs repo so both sites match.
+
+   Mintlify exposes no config for banner text colour: it hard-codes white and
+   forces it onto every descendant from `@layer utilities` with
+   `.\[\&_\*\]\:text-white\/95\! * { color: … !important }`.
+
+   The layer matters more than the selector here. For !important declarations
+   the cascade reverses layer order, and unlayered styles count as the final
+   layer — so an unlayered `!important` rule LOSES to a layered one no matter
+   how specific it is. Mintlify's layer order is properties, theme, base,
+   components, utilities, so declaring into `components` outranks their
+   `utilities` rule. !important is still required, to compete with theirs at all.
+
+   The two modes invert: navy banner with orange text in light, orange banner
+   with navy text in dark. The backgrounds come from `banner.color` in
+   docs.json; these rules supply the matching foreground. The dismiss icon
+   strokes with currentColor, so it inherits this too. */
+@layer components {
+  #banner,
+  #banner * {
+    color: #F56740 !important;
+    /* Mintlify sets font-medium (500) on the banner. That utility is a normal
+       declaration, so !important here outranks it whatever the layer order. */
+    font-weight: 700 !important;
+  }
+
+  html.dark #banner,
+  html.dark #banner * {
+    color: #0B1E2F !important;
+  }
+}
