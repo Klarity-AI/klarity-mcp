@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "Within MCP",
   "colors": {
-    "primary": "#FF6C14",
-    "light": "#FF8540",
-    "dark": "#CC5610"
+    "primary": "#F56740",
+    "light": "#F78262",
+    "dark": "#C45233"
   },
   "favicon": "/favicon.png",
   "fonts": {
