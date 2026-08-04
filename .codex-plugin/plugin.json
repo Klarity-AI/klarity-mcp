@@ -3,7 +3,7 @@
   "version": "1.1.1",
   "description": "Bring your organization's processes and operational knowledge into your AI assistant. The Within MCP connects to your Within workspace so you can query your organization's processes, explore the process index knowledge graph linking processes to systems and teams, and ground answers in how your business actually runs \u2014 not generic guesses.",
   "author": {
-    "name": "Klarity Intelligence, Inc.",
+    "name": "Within Intelligence, Inc.",
     "email": "hello@within.ai",
     "url": "https://www.within.ai/"
   },
@@ -24,7 +24,7 @@
     "displayName": "Within",
     "shortDescription": "Explore your org's processes",
     "longDescription": "Bring your organization's processes and operational knowledge into your AI assistant. The Within MCP connects to your Within workspace so you can query your organization's processes, explore the process index knowledge graph linking processes to systems and teams, and ground answers in how your business actually runs \u2014 not generic guesses.",
-    "developerName": "Klarity Intelligence, Inc.",
+    "developerName": "Within Intelligence, Inc.",
     "category": "Business",
     "capabilities": [
       "Read",

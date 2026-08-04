@@ -1,7 +1,7 @@
 {
   "name": "within",
   "owner": {
-    "name": "Klarity Intelligence, Inc.",
+    "name": "Within Intelligence, Inc.",
     "email": "hello@within.ai",
     "url": "https://www.within.ai/"
   },
@@ -29,7 +29,7 @@
         "knowledge-graph"
       ],
       "author": {
-        "name": "Klarity Intelligence, Inc.",
+        "name": "Within Intelligence, Inc.",
         "email": "hello@within.ai",
         "url": "https://www.within.ai/"
       }

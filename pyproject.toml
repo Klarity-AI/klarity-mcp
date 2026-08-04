@@ -10,7 +10,7 @@ readme = "README.md"
 license = { text = "Apache-2.0" }
 requires-python = ">=3.11"
 authors = [
-    { name = "Klarity Intelligence, Inc.", email = "hello@within.ai" },
+    { name = "Within Intelligence, Inc.", email = "hello@within.ai" },
 ]
 keywords = ["within", "mcp", "claude-code", "gemini-cli", "plugin"]
 classifiers = [
