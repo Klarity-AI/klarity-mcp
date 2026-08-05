@@ -44,4 +44,22 @@
   html.dark #banner * {
     color: #0B1E2F !important;
   }
+
+  /* The lead ("Klarity is now Within", wrapped in ** in docs.json) stays white
+     in both modes; the dash and subtext keep the mode colour above.
+
+     Mintlify's MDX renderer does not emit <strong> for **bold** — it emits
+     <span data-streamdown="strong" class="font-semibold">, so the attribute
+     selector is the one that actually matches. `strong` is kept alongside it
+     as a hedge in case that renderer detail changes.
+
+     The dark selectors are not redundant: `#banner [data-streamdown]` (1,1,0)
+     outranks `#banner *` (1,0,0) in light, but loses to `html.dark #banner *`
+     (1,1,1) in dark, so the dark case needs the longer form (1,2,1). */
+  #banner strong,
+  #banner [data-streamdown="strong"],
+  html.dark #banner strong,
+  html.dark #banner [data-streamdown="strong"] {
+    color: #FFFFFF !important;
+  }
 }
