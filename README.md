@@ -44,7 +44,7 @@ From a Claude session, run these two commands one after the other.
 **1. First**, install the marketplace:
 
 ```text
-/plugin marketplace add within/within-mcp
+/plugin marketplace add Within-AI/within-mcp
 ```
 
 **2. Next**, install the plugin:
@@ -59,7 +59,7 @@ Codex splits this into two steps. First, from your **shell**, register the
 Within marketplace with Codex:
 
 ```bash
-codex plugin marketplace add Within/within-mcp
+codex plugin marketplace add Within-AI/within-mcp
 ```
 
 Then, from a **Codex session**, run:
