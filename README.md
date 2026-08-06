@@ -75,7 +75,7 @@ The first request that hits a Within tool will prompt you to sign in.
 ## Install — Gemini CLI
 
 ```bash
-gemini extensions install https://github.com/within/within-mcp
+gemini extensions install https://github.com/Within-AI/within-mcp
 ```
 
 To login:
