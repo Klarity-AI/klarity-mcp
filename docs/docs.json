@@ -1,11 +1,19 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Klarity MCP",
+  "name": "Within MCP",
+  "banner": {
+    "content": "🎉 **Klarity is now Within** — same team, same experience, bolder vision: Transform from Within",
+    "dismissible": true,
+    "color": {
+      "light": "#0B1E2F",
+      "dark": "#F56740"
+    }
+  },
   "colors": {
-    "primary": "#FF6C14",
-    "light": "#FF8540",
-    "dark": "#CC5610"
+    "primary": "#F56740",
+    "light": "#F78262",
+    "dark": "#C45233"
   },
   "favicon": "/favicon.png",
   "fonts": {
@@ -98,24 +106,24 @@
     ]
   },
   "logo": {
-    "light": "/logo/klarity-logo-light.png",
-    "dark": "/logo/klarity-logo-dark.png"
+    "light": "/logo/within-logo-light.png",
+    "dark": "/logo/within-logo-dark.png"
   },
   "navbar": {
     "links": [
       {
         "label": "GitHub",
-        "href": "https://github.com/Klarity-AI/klarity-mcp"
+        "href": "https://github.com/Within/within-mcp"
       },
       {
         "label": "Support",
-        "href": "mailto:hello@klarity.ai"
+        "href": "mailto:hello@within.ai"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Klarity.ai",
-      "href": "https://www.klarity.ai/"
+      "label": "Within.ai",
+      "href": "https://www.within.ai/"
     }
   },
   "contextual": {
@@ -132,16 +140,16 @@
   },
   "footer": {
     "socials": {
-      "github": "https://github.com/Klarity-AI",
-      "linkedin": "https://www.linkedin.com/company/klarityai/"
+      "github": "https://github.com/Within",
+      "linkedin": "https://www.linkedin.com/company/withinai/"
     },
     "links": [
       {
-        "header": "Klarity",
+        "header": "Within",
         "items": [
-          { "label": "Website", "href": "https://www.klarity.ai/" },
-          { "label": "Privacy policy", "href": "https://www.klarity.ai/product-privacy-policy" },
-          { "label": "Terms of service", "href": "https://www.klarity.ai/terms-of-service-2025" }
+          { "label": "Website", "href": "https://www.within.ai/" },
+          { "label": "Privacy policy", "href": "https://www.within.ai/product-privacy-policy" },
+          { "label": "Terms of service", "href": "https://www.within.ai/terms-of-service-2025" }
         ]
       }
     ]

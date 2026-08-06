@@ -1,4 +1,4 @@
-"""Packaging invariants for klarity-mcp public manifests."""
+"""Packaging invariants for within-mcp public manifests."""
 
 from __future__ import annotations
 
@@ -8,15 +8,15 @@ from pathlib import Path
 
 import pytest
 
-from klarity_mcp import (
+from within_mcp import (
     CLAUDE_PLUGIN_DIR,
     CODEX_PLUGIN_DIR,
     GEMINI_EXTENSION_PATH,
-    KLARITY_MCP_METADATA,
+    WITHIN_MCP_METADATA,
     REPO_ROOT,
     SKILLS_DIR,
 )
-from klarity_mcp.builders import (
+from within_mcp.builders import (
     build_claude_marketplace_manifest,
     build_claude_mcp_config,
     build_claude_plugin_manifest,
@@ -32,7 +32,7 @@ from klarity_mcp.builders import (
 
 def test_canonical_plugin_name_is_kebab_case() -> None:
     """Single source of truth — guards Claude, Gemini, Microsoft, and Codex names at once."""
-    name = KLARITY_MCP_METADATA.plugin_name
+    name = WITHIN_MCP_METADATA.plugin_name
     assert re.fullmatch(r"[a-z][a-z0-9-]*", name), (
         f"plugin_name {name!r} must be kebab-case (lowercase alnum + hyphens, "
         f"starting with a letter)"
@@ -40,7 +40,7 @@ def test_canonical_plugin_name_is_kebab_case() -> None:
 
 
 def test_canonical_mcp_server_key_is_lowercase_alnum() -> None:
-    key = KLARITY_MCP_METADATA.mcp_server_key
+    key = WITHIN_MCP_METADATA.mcp_server_key
     assert re.fullmatch(r"[a-z][a-z0-9_]*", key), (
         f"mcp_server_key {key!r} must be lowercase alnum + underscores"
     )
@@ -48,22 +48,22 @@ def test_canonical_mcp_server_key_is_lowercase_alnum() -> None:
 
 def test_license_is_valid_spdx() -> None:
     # We pin Apache-2.0 by Decision 2.6. If this ever needs to change, update both
-    # KLARITY_MCP_METADATA.license_spdx and the LICENSE file in the same PR.
-    assert KLARITY_MCP_METADATA.license_spdx == "Apache-2.0"
+    # WITHIN_MCP_METADATA.license_spdx and the LICENSE file in the same PR.
+    assert WITHIN_MCP_METADATA.license_spdx == "Apache-2.0"
 
 
 # ---------- 2. Vendor-specific shape invariants ----------
 
 def test_claude_mcp_manifest_uses_camelcase_and_http_transport() -> None:
-    payload = build_claude_mcp_config(KLARITY_MCP_METADATA)
+    payload = build_claude_mcp_config(WITHIN_MCP_METADATA)
     assert "mcpServers" in payload, "Claude .mcp.json uses camelCase top-level key"
-    entry = payload["mcpServers"][KLARITY_MCP_METADATA.mcp_server_key]
+    entry = payload["mcpServers"][WITHIN_MCP_METADATA.mcp_server_key]
     assert entry["type"] == "http"
-    assert entry["url"] == KLARITY_MCP_METADATA.mcp_url
+    assert entry["url"] == WITHIN_MCP_METADATA.mcp_url
 
 
 def test_claude_plugin_manifest_required_metadata_for_official_submission() -> None:
-    payload = build_claude_plugin_manifest(KLARITY_MCP_METADATA)
+    payload = build_claude_plugin_manifest(WITHIN_MCP_METADATA)
     for key in ("name", "version", "description", "homepage", "repository", "license", "keywords"):
         assert payload.get(key), f"Claude plugin.json is missing required field: {key}"
     author = payload["author"]
@@ -91,8 +91,8 @@ def test_claude_marketplace_has_plugin_with_supported_source_shape() -> None:
     Bare "." and bare "./" both fail at install time with "source type your
     Claude Code version does not support" — verified empirically.
     """
-    payload = build_claude_marketplace_manifest(KLARITY_MCP_METADATA)
-    assert payload["name"] == KLARITY_MCP_METADATA.plugin_name
+    payload = build_claude_marketplace_manifest(WITHIN_MCP_METADATA)
+    assert payload["name"] == WITHIN_MCP_METADATA.plugin_name
     assert isinstance(payload["plugins"], list) and payload["plugins"]
     for plugin in payload["plugins"]:
         assert plugin.get("name"), "each marketplace plugin must have a name"
@@ -116,7 +116,7 @@ def test_claude_marketplace_has_plugin_with_supported_source_shape() -> None:
             assert source.get("source") == "url", (
                 "object-form source must use the `url` discriminator"
             )
-            expected = f"{KLARITY_MCP_METADATA.repository_url}.git"
+            expected = f"{WITHIN_MCP_METADATA.repository_url}.git"
             assert source.get("url") == expected, (
                 f"object-form url should be {expected!r} (got {source.get('url')!r}) "
                 "so the install clone resolves back to this same repo"
@@ -124,10 +124,10 @@ def test_claude_marketplace_has_plugin_with_supported_source_shape() -> None:
 
 
 def test_codex_plugin_manifest_required_metadata() -> None:
-    payload = build_codex_plugin_manifest(KLARITY_MCP_METADATA)
+    payload = build_codex_plugin_manifest(WITHIN_MCP_METADATA)
     for key in ("name", "version", "description", "homepage", "repository", "license", "keywords"):
         assert payload.get(key), f"Codex plugin.json is missing required field: {key}"
-    assert payload["name"] == KLARITY_MCP_METADATA.plugin_name
+    assert payload["name"] == WITHIN_MCP_METADATA.plugin_name
     interface = payload["interface"]
     for key in ("displayName", "shortDescription", "longDescription", "category", "brandColor", "defaultPrompt"):
         assert interface.get(key), f"Codex plugin.json interface missing: {key}"
@@ -177,8 +177,8 @@ def test_codex_marketplace_has_plugin_with_supported_source_shape() -> None:
     the manifest under `.agents/plugins/`. Guard the shape so the file stays
     parseable.
     """
-    payload = build_codex_marketplace_manifest(KLARITY_MCP_METADATA)
-    assert payload["name"] == KLARITY_MCP_METADATA.plugin_name
+    payload = build_codex_marketplace_manifest(WITHIN_MCP_METADATA)
+    assert payload["name"] == WITHIN_MCP_METADATA.plugin_name
     assert isinstance(payload["plugins"], list) and payload["plugins"]
     for plugin in payload["plugins"]:
         assert plugin.get("name"), "marketplace plugin must have a name"
@@ -202,23 +202,23 @@ def test_codex_marketplace_has_plugin_with_supported_source_shape() -> None:
 
 
 def test_gemini_extension_name_matches_canonical_plugin_name() -> None:
-    payload = build_gemini_extension_manifest(KLARITY_MCP_METADATA)
-    assert payload["name"] == KLARITY_MCP_METADATA.plugin_name, (
+    payload = build_gemini_extension_manifest(WITHIN_MCP_METADATA)
+    assert payload["name"] == WITHIN_MCP_METADATA.plugin_name, (
         "Gemini extension name must match canonical kebab-case plugin_name"
     )
 
 
 def test_gemini_extension_mcp_servers_use_url_key() -> None:
     """Gemini CLI consolidated to a single `url` key in PR #13762; `httpUrl` is removed."""
-    payload = build_gemini_extension_manifest(KLARITY_MCP_METADATA)
-    entry = payload["mcpServers"][KLARITY_MCP_METADATA.mcp_server_key]
+    payload = build_gemini_extension_manifest(WITHIN_MCP_METADATA)
+    entry = payload["mcpServers"][WITHIN_MCP_METADATA.mcp_server_key]
     assert "url" in entry, "Gemini mcpServers entry must use `url`"
     assert "httpUrl" not in entry, "Gemini deprecated `httpUrl`; must not appear"
-    assert entry["url"] == KLARITY_MCP_METADATA.mcp_url
+    assert entry["url"] == WITHIN_MCP_METADATA.mcp_url
 
 
 def test_gemini_extension_context_file_points_at_skill() -> None:
-    payload = build_gemini_extension_manifest(KLARITY_MCP_METADATA)
+    payload = build_gemini_extension_manifest(WITHIN_MCP_METADATA)
     rel = payload["contextFileName"]
     resolved = REPO_ROOT / rel
     assert resolved.exists() and resolved.is_file(), (
@@ -238,7 +238,7 @@ def test_declared_skills_resolve_to_real_skill_dirs() -> None:
     missing dir would ship a plugin that references a skill that isn't there.
     """
     missing: list[str] = []
-    for skill in KLARITY_MCP_METADATA.skills:
+    for skill in WITHIN_MCP_METADATA.skills:
         skill_md = SKILLS_DIR / skill / "SKILL.md"
         if not skill_md.is_file():
             missing.append(skill)
@@ -249,8 +249,8 @@ def test_declared_skills_resolve_to_real_skill_dirs() -> None:
 
 def test_gemini_context_skill_is_a_declared_skill() -> None:
     """Gemini's single contextFileName must point at one of the bundled skills."""
-    assert KLARITY_MCP_METADATA.gemini_context_skill in KLARITY_MCP_METADATA.skills, (
-        f"gemini_context_skill {KLARITY_MCP_METADATA.gemini_context_skill!r} "
+    assert WITHIN_MCP_METADATA.gemini_context_skill in WITHIN_MCP_METADATA.skills, (
+        f"gemini_context_skill {WITHIN_MCP_METADATA.gemini_context_skill!r} "
         f"must be one of metadata.skills"
     )
 
@@ -258,8 +258,8 @@ def test_gemini_context_skill_is_a_declared_skill() -> None:
 # ---------- 3. Drift + safety invariants ----------
 
 def test_generated_manifests_match_committed_files() -> None:
-    """Byte-compare generated text against committed files. Run `python -m klarity_mcp --write` to fix."""
-    texts = build_manifest_texts(KLARITY_MCP_METADATA)
+    """Byte-compare generated text against committed files. Run `python -m within_mcp --write` to fix."""
+    texts = build_manifest_texts(WITHIN_MCP_METADATA)
     mismatches: list[str] = []
     for path, expected in texts.items():
         if not path.exists():
@@ -269,14 +269,14 @@ def test_generated_manifests_match_committed_files() -> None:
         if actual != expected:
             mismatches.append(f"drift: {path.relative_to(REPO_ROOT)}")
     assert not mismatches, (
-        "Manifests are out of sync. Run `python -m klarity_mcp --write` and commit. "
+        "Manifests are out of sync. Run `python -m within_mcp --write` and commit. "
         f"Issues: {mismatches}"
     )
 
 
 def test_generated_manifests_are_stable_json() -> None:
     """Round-trip: parse → re-render → expect identical bytes (idempotence)."""
-    texts = build_manifest_texts(KLARITY_MCP_METADATA)
+    texts = build_manifest_texts(WITHIN_MCP_METADATA)
     for path, text in texts.items():
         parsed = json.loads(text)
         reserialized = render_manifest(parsed)
@@ -285,7 +285,7 @@ def test_generated_manifests_are_stable_json() -> None:
 
 def test_no_path_traversal_in_any_generated_manifest() -> None:
     """No field value (string-typed, anywhere) may contain a `..` path segment."""
-    texts = build_manifest_texts(KLARITY_MCP_METADATA)
+    texts = build_manifest_texts(WITHIN_MCP_METADATA)
 
     def walk(node: object, where: str) -> None:
         if isinstance(node, str):

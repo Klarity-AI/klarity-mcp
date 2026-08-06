@@ -1,18 +1,18 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
-  "name": "klarity",
+  "name": "within",
   "version": "1.1.1",
-  "description": "Bring your organization's processes and operational knowledge into your AI assistant. The Klarity MCP connects to your Klarity workspace so you can query your organization's processes, explore the process index knowledge graph linking processes to systems and teams, and ground answers in how your business actually runs \u2014 not generic guesses.",
+  "description": "Bring your organization's processes and operational knowledge into your AI assistant. The Within MCP connects to your Within workspace so you can query your organization's processes, explore the process index knowledge graph linking processes to systems and teams, and ground answers in how your business actually runs \u2014 not generic guesses.",
   "author": {
-    "name": "Klarity Intelligence, Inc.",
-    "email": "hello@klarity.ai",
-    "url": "https://www.klarity.ai/"
+    "name": "Within Intelligence, Inc.",
+    "email": "hello@within.ai",
+    "url": "https://www.within.ai/"
   },
-  "homepage": "https://www.klarity.ai/",
-  "repository": "https://github.com/Klarity-AI/klarity-mcp",
+  "homepage": "https://www.within.ai/",
+  "repository": "https://github.com/Within/within-mcp",
   "license": "Apache-2.0",
   "keywords": [
-    "klarity",
+    "within",
     "mcp",
     "process-intelligence",
     "process-index",

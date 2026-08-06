@@ -14,7 +14,7 @@ All tools in production are read-only. Use `list_accessible_workspaces` to orien
 
 Each session is scoped to a single workspace. To switch, how you do it depends on how you authenticated:
 
-- **OAuth** — disconnect the Klarity connection in your client and reconnect. The reconnect flow shows a workspace picker.
+- **OAuth** — disconnect the Within connection in your client and reconnect. The reconnect flow shows a workspace picker.
 - **API key** — keys are bound to the workspace they were generated in. Generate a new key in the other workspace and swap the Bearer token in your client.
 
 See [Authentication → Switching workspaces](/authentication#switching-workspaces) for the full walkthrough.

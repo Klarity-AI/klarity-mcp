@@ -1,20 +1,20 @@
-# Klarity MCP — PROD Tool Catalog
+# Within MCP — PROD Tool Catalog
 
-This is the operational reference for every tool the Klarity MCP exposes to a
+This is the operational reference for every tool the Within MCP exposes to a
 customer's AI agent in production. **All tools here are read-only** — the MCP
 never mutates workspace state.
 
 The point of this catalog is not to enumerate APIs — it's to help an agent
 **pick the right tool for the goal at hand** when working inside a customer's
-Klarity workspace.
+Within workspace.
 
-## How agents should think about Klarity
+## How agents should think about Within
 
-Klarity is a process intelligence platform that captures **how work
+Within is a process intelligence platform that captures **how work
 actually happens** inside a customer's organization (Companion + Interviewer),
-organizes it into a living **Process Index — Klarity's context graph of how
+organizes it into a living **Process Index — Within's context graph of how
 work happens** (Structure), and helps customers improve via Advisor + Signals
-(Improve). When an agent calls the Klarity MCP, it is reading from that living
+(Improve). When an agent calls the Within MCP, it is reading from that living
 map.
 
 The agent's job is usually one of:
@@ -25,12 +25,13 @@ The agent's job is usually one of:
    workspace, not generic knowledge.
 3. **Trace dependencies / impact** — what feeds this, what is downstream, what
    breaks if it changes.
-4. **Find improvement opportunities** — surface duplication, exceptions,
-   inconsistencies across processes that humans miss at scale.
-5. **Drive transformation** — pull the evidence needed to plan a future state
-   (ERP migration, automation, controls coverage, close-cycle reduction, etc.).
+4. **Surface what the evidence shows** — describe duplication, exceptions, and
+   inconsistencies across processes as observed facts, not recommendations.
 
-All five workflows reduce to: **find the right process(es) → fetch detail →
+(Deciding what to build, automate, or change from that understanding is the
+`agent-builder` skill's job, not this one.)
+
+All these workflows reduce to: **find the right process(es) → fetch detail →
 gather evidence → traverse relationships → synthesize**. The tools below are
 grouped by where they fit in that flow.
 
@@ -71,7 +72,7 @@ Use these to pull the evidence trail behind a process.
 |---|---|
 | `get_recent_process_changes` | Workspace-wide version-change feed. "What has been edited recently?" |
 | `get_process_observations` | Recorded executions of one process, surfacing the friction signals (deviations / exceptions captured by Companion). `verbosity="summary"` to scan; `verbosity="full"` for the narrative. Optional version filter. |
-| `get_observation_citation` | The actual session timeline behind an observation: what the user did, when. The most "primary source" evidence Klarity has. Only works for your own sessions. |
+| `get_observation_citation` | The actual session timeline behind an observation: what the user did, when. The most "primary source" evidence Within has. Only works for your own sessions. |
 
 ---
 
@@ -119,7 +120,7 @@ workspace), not something the agent does at runtime.
 
 **"What depends on Z?" / "What is the impact?"** → `search` for Z → `fetch` + `get_process_details` to read its `dependencies` field → `fetch` each upstream and downstream process to walk the chain. For impact-critical answers, also pull observations on the dependents.
 
-**"Find improvement opportunities in our P2P value stream"** → `get_process_hierarchy` (root: P2P node) → for each leaf: `get_process_details` → look for duplication, exception handling, missing controls. Surface as a ranked candidate set with evidence.
+**"Help me understand our P2P value stream"** → `get_process_hierarchy` (root: P2P node) → for each leaf: `get_process_details` → read steps, dependencies, and observed exception patterns. Describe the current state with evidence. (If the user then wants to decide what to *do* about it, hand off to the `agent-builder` skill.)
 
 ---
 
@@ -127,7 +128,7 @@ workspace), not something the agent does at runtime.
 
 1. **Iterate on search.** Single queries miss. Always be willing to refine 2–4
    times before falling back to hierarchy browsing.
-2. **Stay grounded.** Cite Klarity evidence when available (process IDs,
+2. **Stay grounded.** Cite Within evidence when available (process IDs,
    artifact IDs, observation timestamps). Do not invent facts the workspace
    does not support.
 3. **Separate observed from inferred.** "Observed: X happens at step 3."
@@ -203,44 +204,14 @@ should produce a concise, evidence-backed brief that the manager can act on.
    days. K are showing deviation patterns worth your attention. Here are
    the top 3 with evidence."
 
-### Scenario 3 — Find transformation opportunities across the process index
+### Scenario 3 — Understand a process or value stream in depth
 
-**Outcome:** "Find me the highest-leverage transformation / automation
-opportunities across our org (or this value stream). Where should we focus?"
+**Outcome:** "Help me understand process X (or value stream Y) — how it runs
+today, what feeds it, what depends on it, and what the evidence shows."
 
-A platform lead, AI transformation owner, or AI architect needs a ranked
-candidate set. This is the "spin up multiple agents to scan the entire
-process tree" use case — agents should fan out in parallel across the
-hierarchy.
-
-1. `list_accessible_workspaces` — confirm workspace.
-2. `get_process_hierarchy` — pull the whole tree, or filter to the
-   value stream of interest. This becomes the work queue.
-3. **In parallel** across leaves (this is where multiple agents pay off):
-   - `get_process_details` — current version, steps, dependencies.
-     Note step count, manual vs system steps, exception count.
-   - `get_process_observations` (`verbosity="summary"`) — exception
-     volume per process.
-4. `search` directly on the index for high-leverage patterns: "manual
-   approval", "duplicate entry", "data re-keying", "exception handling",
-   "swivel-chair workflow". `fetch` each hit to confirm the pattern is
-   real, not just a name match.
-5. For each top candidate:
-   - `get_process_observations` — confirm the deviation/manual pattern
-     with concrete evidence.
-   - Read the `dependencies` field already returned by
-     `get_process_details` for a first cut at blast radius.
-6. Synthesize a ranked candidate set: process IDs, observation counts,
-   dependency depth, similarity to known patterns, evidence trail.
-
-### Scenario 4 — Form a transformation thesis on a chosen process or value stream
-
-**Outcome:** "I've zeroed in on process X (or value stream Y). Build me a
-transformation thesis: current state, blast radius, dependencies, where to
-intervene."
-
-The customer has identified the target. The agent's job is to build deep,
-evidence-grounded understanding before recommending changes.
+The customer wants deep, evidence-grounded understanding of a target. The
+agent's job is to describe the current state; deciding what to change or build
+from it belongs to the `agent-builder` skill.
 
 1. `list_accessible_workspaces` — confirm workspace.
 2. `search` → `fetch` (or directly `fetch` if the ID is known) — pull
@@ -261,28 +232,22 @@ evidence-grounded understanding before recommending changes.
    already in `get_process_details` lists upstream and downstream
    processes by ID. For each, `fetch` + `get_process_details`. Read
    their steps, their own dependencies, and their recent observations.
-   Repeat for as many hops as the thesis needs.
-   - **Upstream:** what feeds this. Root cause / input quality matters
-     for transformation viability.
-   - **Downstream:** blast radius if we change it. Surfacing this early
-     prevents under-scoped transformation proposals.
-   - For the most-affected dependencies, drill one level deeper:
+   Repeat for as many hops as the question needs.
+   - **Upstream:** what feeds this, and the quality of those inputs.
+   - **Downstream:** what would be affected if it changed.
+   - For the most-connected dependencies, drill one level deeper:
      `get_process_observations` and `get_observation_citation`.
 9. **Cross-check sibling processes.** From the
    `get_hierarchy_node_details` payload returned earlier,
-   `fetch` two or three sibling processes under the same value stream.
-   If they share patterns, controls, or systems with the target, the
-   transformation thesis may need to address them too.
-10. Synthesize a transformation thesis:
+   `fetch` two or three sibling processes under the same value stream
+   and note where they share patterns, controls, or systems.
+10. Synthesize a current-state readout:
     - **Current state:** how the process actually runs (cite
       observations).
-    - **Blast radius:** upstream feeders + downstream dependents.
-    - **Pain pattern:** the deviation / manual / duplication signal,
+    - **Connections:** upstream feeders + downstream dependents.
+    - **Observed patterns:** deviations, manual steps, duplication signals,
       with evidence.
-    - **Intervention points:** where to change, ranked by leverage and
-      risk.
-    - **Open questions:** what evidence is missing that would
-      strengthen or invalidate the thesis.
+    - **Gaps:** what evidence is missing or thin.
 
 ### What these scenarios share
 
@@ -294,6 +259,6 @@ evidence-grounded understanding before recommending changes.
   enough to answer with confidence.
 - **Always ground synthesis.** Cite process IDs and observation timestamps.
   Never invent.
-- **Parallelize on transformation scans.** Scenario 3 explicitly benefits
-  from multiple agents fanning out across the hierarchy. The MCP is
-  stateless per call — there's no penalty for parallel reads.
+- **Parallelize wide scans.** When understanding a whole value stream, multiple
+  agents can fan out across the hierarchy. The MCP is stateless per call —
+  there's no penalty for parallel reads.

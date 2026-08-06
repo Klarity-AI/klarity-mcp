@@ -1,17 +1,17 @@
 {
-  "name": "klarity",
+  "name": "within",
   "version": "1.1.1",
-  "description": "Bring your organization's processes and operational knowledge into your AI assistant. The Klarity MCP connects to your Klarity workspace so you can query your organization's processes, explore the process index knowledge graph linking processes to systems and teams, and ground answers in how your business actually runs \u2014 not generic guesses.",
+  "description": "Bring your organization's processes and operational knowledge into your AI assistant. The Within MCP connects to your Within workspace so you can query your organization's processes, explore the process index knowledge graph linking processes to systems and teams, and ground answers in how your business actually runs \u2014 not generic guesses.",
   "author": {
-    "name": "Klarity Intelligence, Inc.",
-    "email": "hello@klarity.ai",
-    "url": "https://www.klarity.ai/"
+    "name": "Within Intelligence, Inc.",
+    "email": "hello@within.ai",
+    "url": "https://www.within.ai/"
   },
-  "homepage": "https://www.klarity.ai/",
-  "repository": "https://github.com/Klarity-AI/klarity-mcp",
+  "homepage": "https://www.within.ai/",
+  "repository": "https://github.com/Within/within-mcp",
   "license": "Apache-2.0",
   "keywords": [
-    "klarity",
+    "within",
     "mcp",
     "process-intelligence",
     "process-index",
@@ -21,23 +21,23 @@
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Klarity",
+    "displayName": "Within",
     "shortDescription": "Explore your org's processes",
-    "longDescription": "Bring your organization's processes and operational knowledge into your AI assistant. The Klarity MCP connects to your Klarity workspace so you can query your organization's processes, explore the process index knowledge graph linking processes to systems and teams, and ground answers in how your business actually runs \u2014 not generic guesses.",
-    "developerName": "Klarity Intelligence, Inc.",
+    "longDescription": "Bring your organization's processes and operational knowledge into your AI assistant. The Within MCP connects to your Within workspace so you can query your organization's processes, explore the process index knowledge graph linking processes to systems and teams, and ground answers in how your business actually runs \u2014 not generic guesses.",
+    "developerName": "Within Intelligence, Inc.",
     "category": "Business",
     "capabilities": [
       "Read",
       "Analyze"
     ],
-    "websiteURL": "https://www.klarity.ai/",
-    "privacyPolicyURL": "https://www.klarity.ai/product-privacy-policy",
-    "termsOfServiceURL": "https://www.klarity.ai/terms-of-service-2025",
+    "websiteURL": "https://www.within.ai/",
+    "privacyPolicyURL": "https://www.within.ai/product-privacy-policy",
+    "termsOfServiceURL": "https://www.within.ai/terms-of-service-2025",
     "defaultPrompt": [
-      "Find me the invoice intake process in my Klarity Workspace.",
+      "Find me the invoice intake process in my Within Workspace.",
       "How does my invoice intake process work?",
-      "Show me the procure-to-pay process and its dependencies in my Klarity Workspace."
+      "Show me the procure-to-pay process and its dependencies in my Within Workspace."
     ],
-    "brandColor": "#FF6C14"
+    "brandColor": "#F56740"
   }
 }

@@ -1,7 +1,7 @@
 # Agent Builder — Tools
 
-Two read-only MCP tools drive Klarity agent-building work. They serve
-methodology from the Klarity Architect MCP; they never mutate workspace state.
+Two read-only MCP tools drive Within agent-building work. They serve
+methodology from the Within MCP; they never mutate workspace state.
 No methodology ships in this skill — fetch it at runtime instead of improvising
 it.
 

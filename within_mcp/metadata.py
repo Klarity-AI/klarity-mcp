@@ -1,4 +1,4 @@
-"""Canonical product and manifest metadata for Klarity MCP (public factory)."""
+"""Canonical product and manifest metadata for Within MCP (public factory)."""
 
 from __future__ import annotations
 
@@ -6,9 +6,9 @@ from dataclasses import dataclass
 from pathlib import Path
 
 
-_KLARITY_MCP_DEFAULT_DESCRIPTION = (
+_WITHIN_MCP_DEFAULT_DESCRIPTION = (
     "Bring your organization's processes and operational knowledge into your AI "
-    "assistant. The Klarity MCP connects to your Klarity workspace so you "
+    "assistant. The Within MCP connects to your Within workspace so you "
     "can query your organization's processes, explore the process index knowledge "
     "graph linking processes to systems and teams, and ground answers in how your "
     "business actually runs — not generic guesses."
@@ -16,7 +16,7 @@ _KLARITY_MCP_DEFAULT_DESCRIPTION = (
 
 
 @dataclass(frozen=True)
-class KlarityMCPMetadata:
+class WithinMCPMetadata:
     product_name: str
     app_display_name: str
     plugin_name: str
@@ -51,29 +51,29 @@ class KlarityMCPMetadata:
     gemini_context_skill: str
 
 
-KLARITY_MCP_METADATA = KlarityMCPMetadata(
-    product_name="Klarity",
-    app_display_name="Klarity",
-    plugin_name="klarity",
+WITHIN_MCP_METADATA = WithinMCPMetadata(
+    product_name="Within",
+    app_display_name="Within",
+    plugin_name="within",
     plugin_version="1.1.1",
-    author_name="Klarity Intelligence, Inc.",
-    author_email="hello@klarity.ai",
-    author_url="https://www.klarity.ai/",
-    homepage_url="https://www.klarity.ai/",
-    privacy_policy_url="https://www.klarity.ai/product-privacy-policy",
-    terms_of_service_url="https://www.klarity.ai/terms-of-service-2025",
-    support_email="hello@klarity.ai",
+    author_name="Within Intelligence, Inc.",
+    author_email="hello@within.ai",
+    author_url="https://www.within.ai/",
+    homepage_url="https://www.within.ai/",
+    privacy_policy_url="https://www.within.ai/product-privacy-policy",
+    terms_of_service_url="https://www.within.ai/terms-of-service-2025",
+    support_email="hello@within.ai",
     category="Business",
-    brand_color="#FF6C14",
-    mcp_server_key="klarity",
-    mcp_url="https://api.klarity.ai/mcp",
-    oauth_resource="https://api.klarity.ai",
-    plugin_description=_KLARITY_MCP_DEFAULT_DESCRIPTION,
-    app_description=_KLARITY_MCP_DEFAULT_DESCRIPTION,
+    brand_color="#F56740",
+    mcp_server_key="within",
+    mcp_url="https://api.within.ai/mcp",
+    oauth_resource="https://api.within.ai",
+    plugin_description=_WITHIN_MCP_DEFAULT_DESCRIPTION,
+    app_description=_WITHIN_MCP_DEFAULT_DESCRIPTION,
     interface_short_description="Explore your org's processes",
-    interface_long_description=_KLARITY_MCP_DEFAULT_DESCRIPTION,
+    interface_long_description=_WITHIN_MCP_DEFAULT_DESCRIPTION,
     keywords=(
-        "klarity",
+        "within",
         "mcp",
         "process-intelligence",
         "process-index",
@@ -82,19 +82,19 @@ KLARITY_MCP_METADATA = KlarityMCPMetadata(
     ),
     capabilities=("Read", "Analyze"),
     default_prompts=(
-        "Find me the invoice intake process in my Klarity Workspace.",
+        "Find me the invoice intake process in my Within Workspace.",
         "How does my invoice intake process work?",
-        "Show me the procure-to-pay process and its dependencies in my Klarity Workspace.",
+        "Show me the procure-to-pay process and its dependencies in my Within Workspace.",
     ),
     submission_test_prompts=(
-        "Find me the invoice intake process in my Klarity Workspace.",
+        "Find me the invoice intake process in my Within Workspace.",
         "How does my invoice intake process work?",
-        "Show me the procure-to-pay process and its dependencies in my Klarity Workspace.",
+        "Show me the procure-to-pay process and its dependencies in my Within Workspace.",
     ),
     license_spdx="Apache-2.0",
-    repository_url="https://github.com/Klarity-AI/klarity-mcp",
+    repository_url="https://github.com/Within/within-mcp",
     skills=(
-        "klarity-process-context-graph",
+        "within-process-context-graph",
         "agent-builder",
     ),
     gemini_context_skill="agent-builder",

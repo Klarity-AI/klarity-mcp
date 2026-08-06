@@ -1,6 +1,6 @@
 ---
 title: "Cursor"
-description: "Register the Klarity MCP server in Cursor."
+description: "Register the Within MCP server in Cursor."
 icon: "/images/icons/cursor.svg"
 ---
 
@@ -8,31 +8,31 @@ Cursor supports both install paths. The OAuth path is preferred — Cursor manag
 
 ## OAuth install (preferred)
 
-In Cursor, open **Settings → Tools & MCP → New MCP Server** (or edit `.cursor/mcp.json` directly) and add the Klarity server:
+In Cursor, open **Settings → Tools & MCP → New MCP Server** (or edit `.cursor/mcp.json` directly) and add the Within server:
 
 ```json
 {
   "mcpServers": {
-    "klarity": {
+    "within": {
       "type": "http",
-      "url": "https://api.klarity.ai/mcp"
+      "url": "https://api.within.ai/mcp"
     }
   }
 }
 ```
 
-Save and reload MCP servers. Cursor detects that the server requires OAuth and shows a **Connect** button in the MCP panel. Click it — you'll be redirected to Klarity to sign in, and Cursor stores the resulting credentials for you.
+Save and reload MCP servers. Cursor detects that the server requires OAuth and shows a **Connect** button in the MCP panel. Click it — you'll be redirected to Within to sign in, and Cursor stores the resulting credentials for you.
 
 ## API key install
 
-Use this for long-running background agents. Generate an API key from `Settings → MCP` in your Klarity workspace (see [Authentication](/authentication#api-key)) and add it as a Bearer header:
+Use this for long-running background agents. Generate an API key from `Settings → MCP` in your Within workspace (see [Authentication](/authentication#api-key)) and add it as a Bearer header:
 
 ```json
 {
   "mcpServers": {
-    "klarity": {
+    "within": {
       "type": "http",
-      "url": "https://api.klarity.ai/mcp",
+      "url": "https://api.within.ai/mcp",
       "headers": {
         "Authorization": "Bearer <YOUR_API_KEY>"
       }
@@ -41,10 +41,10 @@ Use this for long-running background agents. Generate an API key from `Settings 
 }
 ```
 
-Reload MCP servers from the settings panel. The Klarity tools should appear in the MCP tool list.
+Reload MCP servers from the settings panel. The Within tools should appear in the MCP tool list.
 
 <Warning>
-  Treat the API key like a password. Don't commit `.cursor/mcp.json` with a live key — use a global config (`~/.cursor/mcp.json`) or env-var reference instead. Rotate keys from `Settings → MCP` in Klarity if exposed.
+  Treat the API key like a password. Don't commit `.cursor/mcp.json` with a live key — use a global config (`~/.cursor/mcp.json`) or env-var reference instead. Rotate keys from `Settings → MCP` in Within if exposed.
 </Warning>
 
 ## Verify
@@ -52,7 +52,7 @@ Reload MCP servers from the settings panel. The Klarity tools should appear in t
 In a Cursor chat, ask:
 
 ```text
-Search Klarity for AI transformation opportunities across our processes — where could we build skills or deploy agents?
+Search Within for AI transformation opportunities across our processes — where could we build skills or deploy agents?
 ```
 
 The assistant should call `search` and return process results from your workspace.
