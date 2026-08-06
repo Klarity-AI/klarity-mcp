@@ -27,7 +27,7 @@ dev = ["pytest>=8", "pytest-cov>=5"]
 
 [project.urls]
 Homepage = "https://www.within.ai/"
-Repository = "https://github.com/Within/within-mcp"
+Repository = "https://github.com/Within-AI/within-mcp"
 
 [project.scripts]
 within-mcp-generate = "within_mcp.cli:main"

@@ -92,7 +92,7 @@ WITHIN_MCP_METADATA = WithinMCPMetadata(
         "Show me the procure-to-pay process and its dependencies in my Within Workspace.",
     ),
     license_spdx="Apache-2.0",
-    repository_url="https://github.com/Within/within-mcp",
+    repository_url="https://github.com/Within-AI/within-mcp",
     skills=(
         "within-process-context-graph",
         "agent-builder",
