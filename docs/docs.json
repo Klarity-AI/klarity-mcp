@@ -15,6 +15,19 @@
     "light": "#F78262",
     "dark": "#C45233"
   },
+  "seo": {
+    "indexing": "navigable",
+    "organization": {
+      "name": "Within",
+      "legalName": "Within Intelligence, Inc.",
+      "url": "https://www.within.ai/",
+      "sameAs": [
+        "https://www.within.ai/",
+        "https://www.linkedin.com/company/withinai/",
+        "https://github.com/Within-AI"
+      ]
+    }
+  },
   "favicon": "/favicon.png",
   "fonts": {
     "heading": {
