@@ -2,18 +2,204 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Within MCP",
-  "banner": {
-    "content": "🎉 **Klarity is now Within** — same team, same experience, bolder vision: Transform from Within. [Learn more](https://www.within.ai/resources/blog/klarity-is-now-within)",
-    "dismissible": true,
-    "color": {
-      "light": "#0B1E2F",
-      "dark": "#F56740"
-    }
-  },
   "colors": {
     "primary": "#F56740",
     "light": "#F78262",
     "dark": "#C45233"
+  },
+  "appearance": {
+    "default": "light",
+    "strict": true
+  },
+  "favicon": "/favicon.png",
+  "fonts": {
+    "heading": {
+      "family": "Funnel Display"
+    },
+    "body": {
+      "family": "Funnel Sans"
+    }
+  },
+  "logo": {
+    "light": "/logo/within-logo-light.png",
+    "dark": "/logo/within-logo-dark.png"
+  },
+  "navigation": {
+    "pages": [
+      "index"
+    ]
+  },
+  "redirects": [
+    {
+      "source": "/authentication",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/concepts",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/concepts/artifacts",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/concepts/discover-structure-improve",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/concepts/intelligence-layers",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/concepts/process-index",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/faq",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/guides",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/guides/agent-builder",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/guides/chain-with-connectors",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/guides/deep-research",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/guides/find-opportunities",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/guides/process-performer",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/guides/state-of-team",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/guides/transformation-thesis",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/install/chatgpt",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/install/claude",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/install/claude-code",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/install/codex",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/install/cursor",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/install/gemini-cli",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/install/github-copilot",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/limitations",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/quickstart",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/security",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/tools/agent-builder",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/tools/artifacts",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/tools/entry-points",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/tools/observations-and-changes",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/tools/operating-principles",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/tools/overview",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/tools/process-index",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/tools/workspace",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
+  "errors": {
+    "404": {
+      "redirect": true
+    }
   },
   "seo": {
     "indexing": "navigable",
@@ -27,144 +213,5 @@
         "https://github.com/Within-AI"
       ]
     }
-  },
-  "favicon": "/favicon.png",
-  "fonts": {
-    "heading": {
-      "family": "Funnel Display"
-    },
-    "body": {
-      "family": "Funnel Sans"
-    }
-  },
-  "navigation": {
-    "tabs": [
-      {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": [
-              "index",
-              "quickstart",
-              "authentication",
-              "security"
-            ]
-          },
-          {
-            "group": "Install",
-            "pages": [
-              "install/claude",
-              "install/claude-code",
-              "install/chatgpt",
-              "install/codex",
-              "install/cursor",
-              "install/gemini-cli",
-              "install/github-copilot"
-            ]
-          },
-          {
-            "group": "Concepts",
-            "pages": [
-              "concepts/discover-structure-improve",
-              "concepts/intelligence-layers",
-              "concepts/process-index",
-              "concepts/artifacts"
-            ]
-          },
-          {
-            "group": "How-to guides",
-            "pages": [
-              "guides/process-performer",
-              "guides/state-of-team",
-              "guides/find-opportunities",
-              "guides/transformation-thesis",
-              "guides/chain-with-connectors",
-              "guides/deep-research",
-              "guides/agent-builder"
-            ]
-          },
-          {
-            "group": "Help",
-            "pages": [
-              "faq",
-              "limitations"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Tool reference",
-        "groups": [
-          {
-            "group": "Overview",
-            "pages": [
-              "tools/overview",
-              "tools/operating-principles"
-            ]
-          },
-          {
-            "group": "Tools by purpose",
-            "pages": [
-              "tools/entry-points",
-              "tools/process-index",
-              "tools/observations-and-changes",
-              "tools/artifacts",
-              "tools/workspace",
-              "tools/agent-builder"
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  "logo": {
-    "light": "/logo/within-logo-light.png",
-    "dark": "/logo/within-logo-dark.png"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "GitHub",
-        "href": "https://github.com/Within-AI/within-mcp"
-      },
-      {
-        "label": "Support",
-        "href": "mailto:hello@within.ai"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Within.ai",
-      "href": "https://www.within.ai/"
-    }
-  },
-  "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude",
-      "perplexity",
-      "mcp",
-      "cursor",
-      "vscode"
-    ]
-  },
-  "footer": {
-    "socials": {
-      "github": "https://github.com/Within-AI",
-      "linkedin": "https://www.linkedin.com/company/withinai/"
-    },
-    "links": [
-      {
-        "header": "Within",
-        "items": [
-          { "label": "Website", "href": "https://www.within.ai/" },
-          { "label": "Privacy policy", "href": "https://www.within.ai/product-privacy-policy" },
-          { "label": "Terms of service", "href": "https://www.within.ai/terms-of-service-2025" }
-        ]
-      }
-    ]
   }
 }

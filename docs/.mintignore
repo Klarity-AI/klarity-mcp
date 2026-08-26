@@ -5,3 +5,8 @@
 # Draft content
 drafts/
 *.draft.mdx
+
+# Rename takeover: the full docs set is archived here, out of the build, while
+# this site serves only the "Klarity is now Within" page. Delete this rule and
+# move `_archive/*` back up one level to restore the docs.
+_archive/

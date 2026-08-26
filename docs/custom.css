@@ -1,65 +1,191 @@
-/* Invert the monochrome brand icons in Mintlify dark mode so they
-   remain visible. Mintlify auto-follows OS dark mode and also exposes
-   a manual toggle; both add the .dark class to the document root, so
-   this rule covers both cases. Full-color icons (claude, codex, gemini)
-   are untouched.
+/* ---------------------------------------------------------------------------
+   Rename takeover.
 
-   Card icons are served through Mintlify's CDN with a query string
-   (?fit=max&auto=format&...), so the URL doesn't end in `.svg`. The
-   sidebar serves direct S3 URLs that do end in `.svg`. Using `*=`
-   (contains) instead of `$=` (ends-with) catches both. */
-.dark img[src*="/cursor.svg"],
-.dark img[src*="/openai.svg"] {
-  filter: invert(1);
+   This branch retires the docs set: `docs/_archive/` is out of the build,
+   `navigation` is a single page, and `docs/index.mdx` renders one
+   "Klarity is now Within" panel. Everything below exists to make that panel
+   own the viewport.
+
+   `mode: "custom"` in the page frontmatter already removes the sidebar, the
+   table of contents, and the footer. It leaves the top navbar, so this file
+   removes the remaining chrome and paints the page navy.
+
+   The previous contents of this file (dark-mode icon inversion, banner
+   colours) were dropped: no page renders those brand icons any more, and
+   `banner` is gone from docs.json. Reverting this commit restores both.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --takeover-navy: #0B1E2F;
+  --takeover-orange: #F56740;
 }
 
-/* Banner text in the brand orange, over the navy background set in docs.json.
-   Mirrors the announcement bar in the klarity-docs repo so both sites match.
+/* Mintlify's own chrome. Every id here is confirmed present in the rendered
+   page; ids that a future release drops simply make these rules inert.
 
-   Mintlify exposes no config for banner text colour: it hard-codes white and
-   forces it onto every descendant from `@layer utilities` with
-   `.\[\&_\*\]\:text-white\/95\! * { color: … !important }`.
-
-   The layer matters more than the selector here. For !important declarations
-   the cascade reverses layer order, and unlayered styles count as the final
-   layer — so an unlayered `!important` rule LOSES to a layered one no matter
-   how specific it is. Mintlify's layer order is properties, theme, base,
-   components, utilities, so declaring into `components` outranks their
-   `utilities` rule. !important is still required, to compete with theirs at all.
-
-   The two modes invert: navy banner with orange text in light, orange banner
-   with navy text in dark. The backgrounds come from `banner.color` in
-   docs.json; these rules supply the matching foreground. The dismiss icon
-   strokes with currentColor, so it inherits this too. */
+   The layer matters. For `!important` declarations the cascade reverses layer
+   order, and Mintlify's order is properties, theme, base, components,
+   utilities — so declaring into `components` outranks the `!important`
+   utilities it generates. Unlayered `!important` would lose to those however
+   specific it was. */
 @layer components {
   #banner,
-  #banner * {
-    color: #F56740 !important;
-    /* Mintlify sets font-medium (500) on the banner. That utility is a normal
-       declaration, so !important here outranks it whatever the layer order. */
-    font-weight: 700 !important;
+  #navbar,
+  #navbar-transition,
+  #header,
+  #sidebar,
+  #table-of-contents,
+  #footer,
+  #pagination,
+  #page-context-menu,
+  #page-context-menu-button,
+  #page-title {
+    display: none !important;
   }
 
-  html.dark #banner,
-  html.dark #banner * {
-    color: #0B1E2F !important;
+  /* Mintlify constrains and pads the content column. The takeover is
+     full-bleed, so those constraints have to go. */
+  #content-area,
+  #content-container,
+  #content-side-layout,
+  #content,
+  .mdx-content {
+    max-width: none !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  /* The lead ("Klarity is now Within", wrapped in ** in docs.json) stays white
-     in both modes; the dash and subtext keep the mode colour above.
+  /* Mintlify wraps MDX output in `@container/columns-container`, i.e.
+     `container-type: inline-size`. That implies `contain: layout`, which makes
+     the element a containing block for fixed-position descendants: the
+     takeover's `position: fixed` would resolve against this wrapper rather
+     than the viewport, so it could no longer cover chrome laid out outside it.
+     Turning the query container off restores the viewport as the containing
+     block and lets `inset: 0` mean what it says. */
+  .mdx-content {
+    container-type: normal !important;
+  }
 
-     Mintlify's MDX renderer does not emit <strong> for **bold** — it emits
-     <span data-streamdown="strong" class="font-semibold">, so the attribute
-     selector is the one that actually matches. `strong` is kept alongside it
-     as a hedge in case that renderer detail changes.
+  /* Painting the document itself means the navy is already there during the
+     first paint, before the takeover element lays out. */
+  html,
+  body,
+  #background-color {
+    background: var(--takeover-navy) !important;
+  }
+}
 
-     The dark selectors are not redundant: `#banner [data-streamdown]` (1,1,0)
-     outranks `#banner *` (1,0,0) in light, but loses to `html.dark #banner *`
-     (1,1,1) in dark, so the dark case needs the longer form (1,2,1). */
-  #banner strong,
-  #banner [data-streamdown="strong"],
-  html.dark #banner strong,
-  html.dark #banner [data-streamdown="strong"] {
-    color: #FFFFFF !important;
+/* The panel.
+
+   `position: fixed` covers anything the rules above missed. A transformed
+   ancestor would make `fixed` resolve against that ancestor instead of the
+   viewport, so `min-height: 100vh` is kept as the fallback that fills the
+   screen either way. */
+.rename-takeover {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  padding: 3rem 1.5rem;
+  background: var(--takeover-navy);
+  text-align: center;
+  /* No dismiss control exists, and none should be reachable underneath. */
+  overscroll-behavior: contain;
+}
+
+.rename-takeover__card {
+  max-width: 34rem;
+  margin: auto;
+}
+
+.rename-takeover__logo {
+  width: 4.5rem;
+  height: 4.5rem;
+  margin: 0 auto 2rem;
+  border-radius: 1.125rem;
+  display: block;
+}
+
+/* Font family is inherited on purpose: docs.json sets Funnel Display for
+   headings and Funnel Sans for body, and Mintlify applies both globally. */
+.rename-takeover__title {
+  margin: 0 0 1rem;
+  color: #FFFFFF;
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.rename-takeover__lede {
+  margin: 0 0 2.5rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(1rem, 2.5vw, 1.1875rem);
+  line-height: 1.6;
+}
+
+.rename-takeover__cta {
+  display: inline-block;
+  padding: 0.875rem 1.75rem;
+  border-radius: 999px;
+  background: var(--takeover-orange);
+  color: var(--takeover-navy);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.rename-takeover__cta:hover,
+.rename-takeover__cta:focus-visible {
+  background: #F78262;
+  color: var(--takeover-navy);
+  transform: translateY(-1px);
+}
+
+.rename-takeover__cta:focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 3px;
+}
+
+.rename-takeover__note {
+  margin: 2rem 0 0;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.rename-takeover__note a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.rename-takeover__note a:hover {
+  color: var(--takeover-orange);
+}
+
+/* docs.json locks the site to light mode, so dark mode should never apply.
+   These rules make the panel identical if it ever does. */
+html.dark .rename-takeover,
+html.dark .rename-takeover__title {
+  background-color: var(--takeover-navy);
+  color: #FFFFFF;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rename-takeover__cta {
+    transition: none;
+  }
+
+  .rename-takeover__cta:hover,
+  .rename-takeover__cta:focus-visible {
+    transform: none;
   }
 }

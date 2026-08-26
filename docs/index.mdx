@@ -1,72 +1,40 @@
 ---
-title: "Within MCP"
-description: "Bring your organization's process intelligence into your AI tools. Understand how work happens, identify opportunities, and agentify your business."
-icon: "sparkles"
+title: "Klarity is now Within"
+description: "Same team, same experience, bolder vision: Transform from Within. The Within MCP documentation has moved to developers.within.ai."
+mode: "custom"
 ---
 
-Within MCP is available for all enterprise customers. Click [Quickstart](/quickstart) below to get started agentifying your business.
+{/* `mode: "custom"` gives a blank canvas — no sidebar, no table of contents,
+    no footer. Only the top navbar survives it, and custom.css hides that too,
+    so this markup owns the whole viewport. The frontmatter title is metadata
+    only in custom mode; the visible heading is the <h1> below. */}
 
-## Why connect it
+<div className="rename-takeover">
+  <div className="rename-takeover__card">
+    <img
+      className="rename-takeover__logo"
+      src="/logo/within-logo-light.png"
+      alt="Within"
+    />
 
-The MCP does everything Within Advisor does today — and more. The unlock is surface area: the MCP embeds your organization's process intelligence inside an environment that can act on it — writing code, chaining with other connectors, building agents, and producing deliverables grounded in how your business actually runs.
+    <h1 className="rename-takeover__title">Klarity is now Within</h1>
 
-<Columns cols={2}>
-  <Card title="Quickstart" icon="rocket" href="/quickstart">
-    Pick a client, authenticate, and ask your first question in under five minutes.
-  </Card>
-  <Card title="Authentication" icon="key" href="/authentication">
-    OAuth for supported clients, API key for everything else.
-  </Card>
-  <Card title="Concepts" icon="diagram-project" href="/concepts">
-    How Within captures, structures, and improves how work happens.
-  </Card>
-  <Card title="How-to guides" icon="book-open" href="/guides">
-    End-to-end recipes for the most common things assistants do with the MCP.
-  </Card>
-  <Card title="Tool reference" icon="screwdriver-wrench" href="/tools/overview">
-    Every tool the MCP exposes, grouped by what you're trying to do.
-  </Card>
-  <Card title="FAQs" icon="circle-question" href="/faq">
-    Answers to the most common install, auth, and behavior questions.
-  </Card>
-</Columns>
+    <p className="rename-takeover__lede">
+      Same team, same experience, bolder vision: Transform from Within.
+    </p>
 
-## What you get access to
+    <a className="rename-takeover__cta" href="https://developers.within.ai/">
+      Go to the Within MCP documentation
+      <span aria-hidden="true"> →</span>
+    </a>
 
-Within organizes operational intelligence into two layers — **Process Index (aka Process Context Graph)** and **Artifacts** — and the MCP gives your assistant query access to both.
-
-| Layer | What's in it | Example questions |
-|---|---|---|
-| [**Process Index**](/concepts/process-index) (aka Process Context Graph) | Process hierarchy, versions, steps, dependencies, observations, activity timelines | "How does our vendor onboarding work?" "What changed in our close cycle last month?" |
-| [**Artifacts**](/concepts/artifacts) | Documents, videos, audio, diagrams, screenshots, logs — all searchable | "Find the latest SOX compliance checklist." |
-
-See [Intelligence layers](/concepts/intelligence-layers) for the full mental model.
-
-## What you can do
-
-A human using the Advisor might run two or three tools per question. An LLM in an agentic loop can chain ten or more — searching, drilling in, cross-referencing, synthesizing. That's the unlock.
-
-<Columns cols={2}>
-  <Card title="Help process performers" icon="user-gear" href="/guides/process-performer">
-    Do the task the way your team actually does it.
-  </Card>
-  <Card title="State-of-the-team report" icon="chart-line" href="/guides/state-of-team">
-    What's changing, what's deviating, what needs attention.
-  </Card>
-  <Card title="Find opportunities" icon="magnifying-glass-chart" href="/guides/find-opportunities">
-    Rank automation and transformation candidates by leverage.
-  </Card>
-  <Card title="Form a thesis" icon="lightbulb" href="/guides/transformation-thesis">
-    Current state, blast radius, and intervention points — with evidence.
-  </Card>
-  <Card title="Chain with connectors" icon="link" href="/guides/chain-with-connectors">
-    Within for context, Gmail/Slack/Linear/Notion for action.
-  </Card>
-  <Card title="Build skills, agents, and automations" icon="wand-magic-sparkles" href="/guides/agent-builder">
-    Turn how your organization works into skills, agents, and automations.
-  </Card>
-</Columns>
-
-## Get a workspace
-
-Within is a commercial service. You need an active workspace and user account to use the MCP. Contact [hello@within.ai](mailto:hello@within.ai) if your organization is not yet a customer.
+    <p className="rename-takeover__note">
+      Read the announcement on the{" "}
+      <a href="https://www.within.ai/resources/blog/klarity-is-now-within">
+        Within blog
+      </a>
+      , or reach us at{" "}
+      <a href="mailto:hello@within.ai">hello@within.ai</a>.
+    </p>
+  </div>
+</div>
